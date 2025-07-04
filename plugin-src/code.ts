@@ -30,7 +30,7 @@ const createBarOrColumnChart = async (
   data: ChartDatum[],
   isColumn: boolean,
   colors: RGB[],
-  includeBarValues: boolean = true,
+  includeBarValues: boolean = false,
 ) => {
   await figma.loadFontAsync({ family: "Inter", style: "Regular" });
 
@@ -63,31 +63,31 @@ const createBarOrColumnChart = async (
     barFrame.primaryAxisAlignItems = isColumn ? "MAX" : "MIN";
     barFrame.counterAxisAlignItems = "CENTER";
 
-    let labelSpace = 0;
+    let barValueSpace = 0;
 
     if (includeBarValues) {
-      const text = figma.createText();
-      labelSpace = 24;
-      barFrame.appendChild(text);
-      text.characters = value.toString();
-      text.fontSize = 12;
-      text.name = "label";
-      text.fills = [{ type: 'SOLID', color: { r: 0, g: 0, b: 0 } }];
-      text.layoutSizingVertical = isColumn ? "FIXED" : "FILL";
-      text.layoutSizingHorizontal = isColumn ? "FILL" : "FIXED";
-      text.textAlignHorizontal = isColumn ? "CENTER" : "LEFT"
-      text.textAlignVertical = isColumn ? "BOTTOM" : "CENTER";
-      text.resize(
-        isColumn ? barFrame.width : labelSpace,
-        isColumn ? labelSpace : barFrame.height
+      const barValue = figma.createText();
+      barValueSpace = 24;
+      barFrame.appendChild(barValue);
+      barValue.characters = value.toString();
+      barValue.fontSize = 12;
+      barValue.name = "label";
+      barValue.fills = [{ type: 'SOLID', color: { r: 0, g: 0, b: 0 } }];
+      barValue.layoutSizingVertical = isColumn ? "FIXED" : "FILL";
+      barValue.layoutSizingHorizontal = isColumn ? "FILL" : "FIXED";
+      barValue.textAlignHorizontal = isColumn ? "CENTER" : "LEFT"
+      barValue.textAlignVertical = isColumn ? "BOTTOM" : "CENTER";
+      barValue.resize(
+        isColumn ? barFrame.width : barValueSpace,
+        isColumn ? barValueSpace : barFrame.height
       );
     }
 
     const normalized = (value - min) / (max - min);
 
     const barLength = isColumn
-      ? normalized * (chartHeight - labelSpace)
-      : normalized * (chartWidth - labelSpace);
+      ? normalized * (chartHeight - barValueSpace)
+      : normalized * (chartWidth - barValueSpace);
 
     const bar = figma.createRectangle();
     barFrame.appendChild(bar);
