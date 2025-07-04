@@ -12,6 +12,9 @@ figma.ui.onmessage = async (msg) => {
       case "column":
         await createBarOrColumnChart(msg.chart.headers, msg.chart.data, msg.chart.type === "column", colors);
         break;
+      case "pie":
+        await createPieChart(msg.chart.headers, msg.chart.data, colors);
+        break;
     }
   }
 };
@@ -100,5 +103,77 @@ const createBarOrColumnChart = async (headers: string[], data: ChartDatum[], isV
         }
       ]
     }];
+  }
+}
+
+export const createPieChart = async (headers: string[], data: ChartDatum[], colors: RGB[]) => {
+  // Inter Regular is the font that objects will be created with by default in
+  // Figma. We need to wait for fonts to load before creating text using them.
+  await figma.loadFontAsync({ family: "Inter", style: "Regular" });
+
+  const chartWidth = 800;
+  const chartHeight = 600;
+
+  // Outer frame
+  const chartFrame = figma.createFrame();
+  chartFrame.name = "data-viz--pie-chart";
+  chartFrame.layoutMode = "HORIZONTAL"; // Arrange bars side-by-side
+  chartFrame.primaryAxisSizingMode = "FIXED";
+  chartFrame.counterAxisSizingMode = "FIXED";
+  chartFrame.resize(chartWidth, chartHeight);
+  chartFrame.strokes = [{ type: 'SOLID', color: { r: 0, g: 0, b: 0 } }];
+  chartFrame.strokeWeight = 2;
+  chartFrame.fills = [{ type: 'SOLID', color: { r: 1, g: 1, b: 1 } }];
+  chartFrame.paddingTop = 24;
+  chartFrame.paddingBottom = 24;
+  chartFrame.paddingLeft = 24;
+  chartFrame.paddingRight = 24;
+
+  // Center in viewport
+  chartFrame.x = figma.viewport.center.x - chartWidth / 2;
+  chartFrame.y = figma.viewport.center.y - chartHeight / 2;
+
+  // Inner frame
+  const innerFrame = figma.createFrame();
+  chartFrame.appendChild(innerFrame);
+  innerFrame.name = "inner-frame"
+  innerFrame.layoutMode = "HORIZONTAL";
+  innerFrame.layoutSizingVertical = "FILL";
+  innerFrame.layoutSizingHorizontal = "FILL";
+  innerFrame.layoutPositioning = "AUTO";
+  innerFrame.primaryAxisAlignItems = "CENTER";
+  innerFrame.counterAxisAlignItems = "CENTER";
+  innerFrame.layoutWrap = "NO_WRAP";
+
+  // Pie frame
+  const pieFrame = figma.createFrame();
+  const pieSize = (innerFrame.width > innerFrame.height ? innerFrame.height : innerFrame.width) * 0.5;
+  innerFrame.appendChild(pieFrame);
+  pieFrame.name = "pie-frame";
+  pieFrame.layoutMode = "NONE";
+  pieFrame.resize(pieSize, pieSize);
+  pieFrame.lockAspectRatio();
+
+
+  data = data.map(d => [d[0], Math.max(0, d[1])]);
+  const total = data.reduce((a, b) => a + b[1], 0);
+  let start = 0;
+
+  for (let i = 0; i < data.length; i++) {
+    const label = data[i][0];
+    const num = data[i][1];
+    const color = { r: colors[i].r, g: colors[i].g, b: colors[i].b };
+    const ellipse = figma.createEllipse();
+    pieFrame.appendChild(ellipse);
+    ellipse.name = label;
+    ellipse.resizeWithoutConstraints(pieFrame.width, pieFrame.height);
+    ellipse.fills = [{ type: 'SOLID', color: color }];
+    ellipse.constraints = {horizontal: 'SCALE', vertical: 'SCALE'};
+    ellipse.arcData = {
+      startingAngle: (start / total - 0.25) * 2 * Math.PI,
+      endingAngle: ((start + num) / total - 0.25) * 2 * Math.PI,
+      innerRadius: 0,
+    };
+    start += num;
   }
 }
