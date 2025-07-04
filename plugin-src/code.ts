@@ -1,4 +1,4 @@
-import { generateTintShadeScale } from "./helpers";
+import { generateTintShadeScale, hexToRgb } from "./helpers";
 
 figma.showUI(__html__, { width: 300, height: 300 });
 
@@ -6,20 +6,21 @@ type ChartDatum = [label: string, value: number];
 
 figma.ui.onmessage = async (msg) => {
   if (msg.type === "generate-chart") {
-    const colors = generateTintShadeScale(msg.chart.color, msg.chart.data.length);
+    const primaryColor = hexToRgb(msg.chart.color);
+    const primaryColorScale = generateTintShadeScale(msg.chart.color, msg.chart.data.length);
     switch (msg.chart.type) {
       case "bar":
       case "column":
-        await createBarOrColumnChart(msg.chart.headers, msg.chart.data, msg.chart.type === "column", colors);
+        await createBarOrColumnChart(msg.chart.headers, msg.chart.data, msg.chart.type === "column", primaryColorScale);
         break;
       case "pie":
-        await createPieChart(msg.chart.headers, msg.chart.data, colors);
+        await createPieChart(msg.chart.headers, msg.chart.data, primaryColorScale);
         break;
       case "line":
-        await createLineChart(msg.chart.headers, msg.chart.data, colors);
+        await createLineChart(msg.chart.headers, msg.chart.data, primaryColor);
         break;
       case "scatter":
-        await createScatterChart(msg.chart.headers, msg.chart.data, colors);
+        await createScatterChart(msg.chart.headers, msg.chart.data, primaryColor);
         break;
     }
   }
@@ -160,7 +161,7 @@ export const createPieChart = async (headers: string[], data: ChartDatum[], colo
   }
 };
 
-const createLineChart = async (headers: string[], data: ChartDatum[], colors: RGB[]) => {
+const createLineChart = async (headers: string[], data: ChartDatum[], color: RGB) => {
   await figma.loadFontAsync({ family: "Inter", style: "Regular" });
 
   const chartWidth = 800;
@@ -190,13 +191,13 @@ const createLineChart = async (headers: string[], data: ChartDatum[], colors: RG
     data: path,
     windingRule: "NONZERO"
   }];
-  vector.strokes = [{ type: 'SOLID', color: { r: 0.2, g: 0.6, b: 1 } }];
+  vector.strokes = [{ type: 'SOLID', color }];
   vector.strokeWeight = 4;
 
   chartFrame.appendChild(vector);
 };
 
-const createScatterChart = async (headers: string[], data: ChartDatum[], colors: RGB[]) => {
+const createScatterChart = async (headers: string[], data: ChartDatum[], color: RGB) => {
   await figma.loadFontAsync({ family: "Inter", style: "Regular" });
 
   const chartWidth = 800;
@@ -234,7 +235,7 @@ const createScatterChart = async (headers: string[], data: ChartDatum[], colors:
     dot.resize(pointRadius * 2, pointRadius * 2);
     dot.x = cx - pointRadius;
     dot.y = cy - pointRadius;
-    dot.fills = [{ type: 'SOLID', color: colors[i] }];
+    dot.fills = [{ type: 'SOLID', color }];
     dot.name = `point-${i}`;
     chartFrame.appendChild(dot);
   }
