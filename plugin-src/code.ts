@@ -1,22 +1,25 @@
+import { generateTintShadeScale } from "./helpers";
+
 figma.showUI(__html__, { width: 300, height: 300 });
 
 type ChartDatum = [label: string, value: number];
 
 figma.ui.onmessage = async (msg) => {
   if (msg.type === "generate-chart") {
+    const colors = generateTintShadeScale(msg.chart.color, msg.chart.data.length);
     switch (msg.chart.type) {
       case "bar":
       case "column":
-        await createBarOrColumnChart(msg.chart.headers, msg.chart.data, msg.chart.type === "column");
+        await createBarOrColumnChart(msg.chart.headers, msg.chart.data, msg.chart.type === "column", colors);
         break;
     }
   }
 };
 
-const createBarOrColumnChart = async (headers: string[], data: ChartDatum[], isVertical: boolean) => {
+const createBarOrColumnChart = async (headers: string[], data: ChartDatum[], isVertical: boolean, colors: RGB[]) => {
   // Inter Regular is the font that objects will be created with by default in
   // Figma. We need to wait for fonts to load before creating text using them.
-  await figma.loadFontAsync({ family: "Inter", style: "Regular" })
+  await figma.loadFontAsync({ family: "Inter", style: "Regular" });
 
   const chartWidth = 800;
   const chartHeight = 600;
@@ -54,7 +57,10 @@ const createBarOrColumnChart = async (headers: string[], data: ChartDatum[], isV
   const min = data.reduce((a, b) => Math.min(a, b[1]), 0)
   const max = data.reduce((a, b) => Math.max(a, b[1]), 0)
 
-  for (const [labelText, value] of data) {
+  for (let i = 0; i < data.length; i++) {
+    const label = data[i][0];
+    const value = data[i][1];
+
     const barFrame = figma.createFrame();
     innerFrame.appendChild(barFrame);
     barFrame.layoutMode = "VERTICAL";
@@ -62,7 +68,7 @@ const createBarOrColumnChart = async (headers: string[], data: ChartDatum[], isV
     barFrame.layoutSizingHorizontal = "FILL";
     barFrame.primaryAxisAlignItems = "MAX";
     barFrame.counterAxisAlignItems = "CENTER";
-    barFrame.name = labelText;
+    barFrame.name = label;
 
 
     // Bar (Rectangle)
@@ -78,19 +84,19 @@ const createBarOrColumnChart = async (headers: string[], data: ChartDatum[], isV
       gradientStops: [
         {
           position: 0,
-          color: { r: 1, g: 0, b: 0, a: 1 } // solid red at top
+          color: { r: colors[i].r, g: colors[i].g, b: colors[i].b , a: 1}
         },
         {
           position: normalized,
-          color: { r: 1, g: 0, b: 0, a: 1 } // solid red until cutoff
+          color: { r: colors[i].r, g: colors[i].g, b: colors[i].b , a: 1}
         },
         {
           position: normalized,
-          color: { r: 1, g: 0, b: 0, a: 0 } // transparent jump
+          color: { r: 1, g: 0, b: 0, a: 0 }
         },
         {
           position: 1,
-          color: { r: 1, g: 0, b: 0, a: 0 } // fully transparent at bottom
+          color: { r: 1, g: 0, b: 0, a: 0 }
         }
       ]
     }];

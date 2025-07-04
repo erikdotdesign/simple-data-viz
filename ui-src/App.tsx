@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import Papa from "papaparse";
 import "./App.css";
 
@@ -6,6 +6,7 @@ function App() {
   const selectInputRef = useRef<HTMLSelectElement>(null);
   const textareaInputRef = useRef<HTMLTextAreaElement>(null);
   const checkBoxRef = useRef<HTMLInputElement>(null);
+  const [primaryColor, setPrimaryColor] = useState("#ff0000"); // default red
 
   const onCreate = () => {
     const chartType = selectInputRef.current?.value;
@@ -26,7 +27,8 @@ function App() {
               chart: { 
                 type: chartType, 
                 data,
-                headers
+                headers,
+                color: primaryColor
               } 
             } 
           },
@@ -55,6 +57,14 @@ function App() {
         <br />
         <input ref={checkBoxRef} type="checkbox" id="chart-headers" name="chart-headers" defaultChecked />
         <label htmlFor="chart-headers">Has headers</label>
+        <br />
+        <label htmlFor="primary-color">Primary color:</label><br />
+        <input
+          type="color"
+          id="primary-color"
+          value={primaryColor}
+          onChange={(e) => setPrimaryColor(e.target.value)}
+        />
         <br />
         <label>Paste CSV data (label,value):</label><br />
         <textarea 
