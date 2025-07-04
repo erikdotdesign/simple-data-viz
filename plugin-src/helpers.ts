@@ -26,8 +26,8 @@ export const generateTintShadeScale = (
 ): RGB[] => {
   const base = hexToRgb(baseColorHex);
 
-  const lightest = blendWith(base, { r: 1, g: 1, b: 1 }, 0.7); // 90% white
-  const darkest = blendWith(base, { r: 0, g: 0, b: 0 }, 0.8); // 90% black
+  const lightest = blendWith(base, { r: 1, g: 1, b: 1 }, 0.7); // 70% white
+  const darkest = blendWith(base, { r: 0, g: 0, b: 0 }, 0.8); // 80% black
 
   const colors: RGB[] = [];
 
