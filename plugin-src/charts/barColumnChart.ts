@@ -78,8 +78,8 @@ export const createBarColumnChart = (
       barValue.fills = [{ type: 'SOLID', color: { r: 0, g: 0, b: 0 } }];
       barValue.layoutSizingVertical = isColumn ? "FIXED" : "FILL";
       barValue.layoutSizingHorizontal = isColumn ? "FILL" : "FIXED";
-      barValue.textAlignHorizontal = isColumn ? "CENTER" : "LEFT"
-      barValue.textAlignVertical = isColumn ? "BOTTOM" : "CENTER";
+      barValue.textAlignHorizontal = isColumn ? "CENTER" : isNegativeValue ? "RIGHT" : "LEFT";
+      barValue.textAlignVertical = isColumn ? isNegativeValue ? "TOP" : "BOTTOM" : "CENTER";
       barValue.resize(
         isColumn ? barFrame.width : barValueSpace,
         isColumn ? barValueSpace : barFrame.height
