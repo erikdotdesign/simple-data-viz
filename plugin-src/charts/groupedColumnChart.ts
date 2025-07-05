@@ -8,12 +8,15 @@ export const createGroupedBarColumnChart = (
   const chartWidth = 800;
   const chartHeight = 600;
 
+
   const chartFrame = figma.createFrame();
   chartFrame.name = `data-viz--grouped-${isColumn ? 'column' : 'bar'}-chart`;
   chartFrame.layoutMode = isColumn ? "HORIZONTAL" : "VERTICAL";
   chartFrame.resize(chartWidth, chartHeight);
   chartFrame.fills = [{ type: 'SOLID', color: { r: 1, g: 1, b: 1 } }];
-  chartFrame.itemSpacing = ((isColumn ? chartWidth : chartHeight) / data.length) * 0.4;
+  chartFrame.itemSpacing = isColumn
+  ? chartWidth / ((data.length * 2) - 1)
+  : chartHeight / ((data.length * 2) - 1);
 
   chartFrame.x = figma.viewport.center.x - chartWidth / 2;
   chartFrame.y = figma.viewport.center.y - chartHeight / 2;
