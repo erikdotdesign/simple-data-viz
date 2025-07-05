@@ -3,6 +3,7 @@ import { createBarColumnChart } from "./charts/barColumnChart";
 import { createPieChart } from "./charts/pieChart";
 import { createLineChart } from "./charts/lineChart";
 import { createScatterChart } from "./charts/scatterChart";
+import { createGroupedBarColumnChart } from "./charts/groupedColumnChart";
 
 figma.showUI(__html__, { width: 300, height: 300 });
 
@@ -15,6 +16,10 @@ figma.ui.onmessage = async (msg) => {
       case "bar":
       case "column":
         createBarColumnChart(msg.chart.headers, msg.chart.data, msg.chart.type === "column", primaryColorScale);
+        break;
+      case "grouped-bar":
+      case "grouped-column":
+        createGroupedBarColumnChart(msg.chart.headers, msg.chart.data, msg.chart.type === "grouped-column", primaryColorScale);
         break;
       case "pie":
         createPieChart(msg.chart.headers, msg.chart.data, primaryColorScale);

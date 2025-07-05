@@ -50,6 +50,8 @@ function App() {
           ref={selectInputRef}>
           <option value="bar">Bar</option>
           <option value="column">Column</option>
+          <option value="grouped-bar">Grouped Bar</option>
+          <option value="grouped-column">Grouped Column</option>
           <option value="line">Line</option>
           <option value="pie">Pie</option>
           <option value="scatter">Scatter</option>

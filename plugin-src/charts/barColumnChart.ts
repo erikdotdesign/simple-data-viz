@@ -20,12 +20,18 @@ export const createBarColumnChart = (
   chartFrame.x = figma.viewport.center.x - chartWidth / 2;
   chartFrame.y = figma.viewport.center.y - chartHeight / 2;
 
-  const min = data.reduce((a, b) => Math.min(a, b[1]), 0);
-  const max = data.reduce((a, b) => Math.max(a, b[1]), 0);
+  const min = Math.min(...data.map(d => d[1]), 0);
+  const max = Math.max(...data.map(d => d[1]));
 
   for (let i = 0; i < data.length; i++) {
     const label = data[i][0];
     const value = data[i][1];
+    const normalized = (value - min) / (max - min);
+    const barValueSpace = includeBarValues ? 24 : 0;
+
+    const barLength = isColumn
+      ? normalized * (chartHeight - barValueSpace)
+      : normalized * (chartWidth - barValueSpace);
 
     const barFrame = figma.createFrame();
     chartFrame.appendChild(barFrame);
@@ -36,11 +42,8 @@ export const createBarColumnChart = (
     barFrame.primaryAxisAlignItems = isColumn ? "MAX" : "MIN";
     barFrame.counterAxisAlignItems = "CENTER";
 
-    let barValueSpace = 0;
-
     if (includeBarValues) {
       const barValue = figma.createText();
-      barValueSpace = 24;
       barFrame.appendChild(barValue);
       barValue.characters = value.toString();
       barValue.fontSize = 12;
@@ -55,12 +58,6 @@ export const createBarColumnChart = (
         isColumn ? barValueSpace : barFrame.height
       );
     }
-
-    const normalized = (value - min) / (max - min);
-
-    const barLength = isColumn
-      ? normalized * (chartHeight - barValueSpace)
-      : normalized * (chartWidth - barValueSpace);
 
     const bar = figma.createRectangle();
     barFrame.appendChild(bar);
