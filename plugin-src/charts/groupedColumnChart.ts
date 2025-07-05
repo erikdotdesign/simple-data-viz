@@ -18,10 +18,22 @@ export const createGroupedBarColumnChart = (
   chartFrame.x = figma.viewport.center.x - chartWidth / 2;
   chartFrame.y = figma.viewport.center.y - chartHeight / 2;
 
-  const allValues = data.flatMap(d => d.slice(1) as number[]);
-  const min = Math.min(...allValues, 0);
-  const max = Math.max(...allValues);
+  const values = data.flatMap(d => d.slice(1) as number[]);
+  const min = Math.min(...values, 0); // min could be negative
+  const max = Math.max(...values, 0); // max could be positive
+  const totalRange = max - min;
+  const availableLength = isColumn ? chartHeight : chartWidth;
+  const maxPositiveBarLength = (max / totalRange) * availableLength;
+  const maxNegativeBarLength = (Math.abs(min) / totalRange) * availableLength;
 
+  // Positive values only
+  const positiveValues = values.filter(v => v > 0);
+  const positiveMax = Math.max(...positiveValues, 0);
+
+  // Negative values only
+  const negativeValues = values.filter(v => v < 0);
+  const negativeMax = Math.abs(Math.min(...negativeValues, 0));
+  
   for (let i = 0; i < data.length; i++) {
     const category = data[i][0] as string;
     const values = data[i].slice(1) as number[];
@@ -35,27 +47,41 @@ export const createGroupedBarColumnChart = (
     groupFrame.layoutSizingVertical = "FILL";
 
     for (let j = 0; j < values.length; j++) {
-      const value = values[j];
-      const normalized = (value - min) / (max - min);
+      const rawValue = values[j];
+      const absValue = Math.abs(rawValue);
+      const isNegativeValue = rawValue < 0;
+      const normalized = absValue / (isNegativeValue ? negativeMax : positiveMax);
       const barValueSpace = includeBarValues ? 24 : 0;
+      const maxBarLength = isNegativeValue ? maxNegativeBarLength : maxPositiveBarLength;
 
-      const barLength = isColumn
-        ? normalized * (chartHeight - barValueSpace)
-        : normalized * (chartWidth - barValueSpace);
+      const barLength = normalized * (maxBarLength - barValueSpace);
+
+      const axisFrame = figma.createFrame();
+      groupFrame.appendChild(axisFrame);
+      axisFrame.name = "axis-frame";
+      axisFrame.layoutMode = isColumn ? "VERTICAL" : "HORIZONTAL";
+      axisFrame.layoutSizingHorizontal = "FILL";
+      axisFrame.layoutSizingVertical = "FILL";
+      axisFrame.primaryAxisAlignItems = isColumn ? (isNegativeValue ? "MAX" : "MIN") : (isNegativeValue ? "MIN" : "MAX");
+      axisFrame.counterAxisAlignItems = "CENTER";
 
       const barFrame = figma.createFrame();
-      groupFrame.appendChild(barFrame);
-      barFrame.name = `${category} - Series ${j + 1}`;
+      axisFrame.appendChild(barFrame);
+      barFrame.name = "bar-frame";
       barFrame.layoutMode = isColumn ? "VERTICAL" : "HORIZONTAL";
       barFrame.layoutSizingHorizontal = "FILL";
       barFrame.layoutSizingVertical = "FILL";
-      barFrame.primaryAxisAlignItems = isColumn ? "MAX" : "MIN";
+      barFrame.primaryAxisAlignItems = isColumn ? (isNegativeValue ? "MIN" : "MAX") : (isNegativeValue ? "MAX" : "MIN");
       barFrame.counterAxisAlignItems = "CENTER";
+      barFrame.resize(
+        isColumn ? barFrame.width : maxBarLength,
+        isColumn ? maxBarLength : barFrame.height
+      );
 
       if (includeBarValues) {
         const barValue = figma.createText();
         barFrame.appendChild(barValue);
-        barValue.characters = value.toString();
+        barValue.characters = rawValue.toString();
         barValue.fontSize = 12;
         barValue.name = "label";
         barValue.fills = [{ type: 'SOLID', color: { r: 0, g: 0, b: 0 } }];
@@ -84,8 +110,10 @@ export const createGroupedBarColumnChart = (
       }];
 
       // insert bar before text (if bar chart)
-      if (!isColumn && includeBarValues) {
-        barFrame.insertChild(0, bar);
+      if (includeBarValues) {
+        if ((!isColumn && !isNegativeValue) || (isColumn && isNegativeValue)) {
+          barFrame.insertChild(0, bar);
+        }
       }
     }
   }
