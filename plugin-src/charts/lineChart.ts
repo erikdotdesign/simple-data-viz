@@ -9,7 +9,7 @@ export const createLineChart = (
   const chartHeight = 600;
 
   const chartFrame = figma.createFrame();
-  chartFrame.name = "data-viz--line-chart";
+  chartFrame.name = "sdv-line-chart";
   chartFrame.resize(chartWidth, chartHeight);
   chartFrame.layoutMode = "NONE";
   chartFrame.fills = [{ type: 'SOLID', color: { r: 1, g: 1, b: 1 } }];

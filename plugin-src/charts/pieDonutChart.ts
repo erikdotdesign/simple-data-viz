@@ -1,12 +1,17 @@
 import { ChartDatum } from "../types";
 
-export const createPieChart = (data: ChartDatum[], colors: RGB[]) => {
+export const createPieDonutChart = (
+  data: ChartDatum[], 
+  colors: RGB[],
+  isDonut: boolean,
+  donutRadiusRatio: number = 0.5
+) => {
   const chartWidth = 800;
   const chartHeight = 600;
 
   // Outer frame
   const chartFrame = figma.createFrame();
-  chartFrame.name = "data-viz--pie-chart";
+  chartFrame.name = `sdv-${isDonut ? "donut" : "pie"}-chart`;
   chartFrame.layoutMode = "HORIZONTAL";
   chartFrame.primaryAxisAlignItems = "CENTER";
   chartFrame.counterAxisAlignItems = "CENTER";
@@ -17,10 +22,13 @@ export const createPieChart = (data: ChartDatum[], colors: RGB[]) => {
 
   // Pie frame
   const pieFrame = figma.createFrame();
-  const pieSize = (chartFrame.width > chartFrame.height ? chartFrame.height : chartFrame.width) * 0.5;
+  const pieSize = chartFrame.width > chartFrame.height ? chartFrame.height : chartFrame.width;
+  const equalSize = chartFrame.width === chartFrame.height;
   chartFrame.appendChild(pieFrame);
   pieFrame.name = "pie-frame";
   pieFrame.layoutMode = "NONE";
+  pieFrame.layoutSizingHorizontal = equalSize ? "FILL" : chartFrame.width > chartFrame.height ? "FIXED" : "FILL";
+  pieFrame.layoutSizingVertical = equalSize ? "FILL" : chartFrame.height > chartFrame.width ? "FIXED" : "FILL";
   pieFrame.resize(pieSize, pieSize);
   pieFrame.lockAspectRatio();
 
@@ -35,15 +43,28 @@ export const createPieChart = (data: ChartDatum[], colors: RGB[]) => {
     const color = { r: colors[i].r, g: colors[i].g, b: colors[i].b };
     const ellipse = figma.createEllipse();
     pieFrame.appendChild(ellipse);
-    ellipse.name = label;
+    ellipse.name = "slice";
     ellipse.resizeWithoutConstraints(pieFrame.width, pieFrame.height);
     ellipse.fills = [{ type: 'SOLID', color: color }];
-    ellipse.constraints = {horizontal: 'SCALE', vertical: 'SCALE'};
+    ellipse.constraints = { horizontal: 'SCALE', vertical: 'SCALE' };
     ellipse.arcData = {
       startingAngle: (start / total - 0.25) * 2 * Math.PI,
       endingAngle: ((start + num) / total - 0.25) * 2 * Math.PI,
       innerRadius: 0,
     };
+    if (isDonut) {
+      const munchkinSize = pieSize * donutRadiusRatio;
+      const inner = figma.createEllipse();
+      pieFrame.appendChild(inner);
+      inner.resize(munchkinSize, munchkinSize);
+      inner.x = (pieSize - munchkinSize) / 2;
+      inner.y = (pieSize - munchkinSize) / 2;
+      const boolNode = figma.subtract([ellipse, inner], pieFrame);
+      const flattenedNode = figma.flatten([boolNode]);
+      flattenedNode.fills = [{ type: 'SOLID', color: color }];
+      flattenedNode.name = "slice";
+      flattenedNode.constraints = { horizontal: 'SCALE', vertical: 'SCALE' };
+    }
     start += num;
   }
 };

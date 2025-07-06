@@ -10,7 +10,7 @@ export const createBarColumnChart = (
   const chartHeight = 600;
 
   const chartFrame = figma.createFrame();
-  chartFrame.name = `data-viz--${isColumn ? 'column' : 'bar'}-chart`;
+  chartFrame.name = `sdv-${isColumn ? 'column' : 'bar'}-chart`;
   chartFrame.layoutMode = isColumn ? "HORIZONTAL" : "VERTICAL";
   chartFrame.resize(chartWidth, chartHeight);
   chartFrame.fills = [{ type: 'SOLID', color: { r: 1, g: 1, b: 1 } }];

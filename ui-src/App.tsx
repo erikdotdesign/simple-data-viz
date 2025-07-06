@@ -8,6 +8,7 @@ import GenerateButton from "./GenerateButton";
 import ColorSchemeSelector from "./ColorSchemeSelector";
 import LineSmoothingInput from "./LineSmoothingInput";
 import CornerRadiusInput from "./CornerRadiusInput";
+import InnerRadiusInput from "./InnerRadiusInput";
 import Logo from "./Logo";
 
 const App = () => {
@@ -17,6 +18,7 @@ const App = () => {
   const csvDataRef = useRef<HTMLTextAreaElement>(null);
   const lineSmoothingRef = useRef<HTMLInputElement>(null);
   const cornerRadiusRef = useRef<HTMLInputElement>(null);
+  const innerRadiusRef = useRef<HTMLInputElement>(null);
   const [chartType, setChartType] = useState<ChartType>("bar");
   const [colorScheme, setColorScheme] = useState<ColorSchemeType>("monochrome");
   const [primaryColor, setPrimaryColor] = useState<string>("#ff0000");
@@ -24,6 +26,7 @@ const App = () => {
   const [csvError, setCsvError] = useState<string | null>(null);
   const [lineSmoothing, setLineSmoothing] = useState<boolean>(false);
   const [cornerRadius, setCornerRadius] = useState<number>(0);
+  const [innerRadius, setInnerRadius] = useState<number>(0.5);
 
   return (
     <main className="c-app">
@@ -49,6 +52,14 @@ const App = () => {
                 cornerRadius={cornerRadius}
                 setCornerRadius={setCornerRadius} />
             : null
+        }
+        {
+          chartType === "donut"
+          ? <InnerRadiusInput
+              inputRef={innerRadiusRef}
+              innerRadius={innerRadius}
+              setInnerRadius={setInnerRadius} />
+          : null
         }
         <div className="c-control-group">
           <PrimaryColorInput
@@ -76,6 +87,7 @@ const App = () => {
           colorScheme={colorScheme}
           lineSmoothing={lineSmoothing}
           cornerRadius={cornerRadius}
+          innerRadius={innerRadius}
           csvError={csvError} />
       </div>
     </main>

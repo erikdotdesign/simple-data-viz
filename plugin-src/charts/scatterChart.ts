@@ -7,7 +7,7 @@ export const createScatterChart = (data: ChartDatum[], color: RGB) => {
   const padding = pointRadius;
 
   const chartFrame = figma.createFrame();
-  chartFrame.name = "data-viz--scatter-plot";
+  chartFrame.name = "sdv-scatter-chart";
   chartFrame.resize(chartWidth, chartHeight);
   chartFrame.layoutMode = "NONE";
   chartFrame.fills = [{ type: 'SOLID', color: { r: 1, g: 1, b: 1 } }];

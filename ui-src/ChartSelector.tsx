@@ -21,6 +21,7 @@ const ChartSelector = ({
     "grouped-column",
     "line",
     "pie",
+    "donut",
     "scatter"
   ];
 
