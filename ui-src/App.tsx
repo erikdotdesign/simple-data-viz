@@ -9,6 +9,7 @@ import ColorSchemeSelector from "./ColorSchemeSelector";
 import LineSmoothingInput from "./LineSmoothingInput";
 import CornerRadiusInput from "./CornerRadiusInput";
 import InnerRadiusInput from "./InnerRadiusInput";
+import BottomFillInput from "./BottomFillInput";
 import Logo from "./Logo";
 
 const App = () => {
@@ -19,6 +20,7 @@ const App = () => {
   const lineSmoothingRef = useRef<HTMLInputElement>(null);
   const cornerRadiusRef = useRef<HTMLInputElement>(null);
   const innerRadiusRef = useRef<HTMLInputElement>(null);
+  const bottomFillRef = useRef<HTMLInputElement>(null);
   const [chartType, setChartType] = useState<ChartType>("bar");
   const [colorScheme, setColorScheme] = useState<ColorSchemeType>("monochrome");
   const [primaryColor, setPrimaryColor] = useState<string>("#ff0000");
@@ -27,6 +29,7 @@ const App = () => {
   const [lineSmoothing, setLineSmoothing] = useState<boolean>(false);
   const [cornerRadius, setCornerRadius] = useState<number>(0);
   const [innerRadius, setInnerRadius] = useState<number>(0.5);
+  const [bottomFill, setBottomFill] = useState<boolean>(false);
 
   return (
     <main className="c-app">
@@ -38,10 +41,16 @@ const App = () => {
           setChartType={setChartType} />
         {
           chartType === "line"
-          ? <LineSmoothingInput
-              inputRef={lineSmoothingRef}
-              lineSmoothing={lineSmoothing}
-              setLineSmoothing={setLineSmoothing} />
+          ? <>
+              <LineSmoothingInput
+                inputRef={lineSmoothingRef}
+                lineSmoothing={lineSmoothing}
+                setLineSmoothing={setLineSmoothing} />
+              <BottomFillInput
+                inputRef={bottomFillRef}
+                bottomFill={bottomFill}
+                setBottomFill={setBottomFill} />
+            </>
           : null
         }
         {
@@ -88,6 +97,7 @@ const App = () => {
           lineSmoothing={lineSmoothing}
           cornerRadius={cornerRadius}
           innerRadius={innerRadius}
+          bottomFill={bottomFill}
           csvError={csvError} />
       </div>
     </main>

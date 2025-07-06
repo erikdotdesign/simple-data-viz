@@ -28,7 +28,7 @@ figma.ui.onmessage = async (msg) => {
         createPieDonutChart(data, colorPalette, type === "donut", chartOpts.innerRadius);
         break;
       case "line":
-        createLineChart(data, primaryColorHex, chartOpts.lineSmoothing);
+        createLineChart(data, primaryColorHex, chartOpts.lineSmoothing, chartOpts.bottomFill);
         break;
       case "scatter":
         createScatterChart(data, primaryColorHex);

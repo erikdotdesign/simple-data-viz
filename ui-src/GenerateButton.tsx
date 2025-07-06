@@ -10,6 +10,7 @@ const GenerateButton = ({
   lineSmoothing,
   cornerRadius,
   innerRadius,
+  bottomFill,
   csvError
 }: {
   csvData: string;
@@ -19,6 +20,7 @@ const GenerateButton = ({
   lineSmoothing: boolean;
   cornerRadius: number;
   innerRadius: number;
+  bottomFill: boolean;
   csvError: string | null;
 }) => {
 
@@ -46,7 +48,8 @@ const GenerateButton = ({
                 chartOpts: {
                   cornerRadius,
                   lineSmoothing,
-                  innerRadius
+                  innerRadius,
+                  bottomFill
                 }
               } 
             } 
