@@ -1,5 +1,5 @@
 {
-  "name": "data-viz",
+  "name": "simple-data-viz",
   "id": "1522926699597225864",
   "api": "1.0.0",
   "main": "dist/code.js",

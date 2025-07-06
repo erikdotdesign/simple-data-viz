@@ -57,3 +57,23 @@ export const generateTintShadeScale = (
 
   return colors;
 };
+
+export const createChartBase = (
+  width: number = 800,
+  height: number = 600
+) => {
+  const chartFrame = figma.createFrame();
+  chartFrame.name = `data-viz-chart`;
+  chartFrame.layoutMode = "HORIZONTAL";
+  chartFrame.resize(width, height);
+  chartFrame.fills = [{ type: 'SOLID', color: { r: 1, g: 1, b: 1 } }];
+  chartFrame.paddingTop = 0;
+  chartFrame.paddingBottom = 0;
+  chartFrame.paddingLeft = 0;
+  chartFrame.paddingRight = 0;
+
+  chartFrame.x = figma.viewport.center.x - width / 2;
+  chartFrame.y = figma.viewport.center.y - height / 2;
+
+  return chartFrame;
+};

@@ -43,11 +43,11 @@ def generate_scatter_data(points=50):
         'Y': np.random.uniform(0, 100, size=points),
         'Size': np.random.uniform(5, 20, size=points)
     })
-    df.to_csv(os.path.join(output_dir, "scatter_plot_data.csv"), index=False)
+    df.to_csv(os.path.join(output_dir, "scatter_chart_data.csv"), index=False)
     return df
 
 # 5. Grouped Column Chart Data (e.g., multiple series per category)
-def generate_grouped_column_data(categories=5, groups=2):
+def generate_grouped_bar_data(categories=5, groups=2):
     data = {
         'Category': [f'Category {i+1}' for i in range(categories)]
     }
@@ -55,7 +55,7 @@ def generate_grouped_column_data(categories=5, groups=2):
         data[f'Group {g+1}'] = [random.randint(10, 100) for _ in range(categories)]
     
     df = pd.DataFrame(data)
-    df.to_csv(os.path.join(output_dir, "grouped_column_chart_data.csv"), index=False)
+    df.to_csv(os.path.join(output_dir, "grouped_bar_chart_data.csv"), index=False)
     return df
 
 # Generate all datasets and save to CSV
@@ -64,5 +64,5 @@ if __name__ == "__main__":
     print("Bar Chart:\n", generate_bar_data(), "\n")
     print("Line Chart:\n", generate_line_data(), "\n")
     print("Pie Chart:\n", generate_pie_data(), "\n")
-    print("Scatter Plot:\n", generate_scatter_data().head(), "\n")
-    print("Grouped Column Chart:\n", generate_grouped_column_data(), "\n")
+    print("Scatter Chart:\n", generate_scatter_data().head(), "\n")
+    print("Grouped Bar Chart:\n", generate_grouped_bar_data(), "\n")

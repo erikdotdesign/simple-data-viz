@@ -1,6 +1,6 @@
 import { ChartDatum } from "../types";
 
-export const createScatterChart = (headers: string[], data: ChartDatum[], color: RGB) => {
+export const createScatterChart = (data: ChartDatum[], color: RGB) => {
   const chartWidth = 800;
   const chartHeight = 600;
   const pointRadius = 4;

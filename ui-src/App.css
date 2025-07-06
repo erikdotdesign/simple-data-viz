@@ -1,17 +1,11 @@
 :root {
-  --color-bg: var(--figma-color-bg);
-  --color-bg-hover: var(--figma-color-bg-hover);
-  --color-bg-active: var(--figma-color-bg-pressed);
-  --color-border: var(--figma-color-border);
-  --color-border-focus: var(--figma-color-border-selected);
-  --color-icon: var(--figma-color-icon);
-  --color-text: var(--figma-color-text);
-  --color-bg-brand: var(--figma-color-bg-brand);
-  --color-bg-brand-hover: var(--figma-color-bg-brand-hover);
-  --color-bg-brand-active: var(--figma-color-bg-brand-pressed);
-  --color-border-brand: var(--figma-color-border-brand);
-  --color-border-brand-focus: var(--figma-color-border-selected-strong);
-  --color-text-brand: var(--figma-color-text-onbrand);
+  --color-primary: #000;
+  --color-secondary: #999;
+  --color-tertiary: #eee;
+  --color-error: #DC0000;
+  --font-family: "Space Grotesk", sans-serif;
+  --font-family-mono: "Space Mono", monospace;
+  --border-radius: 4px;
 }
 
 /* Reset */
@@ -51,4 +45,8 @@ button {
 select {
   appearance: none;
   -webkit-appearance: none;
+}
+
+.c-app {
+  padding: 16px;
 }

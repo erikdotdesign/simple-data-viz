@@ -1,13 +1,11 @@
 export const createGroupedBarColumnChart = (
-  headers: string[],
   data: (string | number)[][],
   isColumn: boolean,
   colors: RGB[],
-  includeBarValues: boolean = true,
+  includeBarValues: boolean = false,
 ) => {
   const chartWidth = 800;
   const chartHeight = 600;
-
 
   const chartFrame = figma.createFrame();
   chartFrame.name = `data-viz--grouped-${isColumn ? 'column' : 'bar'}-chart`;

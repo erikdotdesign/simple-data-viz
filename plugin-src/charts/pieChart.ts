@@ -1,6 +1,6 @@
 import { ChartDatum } from "../types";
 
-export const createPieChart = (headers: string[], data: ChartDatum[], colors: RGB[]) => {
+export const createPieChart = (data: ChartDatum[], colors: RGB[]) => {
   const chartWidth = 800;
   const chartHeight = 600;
 

@@ -1,11 +1,10 @@
 import { ChartDatum } from "../types";
 
 export const createBarColumnChart = (
-  headers: string[],
   data: ChartDatum[],
   isColumn: boolean,
   colors: RGB[],
-  includeBarValues: boolean = true,
+  includeBarValues: boolean = false,
 ) => {
   const chartWidth = 800;
   const chartHeight = 600;

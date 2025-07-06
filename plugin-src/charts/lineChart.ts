@@ -1,6 +1,6 @@
 import { ChartDatum } from "../types";
 
-export const createLineChart = (headers: string[], data: ChartDatum[], color: RGB) => {
+export const createLineChart = (data: ChartDatum[], color: RGB) => {
   const chartWidth = 800;
   const chartHeight = 600;
 

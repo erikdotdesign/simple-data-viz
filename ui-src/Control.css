@@ -1,0 +1,192 @@
+.c-control-group {
+  display: flex;
+
+  .c-control {
+    min-width: 50%;
+    flex-grow: 2;
+
+    &:only-child {
+      padding-right: 0 !important;
+    }
+
+    &:first-child {
+      padding-right: 8px;
+    }
+
+    &:nth-child(2) {
+      padding-left: 8px;
+    }
+  }
+}
+
+.c-control {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding: 12px 0;
+  margin-bottom: 4px;
+}
+
+.c-control--checkbox {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: var(--color-tertiary);
+  border-radius: var(--border-radius);
+  margin-bottom: 12px;
+  position: relative;
+
+  .c-control__label {
+    flex-grow: 2;
+    transform: none;
+    background: none;
+    position: initial;
+    cursor: pointer;
+  }
+
+  .c-control__input {
+    position: absolute;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    outline: 0;
+    box-shadow: none;
+    appearance: none;
+
+    &:hover {
+      box-shadow: none
+    }
+  }
+
+  &:hover {
+    .c-control__checkmark {
+      box-shadow: 0 0 0 1px var(--color-primary);
+    }
+  }
+
+  .c-control__checkmark {
+    position: absolute;
+    right: 0;
+    margin: 0 12px;
+    height: 16px;
+    width: 16px;
+    background-color: #fff;
+    border-radius: var(--border-radius);
+    box-shadow: 0 0 0 1px var(--color-secondary);
+    pointer-events: none;
+    cursor: pointer;
+  }
+
+  .c-control__input:checked ~ .c-control__checkmark {
+    background-color: #000;
+    box-shadow: 0 0 0 1px var(--color-primary);
+  }
+
+  .c-control__checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+
+  .c-control__input:checked ~ .c-control__checkmark:after {
+    display: block;
+  }
+
+  .c-control__checkmark:after {
+    left: 5px;
+    top: 3px;
+    width: 3px;
+    height: 6px;
+    border: solid #fff;
+    border-width: 0 2px 2px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+}
+
+.c-control__label {
+  font-family: var(--font-family);
+  line-height: 16px;
+  font-size: 12px;
+  font-weight: 800;
+  padding: 4px;
+  margin: 0 8px;
+  background: white;
+  position: absolute;
+  transform: translateY(-64%);
+}
+
+.c-control__input {
+  font-family: var(--font-family);
+  box-shadow: 0 0 0 1px var(--color-secondary);
+  line-height: 16px;
+  font-size: 12px;
+  width: 100%;
+  outline: none;
+  border: none;
+  border-radius: var(--border-radius);
+  padding: 12px;
+  color: var(--color-primary);
+
+  &:hover {
+    box-shadow: 0 0 0 1px var(--color-primary);
+  }
+
+  &:is(select) {
+    cursor: pointer;
+  }
+}
+
+.c-control__input--textarea {
+  font-family: var(--font-family-mono);
+  white-space: pre;
+  overflow: auto;
+  resize: vertical;
+  min-height: 144px;
+}
+
+.c-control__input--color {
+  height: 48px;
+  background: none;
+  border: none;
+  outline: none;
+  padding: 8px;
+}
+
+.c-control__message {
+  font-family: var(--font-family);
+  line-height: 12px;
+  font-size: 10px;
+  min-height: 48px;
+  padding: 8px;
+}
+
+.c-control--error {
+  .c-control__label,
+  .c-control__message {
+    color: var(--color-error);
+  }
+  .c-control__input {
+    box-shadow: 0 0 0 1px var(--color-error);
+  }
+}
+
+.c-control__icon {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 64px;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+
+  & svg {
+    width: 24px;
+    height: 24px;
+    opacity: 0.25;
+  }
+}
