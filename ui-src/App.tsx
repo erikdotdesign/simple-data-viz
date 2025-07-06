@@ -7,6 +7,7 @@ import CsvInput from "./CsvInput";
 import GenerateButton from "./GenerateButton";
 import ColorSchemeSelector from "./ColorSchemeSelector";
 import LineSmoothingInput from "./LineSmoothingInput";
+import Logo from "./Logo";
 
 const App = () => {
   const chartTypeRef = useRef<HTMLSelectElement>(null);
@@ -24,6 +25,7 @@ const App = () => {
   return (
     <main className="c-app">
       <div className="c-app__body">
+        <Logo />
         <ChartSelector 
           inputRef={chartTypeRef}
           chartType={chartType}

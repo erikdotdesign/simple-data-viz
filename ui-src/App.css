@@ -47,8 +47,14 @@ select {
   -webkit-appearance: none;
 }
 
+.c-app {
+  height: 100vh;
+}
+
 .c-app__body {
-  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  padding: 32px 24px;
 }
 
 .c-app__footer {
