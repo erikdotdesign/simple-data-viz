@@ -5,11 +5,13 @@ import "./GenerateButton.css";
 const GenerateButton = ({
   csvData,
   primaryColor,
-  chartType
+  chartType,
+  csvError
 }: {
   csvData: string;
   primaryColor: string;
   chartType: ChartType;
+  csvError: string | null;
 }) => {
 
   const handleGenerate = () => {
@@ -43,7 +45,8 @@ const GenerateButton = ({
     <button 
       id="generate"
       className="c-generate-button"
-      onClick={handleGenerate}>
+      onClick={handleGenerate}
+      disabled={!!csvError}>
       Generate Chart
     </button>
   );

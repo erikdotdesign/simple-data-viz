@@ -13,6 +13,7 @@ const App = () => {
   const [chartType, setChartType] = useState<ChartType>("bar");
   const [primaryColor, setPrimaryColor] = useState<string>("#ff0000");
   const [csvData, setCsvData] = useState<string>("");
+  const [csvError, setCsvError] = useState<string | null>(null);
 
   return (
     <main className="c-app">
@@ -28,11 +29,14 @@ const App = () => {
         inputRef={csvDataRef}
         csvData={csvData}
         chartType={chartType}
-        setCsvData={setCsvData} />
+        setCsvData={setCsvData}
+        csvError={csvError}
+        setCsvError={setCsvError} />
       <GenerateButton
         csvData={csvData}
         primaryColor={primaryColor}
-        chartType={chartType} />
+        chartType={chartType}
+        csvError={csvError} />
     </main>
   );
 }

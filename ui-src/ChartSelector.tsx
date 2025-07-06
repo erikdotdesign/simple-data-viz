@@ -1,5 +1,6 @@
 import { RefObject } from "react";
 import { ChartType } from "./types";
+import { kebabToTitleCase } from "./helpers";
 import "./Control.css";
 
 const ChartSelector = ({ 
@@ -12,30 +13,43 @@ const ChartSelector = ({
   setChartType: (chartType: ChartType) => void;
 }) => {
 
+  const chartTypes: ChartType[] = [
+    "bar",
+    "column",
+    "grouped-bar",
+    "grouped-column",
+    "line",
+    "pie",
+    "scatter"
+  ];
+
   const handleChange = () => {
-    if (inputRef.current) {
-      setChartType(inputRef.current.value as ChartType);
-    }
+    if (!inputRef.current) return;
+    setChartType(inputRef.current.value as ChartType);
   }
 
   return (
     <div className="c-control">
-      <label className="c-control__label">
+      <label 
+        className="c-control__label"
+        htmlFor="chart-selector">
         Chart Type:
       </label>
       <select 
         ref={inputRef}
-        id="chart-type"
+        id="chart-selector"
         className="c-control__input"
         onChange={handleChange}
         value={chartType}>
-        <option value="bar">Bar</option>
-        <option value="column">Column</option>
-        <option value="grouped-bar">Grouped Bar</option>
-        <option value="grouped-column">Grouped Column</option>
-        <option value="line">Line</option>
-        <option value="pie">Pie</option>
-        <option value="scatter">Scatter</option>
+        {
+          chartTypes.map((type) => (
+            <option 
+              key={type}
+              value={type}>
+              { kebabToTitleCase(type) }
+            </option>
+          ))
+        }
       </select>
     </div>
   );
