@@ -148,7 +148,7 @@
 }
 
 .c-control__input--color {
-  height: 48px;
+  height: 40px;
   background: none;
   border: none;
   outline: none;
@@ -180,9 +180,11 @@
   align-items: center;
   justify-content: center;
   width: 40px;
-  height: 64px;
+  height: 40px;
+  top: 50%;
   right: 0;
   bottom: 0;
+  transform: translateY(-50%);
   pointer-events: none;
 
   & svg {

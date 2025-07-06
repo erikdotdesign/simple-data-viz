@@ -1,16 +1,18 @@
 import papaParse from "papaparse";
-import { ChartType } from "./types";
+import { ChartType, ColorSchemeType } from "./types";
 import "./GenerateButton.css";
 
 const GenerateButton = ({
   csvData,
   primaryColor,
   chartType,
+  colorScheme,
   csvError
 }: {
   csvData: string;
   primaryColor: string;
   chartType: ChartType;
+  colorScheme: ColorSchemeType;
   csvError: string | null;
 }) => {
 
@@ -31,7 +33,8 @@ const GenerateButton = ({
               chart: { 
                 type: chartType, 
                 data: dataWithoutHeader,
-                color: primaryColor
+                color: primaryColor,
+                colorScheme: colorScheme
               } 
             } 
           },
@@ -47,7 +50,7 @@ const GenerateButton = ({
       className="c-generate-button"
       onClick={handleGenerate}
       disabled={!!csvError}>
-      Generate Chart
+      Generate chart
     </button>
   );
 }

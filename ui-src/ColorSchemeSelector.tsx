@@ -1,49 +1,44 @@
 import { RefObject } from "react";
-import { ChartType } from "./types";
+import { ColorSchemeType } from "./types";
 import { kebabToTitleCase } from "./helpers";
 import SelectorIcon from "./SelectorIcon";
 import "./Control.css";
 
-const ChartSelector = ({ 
+const ColorSchemeSelector = ({ 
   inputRef, 
-  chartType, 
-  setChartType 
+  colorScheme, 
+  setColorScheme
 }: {
   inputRef: RefObject<HTMLSelectElement>;
-  chartType: ChartType,
-  setChartType: (chartType: ChartType) => void;
+  colorScheme: ColorSchemeType,
+  setColorScheme: (colorScheme: ColorSchemeType) => void;
 }) => {
 
-  const chartTypes: ChartType[] = [
-    "bar",
-    "column",
-    "grouped-bar",
-    "grouped-column",
-    "line",
-    "pie",
-    "scatter"
+  const colorSchemeTypes: ColorSchemeType[] = [
+    "monochrome",
+    "polychrome"
   ];
 
   const handleChange = () => {
     if (!inputRef.current) return;
-    setChartType(inputRef.current.value as ChartType);
+    setColorScheme(inputRef.current.value as ColorSchemeType);
   }
 
   return (
     <div className="c-control">
       <label 
         className="c-control__label"
-        htmlFor="chart-selector">
-        Chart Type:
+        htmlFor="color-scheme-selector">
+        Color scheme:
       </label>
       <select 
         ref={inputRef}
-        id="chart-selector"
+        id="color-scheme-selector"
         className="c-control__input"
         onChange={handleChange}
-        value={chartType}>
+        value={colorScheme}>
         {
-          chartTypes.map((type) => (
+          colorSchemeTypes.map((type) => (
             <option 
               key={type}
               value={type}>
@@ -57,4 +52,4 @@ const ChartSelector = ({
   );
 }
 
-export default ChartSelector;
+export default ColorSchemeSelector;

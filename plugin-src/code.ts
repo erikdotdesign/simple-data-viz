@@ -1,4 +1,4 @@
-import { generateTintShadeScale, hexToRgb } from "./helpers";
+import { generateColorPalette, hexToRgb } from "./helpers";
 import { createBarColumnChart } from "./charts/barColumnChart";
 import { createPieChart } from "./charts/pieChart";
 import { createLineChart } from "./charts/lineChart";
@@ -11,8 +11,7 @@ figma.ui.onmessage = async (msg) => {
   if (msg.type === "generate-chart") {
     await figma.loadFontAsync({ family: "Inter", style: "Regular" });
     const primaryColor = hexToRgb(msg.chart.color);
-    const primaryColorScale = generateTintShadeScale(msg.chart.color, msg.chart.data.length);
-    console.log(msg);
+    const primaryColorScale = generateColorPalette(msg.chart.colorScheme, msg.chart.color, msg.chart.data.length);
     switch (msg.chart.type) {
       case "bar":
       case "column":

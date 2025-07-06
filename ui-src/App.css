@@ -47,6 +47,14 @@ select {
   -webkit-appearance: none;
 }
 
-.c-app {
+.c-app__body {
   padding: 16px;
+}
+
+.c-app__footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  padding: 8px;
+  background: white;
 }
