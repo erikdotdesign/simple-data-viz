@@ -8,6 +8,7 @@ const GenerateButton = ({
   chartType,
   colorScheme,
   lineSmoothing,
+  cornerRadius,
   csvError
 }: {
   csvData: string;
@@ -15,6 +16,7 @@ const GenerateButton = ({
   chartType: ChartType;
   colorScheme: ColorSchemeType;
   lineSmoothing: boolean;
+  cornerRadius: number;
   csvError: string | null;
 }) => {
 
@@ -35,9 +37,14 @@ const GenerateButton = ({
               chart: { 
                 type: chartType, 
                 data: dataWithoutHeader,
-                color: primaryColor,
-                colorScheme: colorScheme,
-                lineSmoothing: lineSmoothing
+                colorOpts: {
+                  primaryColor,
+                  colorScheme
+                },
+                chartOpts: {
+                  cornerRadius,
+                  lineSmoothing
+                }
               } 
             } 
           },

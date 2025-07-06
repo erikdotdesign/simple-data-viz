@@ -10,25 +10,27 @@ figma.showUI(__html__, { width: 350, height: 500 });
 figma.ui.onmessage = async (msg) => {
   if (msg.type === "generate-chart") {
     await figma.loadFontAsync({ family: "Inter", style: "Regular" });
-    const primaryColor = hexToRgb(msg.chart.color);
-    const colorPalette = generateColorPalette(msg.chart.colorScheme, msg.chart.color, msg.chart.data.length);
-    switch (msg.chart.type) {
+    const { chart } = msg;
+    const { colorOpts, chartOpts, data, type } = chart;
+    const primaryColorHex = hexToRgb(colorOpts.primaryColor);
+    const colorPalette = generateColorPalette(colorOpts.colorScheme, colorOpts.primaryColor, data.length);
+    switch (type) {
       case "bar":
       case "column":
-        createBarColumnChart(msg.chart.data, msg.chart.type === "column", colorPalette);
+        createBarColumnChart(data, type === "column", colorPalette, chartOpts.cornerRadius);
         break;
       case "grouped-bar":
       case "grouped-column":
-        createGroupedBarColumnChart(msg.chart.data, msg.chart.type === "grouped-column", colorPalette);
+        createGroupedBarColumnChart(data, type === "grouped-column", colorPalette, chartOpts.cornerRadius);
         break;
       case "pie":
-        createPieChart(msg.chart.data, colorPalette);
+        createPieChart(data, colorPalette);
         break;
       case "line":
-        createLineChart(msg.chart.data, primaryColor, msg.chart.lineSmoothing);
+        createLineChart(data, primaryColorHex, chartOpts.lineSmoothing);
         break;
       case "scatter":
-        createScatterChart(msg.chart.data, primaryColor);
+        createScatterChart(data, primaryColorHex);
         break;
     }
   }

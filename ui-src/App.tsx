@@ -7,6 +7,7 @@ import CsvInput from "./CsvInput";
 import GenerateButton from "./GenerateButton";
 import ColorSchemeSelector from "./ColorSchemeSelector";
 import LineSmoothingInput from "./LineSmoothingInput";
+import CornerRadiusInput from "./CornerRadiusInput";
 import Logo from "./Logo";
 
 const App = () => {
@@ -15,12 +16,14 @@ const App = () => {
   const primaryColorRef = useRef<HTMLInputElement>(null);
   const csvDataRef = useRef<HTMLTextAreaElement>(null);
   const lineSmoothingRef = useRef<HTMLInputElement>(null);
+  const cornerRadiusRef = useRef<HTMLInputElement>(null);
   const [chartType, setChartType] = useState<ChartType>("bar");
   const [colorScheme, setColorScheme] = useState<ColorSchemeType>("monochrome");
   const [primaryColor, setPrimaryColor] = useState<string>("#ff0000");
   const [csvData, setCsvData] = useState<string>("");
   const [csvError, setCsvError] = useState<string | null>(null);
   const [lineSmoothing, setLineSmoothing] = useState<boolean>(false);
+  const [cornerRadius, setCornerRadius] = useState<number>(0);
 
   return (
     <main className="c-app">
@@ -37,6 +40,15 @@ const App = () => {
               lineSmoothing={lineSmoothing}
               setLineSmoothing={setLineSmoothing} />
           : null
+        }
+        {
+          chartType === "bar" || chartType === "column" || 
+          chartType === "grouped-bar" || chartType === "grouped-column"
+            ? <CornerRadiusInput
+                inputRef={cornerRadiusRef}
+                cornerRadius={cornerRadius}
+                setCornerRadius={setCornerRadius} />
+            : null
         }
         <div className="c-control-group">
           <PrimaryColorInput
@@ -63,6 +75,7 @@ const App = () => {
           chartType={chartType}
           colorScheme={colorScheme}
           lineSmoothing={lineSmoothing}
+          cornerRadius={cornerRadius}
           csvError={csvError} />
       </div>
     </main>

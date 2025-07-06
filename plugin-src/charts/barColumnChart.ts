@@ -4,7 +4,7 @@ export const createBarColumnChart = (
   data: ChartDatum[],
   isColumn: boolean,
   colors: RGB[],
-  includeBarValues: boolean = false,
+  cornerRadius: number = 0
 ) => {
   const chartWidth = 800;
   const chartHeight = 600;
@@ -43,10 +43,9 @@ export const createBarColumnChart = (
     const absValue = Math.abs(rawValue);
     const isNegativeValue = rawValue < 0;
     const normalized = absValue / (isNegativeValue ? negativeMax : positiveMax);
-    const barValueSpace = includeBarValues ? 24 : 0;
     const maxBarLength = isNegativeValue ? maxNegativeBarLength : maxPositiveBarLength;
 
-    const barLength = normalized * (maxBarLength - barValueSpace);
+    const barLength = normalized * maxBarLength;
 
     const axisFrame = figma.createFrame();
     chartFrame.appendChild(axisFrame);
@@ -69,29 +68,13 @@ export const createBarColumnChart = (
       isColumn ? barFrame.width : maxBarLength,
       isColumn ? maxBarLength : barFrame.height
     );
-
-    if (includeBarValues) {
-      const barValue = figma.createText();
-      barFrame.appendChild(barValue);
-      barValue.characters = rawValue.toString();
-      barValue.fontSize = 12;
-      barValue.name = "label";
-      barValue.fills = [{ type: 'SOLID', color: { r: 0, g: 0, b: 0 } }];
-      barValue.layoutSizingVertical = isColumn ? "FIXED" : "FILL";
-      barValue.layoutSizingHorizontal = isColumn ? "FILL" : "FIXED";
-      barValue.textAlignHorizontal = isColumn ? "CENTER" : isNegativeValue ? "RIGHT" : "LEFT";
-      barValue.textAlignVertical = isColumn ? isNegativeValue ? "TOP" : "BOTTOM" : "CENTER";
-      barValue.resize(
-        isColumn ? barFrame.width : barValueSpace,
-        isColumn ? barValueSpace : barFrame.height
-      );
-    }
     
     const bar = figma.createRectangle();
     barFrame.appendChild(bar);
     bar.name = "bar";
     bar.layoutSizingVertical = isColumn ? "FIXED" : "FILL";
     bar.layoutSizingHorizontal = isColumn ? "FILL" : "FIXED";
+    bar.cornerRadius = cornerRadius;
     bar.resize(
       isColumn ? barFrame.width : barLength,
       isColumn ? barLength : barFrame.height
@@ -100,12 +83,5 @@ export const createBarColumnChart = (
       type: 'SOLID',
       color: colors[i]
     }];
-
-    // insert bar before text (if bar chart)
-    if (includeBarValues) {
-      if ((!isColumn && !isNegativeValue) || (isColumn && isNegativeValue)) {
-        barFrame.insertChild(0, bar);
-      }
-    }
   }
 };
