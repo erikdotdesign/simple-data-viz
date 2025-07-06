@@ -137,6 +137,16 @@
   &:is(select) {
     cursor: pointer;
   }
+
+  &:is(input[type="color"]) {
+    cursor: pointer;
+    height: 100%;
+    background: none;
+    border: none;
+    outline: none;
+    padding: 8px;
+    cursor: pointer;
+  }
 }
 
 .c-control__input--textarea {
@@ -145,15 +155,6 @@
   overflow: auto;
   resize: vertical;
   min-height: 144px;
-}
-
-.c-control__input--color {
-  height: 40px;
-  background: none;
-  border: none;
-  outline: none;
-  padding: 8px;
-  cursor: pointer;
 }
 
 .c-control__message {

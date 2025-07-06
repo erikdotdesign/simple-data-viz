@@ -21,7 +21,7 @@ const PrimaryColorInput = ({
       <label 
         className="c-control__label"
         htmlFor="primary-color-input">
-        Primary color:
+        Primary color
       </label>
       <input
         ref={inputRef}

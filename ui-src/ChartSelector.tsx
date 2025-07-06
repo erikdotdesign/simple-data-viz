@@ -34,7 +34,7 @@ const ChartSelector = ({
       <label 
         className="c-control__label"
         htmlFor="chart-selector">
-        Chart Type:
+        Chart type
       </label>
       <select 
         ref={inputRef}

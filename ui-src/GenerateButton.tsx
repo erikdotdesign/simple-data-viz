@@ -7,12 +7,14 @@ const GenerateButton = ({
   primaryColor,
   chartType,
   colorScheme,
+  lineSmoothing,
   csvError
 }: {
   csvData: string;
   primaryColor: string;
   chartType: ChartType;
   colorScheme: ColorSchemeType;
+  lineSmoothing: boolean;
   csvError: string | null;
 }) => {
 
@@ -34,7 +36,8 @@ const GenerateButton = ({
                 type: chartType, 
                 data: dataWithoutHeader,
                 color: primaryColor,
-                colorScheme: colorScheme
+                colorScheme: colorScheme,
+                lineSmoothing: lineSmoothing
               } 
             } 
           },

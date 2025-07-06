@@ -75,7 +75,7 @@ const CsvInput = ({
       <label 
         className="c-control__label"
         htmlFor="csv-input">
-        Paste CSV data (label, value):
+        Paste or edit CSV data (label, value)
       </label>
       <textarea 
         id="csv-input"

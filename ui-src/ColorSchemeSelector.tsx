@@ -29,7 +29,7 @@ const ColorSchemeSelector = ({
       <label 
         className="c-control__label"
         htmlFor="color-scheme-selector">
-        Color scheme:
+        Color scheme
       </label>
       <select 
         ref={inputRef}
