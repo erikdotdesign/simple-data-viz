@@ -107,6 +107,7 @@ export const createLineChart = (
       opacity: 0.2,
       color
     }];
+    filledVector.constraints = { horizontal: "SCALE", vertical: "SCALE" };
   }
 
   const pathData = lineSmoothing ? getSmoothedPath(points) : getLinearPath(points);
@@ -120,4 +121,5 @@ export const createLineChart = (
   }];
   vector.strokes = [{ type: 'SOLID', color }];
   vector.strokeWeight = 2;
+  vector.constraints = { horizontal: "SCALE", vertical: "SCALE" };
 };

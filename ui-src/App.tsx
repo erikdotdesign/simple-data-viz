@@ -38,18 +38,25 @@ const App = () => {
         <ChartSelector 
           inputRef={chartTypeRef}
           chartType={chartType}
+          csvError={csvError}
+          setCsvError={setCsvError}
+          setCsvData={setCsvData}
           setChartType={setChartType} />
         {
-          chartType === "line"
+          chartType === "line" || chartType === "area"
           ? <>
               <LineSmoothingInput
                 inputRef={lineSmoothingRef}
                 lineSmoothing={lineSmoothing}
                 setLineSmoothing={setLineSmoothing} />
-              <BottomFillInput
-                inputRef={bottomFillRef}
-                bottomFill={bottomFill}
-                setBottomFill={setBottomFill} />
+              {
+                chartType === "line"
+                ? <BottomFillInput
+                    inputRef={bottomFillRef}
+                    bottomFill={bottomFill}
+                    setBottomFill={setBottomFill} />
+                : null
+              }
             </>
           : null
         }

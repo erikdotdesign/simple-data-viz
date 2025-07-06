@@ -1,9 +1,4 @@
 import papaParse from "papaparse";
-import barChartCsv from '../sample_data/bar_chart_data.csv?raw';
-import groupedBarChartCsv from '../sample_data/grouped_bar_chart_data.csv?raw';
-import pieChartCsv from '../sample_data/pie_chart_data.csv?raw';
-import lineChartCsv from '../sample_data/line_chart_data.csv?raw';
-import scatterChartCsv from '../sample_data/scatter_chart_data.csv?raw';
 import { RefObject, useEffect } from "react";
 import { ChartType } from "./types";
 import "./Control.css";
@@ -42,33 +37,6 @@ const CsvInput = ({
       if (csvError) setCsvError(null);
     }
   }
-
-  const handleChartSwitch = () => {
-    if (csvError) setCsvError(null);
-    switch(chartType) {
-      case "bar":
-      case "column":
-        setCsvData(barChartCsv);
-        break;
-      case "grouped-bar":
-      case "grouped-column":
-        setCsvData(groupedBarChartCsv);
-        break;
-      case "pie":
-        setCsvData(pieChartCsv);
-        break;
-      case "line":
-        setCsvData(lineChartCsv);
-        break;
-      case "scatter":
-        setCsvData(scatterChartCsv);
-        break;
-    }
-  }
-
-  useEffect(() => {
-    handleChartSwitch();
-  }, [chartType]);
 
   return (
     <div className={`c-control ${csvError ? 'c-control--error' : ''}`}>

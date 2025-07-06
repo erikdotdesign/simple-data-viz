@@ -58,6 +58,31 @@ def generate_grouped_bar_data(categories=5, groups=2):
     df.to_csv(os.path.join(output_dir, "grouped_bar_chart_data.csv"), index=False)
     return df
 
+# 6. Stacked Bar Chart Data
+def generate_stacked_bar_data(categories=5, series=3):
+    data = {
+        'Category': [f'Category {i+1}' for i in range(categories)]
+    }
+    for s in range(series):
+        data[f'Series {s+1}'] = [random.randint(5, 50) for _ in range(categories)]
+
+    df = pd.DataFrame(data)
+    df.to_csv(os.path.join(output_dir, "stacked_bar_chart_data.csv"), index=False)
+    return df
+
+# 7. Area Chart Data
+def generate_area_chart_data(points=12, series=3):
+    time = [f'Month {i+1}' for i in range(points)]
+    data = { 'Month': time }
+
+    for s in range(series):
+        values = np.cumsum(np.random.randint(5, 15, size=points))
+        data[f'Series {s+1}'] = values
+
+    df = pd.DataFrame(data)
+    df.to_csv(os.path.join(output_dir, "area_chart_data.csv"), index=False)
+    return df
+
 # Generate all datasets and save to CSV
 if __name__ == "__main__":
     print("Generating sample data and writing CSVs to 'sample_data' folder...\n")
@@ -66,3 +91,5 @@ if __name__ == "__main__":
     print("Pie Chart:\n", generate_pie_data(), "\n")
     print("Scatter Chart:\n", generate_scatter_data().head(), "\n")
     print("Grouped Bar Chart:\n", generate_grouped_bar_data(), "\n")
+    print("Stacked Bar Chart:\n", generate_stacked_bar_data(), "\n")
+    print("Area Chart:\n", generate_area_chart_data(), "\n")

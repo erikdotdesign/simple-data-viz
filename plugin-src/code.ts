@@ -4,6 +4,7 @@ import { createPieDonutChart } from "./charts/pieDonutChart";
 import { createLineChart } from "./charts/lineChart";
 import { createScatterChart } from "./charts/scatterChart";
 import { createGroupedBarColumnChart } from "./charts/groupedBarColumnChart";
+import { createAreaChart } from "./charts/areaChart";
 
 figma.showUI(__html__, { width: 350, height: 500 });
 
@@ -29,6 +30,9 @@ figma.ui.onmessage = async (msg) => {
         break;
       case "line":
         createLineChart(data, primaryColorHex, chartOpts.lineSmoothing, chartOpts.bottomFill);
+        break;
+      case "area":
+        createAreaChart(data, colorPalette, chartOpts.lineSmoothing);
         break;
       case "scatter":
         createScatterChart(data, primaryColorHex);

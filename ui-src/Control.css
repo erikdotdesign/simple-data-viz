@@ -33,6 +33,7 @@
   align-items: center;
   background-color: var(--color-tertiary);
   border-radius: var(--border-radius);
+  padding: 10px 0px;
   margin-bottom: 12px;
   position: relative;
 
@@ -53,6 +54,7 @@
     outline: 0;
     box-shadow: none;
     appearance: none;
+    padding: 0 12px;
 
     &:hover {
       box-shadow: none
