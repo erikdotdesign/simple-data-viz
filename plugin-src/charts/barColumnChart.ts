@@ -8,7 +8,8 @@ export const createBarColumnChart = (
     positive: RGB[],
     negative: RGB[]
   },
-  cornerRadius: number
+  sizeRatio: number,
+  cornerRadius: number,
 ) => {
   const chartWidth = 800;
   const chartHeight = 600;
@@ -26,14 +27,18 @@ export const createBarColumnChart = (
   const min = Math.min(...values, 0);
   const max = Math.max(...values, 0);
 
-  const barSize = (isColumn ? chartWidth : chartHeight) / (2 * data.length - 1);
-  const barSpacing = barSize;
+  const totalSlots = data.length;
+  const fullAxisSize = isColumn ? chartWidth : chartHeight;
+  const slotSize = fullAxisSize / totalSlots;
+
+  const barSize = slotSize * sizeRatio;
+  const barSpacing = slotSize * (1 - sizeRatio);
 
   for (let i = 0; i < data.length; i++) {
     const value = data[i][1];
     const isNegativeValue = value < 0;
     const color = isNegativeValue ? colors.negative[0] : colors.positive[0];
-    const posAlongAxis = i * (barSize + barSpacing);
+    const posAlongAxis = i * slotSize + barSpacing / 2;
 
     createBar({
       parent: chartFrame,

@@ -17,11 +17,11 @@ figma.ui.onmessage = async (msg) => {
     switch (type) {
       case "bar":
       case "column":
-        createBarColumnChart(data, type === "column", chartColors, chartOpts.cornerRadius);
+        createBarColumnChart(data, type === "column", chartColors, chartOpts.barSizeRatio, chartOpts.cornerRadius);
         break;
       case "grouped-bar":
       case "grouped-column":
-        createGroupedBarColumnChart(data, type === "grouped-column", chartColors, chartOpts.cornerRadius, chartOpts.barSpacingRatio);
+        createGroupedBarColumnChart(data, type === "grouped-column", chartColors, chartOpts.barSizeRatio, chartOpts.cornerRadius, chartOpts.barSpaceRatio);
         break;
       case "pie":
       case "donut":

@@ -1,8 +1,10 @@
 .c-control-group {
   display: flex;
+  flex-wrap: wrap;
 }
 
 .c-control-group__item {
+  width: 50%;
   min-width: 50%;
   flex-grow: 2;
 
@@ -10,11 +12,15 @@
     padding-right: 0 !important;
   }
 
-  &:first-child {
+  &:nth-child(odd) {
     padding-right: 8px;
+
+    &:last-child {
+      padding-right: 0;
+    }
   }
 
-  &:nth-child(2) {
+  &:nth-child(even) {
     padding-left: 8px;
   }
 }

@@ -76,7 +76,7 @@ export const getChartColors = (
     primaryColor: string;
     colorScheme: ColorSchemeType;
   }
-): string | RGB[] | { positive: RGB[], negative: RGB[] } => {
+): RGB | RGB[] | { positive: RGB[], negative: RGB[] } => {
   switch (type) {
     case "bar":
     case "column": {
@@ -104,7 +104,7 @@ export const getChartColors = (
     case "line":
     case "scatter": {
       // Only need base color
-      return colorOpts.primaryColor;
+      return hexToRgb(colorOpts.primaryColor);
     }
   }
 }

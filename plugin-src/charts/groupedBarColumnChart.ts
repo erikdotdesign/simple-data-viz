@@ -7,8 +7,9 @@ export const createGroupedBarColumnChart = (
     positive: RGB[],
     negative: RGB[]
   },
+  sizeRatio: number,
   cornerRadius: number,
-  barSpacingRatio: number
+  barSpacingRatio: number,
 ) => {
   const chartWidth = 800;
   const chartHeight = 600;
@@ -28,8 +29,14 @@ export const createGroupedBarColumnChart = (
 
   const groupCount = data.length;
   const seriesCount = data[0].length - 1;
-  const groupSize = (isColumn ? chartWidth : chartHeight) / (2 * groupCount - 1);
-  const groupSpacing = groupSize;
+  const axisSize = isColumn ? chartWidth : chartHeight;
+
+  // === 1. Apply sizeRatio to group slot ===
+  const groupSlotSize = axisSize / groupCount;
+  const groupSize = groupSlotSize * sizeRatio;
+  const groupMargin = groupSlotSize * (1 - sizeRatio) / 2;
+
+  // === 2. Handle bar sizing and spacing within group ===
   const totalBarSpacing = (seriesCount - 1) * barSpacingRatio;
   const barSize = groupSize / (seriesCount + totalBarSpacing);
   const barSpacing = barSize * barSpacingRatio;
@@ -37,6 +44,7 @@ export const createGroupedBarColumnChart = (
   for (let i = 0; i < data.length; i++) {
     const category = data[i][0] as string;
     const values = data[i].slice(1) as number[];
+    const groupStart = i * groupSlotSize + groupMargin;
 
     const nodes: RectangleNode[] = [];
 
@@ -45,7 +53,8 @@ export const createGroupedBarColumnChart = (
       const isNegativeValue = value < 0;
       const color = isNegativeValue ? colors.negative[j] : colors.positive[j];
 
-      const posAlongAxis = (i * groupSize) + (i * groupSpacing) + (j * barSize) + (j * barSpacing);
+      const posInGroup = j * (barSize + barSpacing);
+      const posAlongAxis = groupStart + posInGroup;
       
       const bar = createBar({
         parent: chartFrame,

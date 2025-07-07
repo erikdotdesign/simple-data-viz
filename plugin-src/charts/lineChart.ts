@@ -24,7 +24,7 @@ export const createLineChart = (
   createLineWithFill({
     parent: chartFrame,
     values: data.map(d => d[1] as number),
-    color: color,
+    color,
     chartWidth,
     chartHeight,
     min,

@@ -1,39 +1,39 @@
 import { RefObject } from "react";
 
-const BarSpacingRatioInput = ({ 
+const BarSpaceRatioInput = ({ 
   inputRef,
-  barSpacingRatio, 
-  setBarSpacingRatio 
+  barSpaceRatio, 
+  setBarSpaceRatio 
 }: {
   inputRef: RefObject<HTMLInputElement>
-  barSpacingRatio: number;
-  setBarSpacingRatio: (barSpacingRatio: number) => void; 
+  barSpaceRatio: number;
+  setBarSpaceRatio: (barSpaceRatio: number) => void; 
 }) => {
 
   const handleChange = () => {
     if (!inputRef.current) return;
-    setBarSpacingRatio(Number(inputRef.current.value));
+    setBarSpaceRatio(Number(inputRef.current.value));
   }
 
   return (
     <div className="c-control">
       <label 
         className="c-control__label"
-        htmlFor="bar-spacing-ratio-input">
-        Spacing ratio
+        htmlFor="bar-space-ratio-input">
+        Space ratio
       </label>
       <input
         ref={inputRef}
         className="c-control__input"
-        id="bar-spacing-ratio-input"
+        id="bar-space-ratio-input"
         min={0}
         max={1}
         step={0.1}
-        value={barSpacingRatio}
+        value={barSpaceRatio}
         type="number"
         onChange={handleChange} />
     </div>
   );
 };
 
-export default BarSpacingRatioInput;
+export default BarSpaceRatioInput;

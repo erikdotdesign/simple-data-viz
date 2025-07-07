@@ -10,7 +10,8 @@ import LineSmoothingInput from "./LineSmoothingInput";
 import CornerRadiusInput from "./CornerRadiusInput";
 import InnerRadiusInput from "./InnerRadiusInput";
 import BottomFillInput from "./BottomFillInput";
-import BarSpacingRatioInput from "./BarSpacingRatioInput";
+import BarSizeRatioInput from "./BarSizeRatioInput";
+import BarSpaceRatioInput from "./BarSpaceRatioInput";
 import Logo from "./Logo";
 
 const App = () => {
@@ -22,7 +23,8 @@ const App = () => {
   const cornerRadiusRef = useRef<HTMLInputElement>(null);
   const innerRadiusRef = useRef<HTMLInputElement>(null);
   const bottomFillRef = useRef<HTMLInputElement>(null);
-  const barSpacingRatioRef = useRef<HTMLInputElement>(null);
+  const barSpaceRatioRef = useRef<HTMLInputElement>(null);
+  const barSizeRatioRef = useRef<HTMLInputElement>(null);
   const [chartType, setChartType] = useState<ChartType>("bar");
   const [colorScheme, setColorScheme] = useState<ColorSchemeType>("monochrome");
   const [primaryColor, setPrimaryColor] = useState<string>("#ff0000");
@@ -32,7 +34,8 @@ const App = () => {
   const [cornerRadius, setCornerRadius] = useState<number>(0);
   const [innerRadius, setInnerRadius] = useState<number>(0.5);
   const [bottomFill, setBottomFill] = useState<boolean>(false);
-  const [barSpacingRatio, setBarSpacingRatio] = useState<number>(0.2);
+  const [barSpaceRatio, setBarSpaceRatio] = useState<number>(0.2);
+  const [barSizeRatio, setBarSizeRatio] = useState<number>(0.5);
 
   return (
     <main className="c-app">
@@ -72,6 +75,12 @@ const App = () => {
           chartType === "grouped-bar" || chartType === "grouped-column"
             ? <div className="c-control-group">
                 <div className="c-control-group__item">
+                  <BarSizeRatioInput
+                    inputRef={barSizeRatioRef}
+                    barSizeRatio={barSizeRatio}
+                    setBarSizeRatio={setBarSizeRatio} />
+                </div>
+                <div className="c-control-group__item">
                   <CornerRadiusInput
                     inputRef={cornerRadiusRef}
                     cornerRadius={cornerRadius}
@@ -80,10 +89,10 @@ const App = () => {
                 {
                   chartType === "grouped-bar" || chartType === "grouped-column"
                   ? <div className="c-control-group__item">
-                      <BarSpacingRatioInput
-                        inputRef={barSpacingRatioRef}
-                        barSpacingRatio={barSpacingRatio}
-                        setBarSpacingRatio={setBarSpacingRatio} />
+                      <BarSpaceRatioInput
+                        inputRef={barSpaceRatioRef}
+                        barSpaceRatio={barSpaceRatio}
+                        setBarSpaceRatio={setBarSpaceRatio} />
                     </div>
                   : null
                 }
@@ -130,7 +139,8 @@ const App = () => {
           cornerRadius={cornerRadius}
           innerRadius={innerRadius}
           bottomFill={bottomFill}
-          barSpacingRatio={barSpacingRatio}
+          barSpaceRatio={barSpaceRatio}
+          barSizeRatio={barSizeRatio}
           csvError={csvError} />
       </div>
     </main>
