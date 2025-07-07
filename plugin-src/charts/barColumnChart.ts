@@ -1,4 +1,5 @@
 import { ChartDatum } from "../types";
+import { createBar } from "./utilities";
 
 export const createBarColumnChart = (
   data: ChartDatum[],
@@ -38,7 +39,6 @@ export const createBarColumnChart = (
   const negativeMax = Math.abs(Math.min(...negativeValues, 0));
 
   for (let i = 0; i < data.length; i++) {
-    const label = data[i][0];
     const rawValue = data[i][1];
     const absValue = Math.abs(rawValue);
     const isNegativeValue = rawValue < 0;
@@ -47,41 +47,14 @@ export const createBarColumnChart = (
 
     const barLength = normalized * maxBarLength;
 
-    const axisFrame = figma.createFrame();
-    chartFrame.appendChild(axisFrame);
-    axisFrame.name = "axis-frame";
-    axisFrame.layoutMode = isColumn ? "VERTICAL" : "HORIZONTAL";
-    axisFrame.layoutSizingHorizontal = "FILL";
-    axisFrame.layoutSizingVertical = "FILL";
-    axisFrame.primaryAxisAlignItems = isColumn ? (isNegativeValue ? "MAX" : "MIN") : (isNegativeValue ? "MIN" : "MAX");
-    axisFrame.counterAxisAlignItems = "CENTER";
-
-    const barFrame = figma.createFrame();
-    axisFrame.appendChild(barFrame);
-    barFrame.name = "bar-frame";
-    barFrame.layoutMode = isColumn ? "VERTICAL" : "HORIZONTAL";
-    barFrame.layoutSizingHorizontal = "FILL";
-    barFrame.layoutSizingVertical = "FILL";
-    barFrame.primaryAxisAlignItems = isColumn ? (isNegativeValue ? "MIN" : "MAX") : (isNegativeValue ? "MAX" : "MIN");
-    barFrame.counterAxisAlignItems = "CENTER";
-    barFrame.resize(
-      isColumn ? barFrame.width : maxBarLength,
-      isColumn ? maxBarLength : barFrame.height
-    );
-    
-    const bar = figma.createRectangle();
-    barFrame.appendChild(bar);
-    bar.name = "bar";
-    bar.layoutSizingVertical = isColumn ? "FIXED" : "FILL";
-    bar.layoutSizingHorizontal = isColumn ? "FILL" : "FIXED";
-    bar.cornerRadius = cornerRadius;
-    bar.resize(
-      isColumn ? barFrame.width : barLength,
-      isColumn ? barLength : barFrame.height
-    );
-    bar.fills = [{
-      type: 'SOLID',
+    createBar({
+      parent: chartFrame,
+      isColumn,
+      isNegativeValue,
+      barLength,
+      maxBarLength,
+      cornerRadius,
       color: colors[i]
-    }];
+    });
   }
 };

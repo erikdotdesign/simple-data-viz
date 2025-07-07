@@ -1,3 +1,5 @@
+import { createBar } from "./utilities";
+
 export const createGroupedBarColumnChart = (
   data: (string | number)[][],
   isColumn: boolean,
@@ -56,42 +58,15 @@ export const createGroupedBarColumnChart = (
 
       const barLength = normalized * maxBarLength;
 
-      const axisFrame = figma.createFrame();
-      groupFrame.appendChild(axisFrame);
-      axisFrame.name = "axis-frame";
-      axisFrame.layoutMode = isColumn ? "VERTICAL" : "HORIZONTAL";
-      axisFrame.layoutSizingHorizontal = "FILL";
-      axisFrame.layoutSizingVertical = "FILL";
-      axisFrame.primaryAxisAlignItems = isColumn ? (isNegativeValue ? "MAX" : "MIN") : (isNegativeValue ? "MIN" : "MAX");
-      axisFrame.counterAxisAlignItems = "CENTER";
-
-      const barFrame = figma.createFrame();
-      axisFrame.appendChild(barFrame);
-      barFrame.name = "bar-frame";
-      barFrame.layoutMode = isColumn ? "VERTICAL" : "HORIZONTAL";
-      barFrame.layoutSizingHorizontal = "FILL";
-      barFrame.layoutSizingVertical = "FILL";
-      barFrame.primaryAxisAlignItems = isColumn ? (isNegativeValue ? "MIN" : "MAX") : (isNegativeValue ? "MAX" : "MIN");
-      barFrame.counterAxisAlignItems = "CENTER";
-      barFrame.resize(
-        isColumn ? barFrame.width : maxBarLength,
-        isColumn ? maxBarLength : barFrame.height
-      );
-
-      const bar = figma.createRectangle();
-      barFrame.appendChild(bar);
-      bar.name = "bar";
-      bar.layoutSizingVertical = isColumn ? "FIXED" : "FILL";
-      bar.layoutSizingHorizontal = isColumn ? "FILL" : "FIXED";
-      bar.cornerRadius = cornerRadius;
-      bar.resize(
-        isColumn ? barFrame.width : barLength,
-        isColumn ? barLength : barFrame.height
-      );
-      bar.fills = [{
-        type: 'SOLID',
-        color: colors[j] || { r: 0.6, g: 0.6, b: 0.6 } // fallback color
-      }];
+      createBar({
+        parent: groupFrame,
+        isColumn,
+        isNegativeValue,
+        barLength,
+        maxBarLength,
+        cornerRadius,
+        color: colors[j]
+      });
     }
   }
 };
