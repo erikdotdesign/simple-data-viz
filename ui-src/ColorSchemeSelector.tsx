@@ -1,5 +1,5 @@
 import { RefObject } from "react";
-import { ColorSchemeType } from "./types";
+import { ColorSchemeType } from "../types";
 import { kebabToTitleCase } from "./helpers";
 import SelectorIcon from "./SelectorIcon";
 import "./Control.css";

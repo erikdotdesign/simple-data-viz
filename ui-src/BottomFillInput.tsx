@@ -20,7 +20,7 @@ const BottomFillInput = ({
       <label 
         className="c-control__label"
         htmlFor="bottom-fill-input">
-        Bottom fill
+        Filled
       </label>
       <input
         ref={inputRef}

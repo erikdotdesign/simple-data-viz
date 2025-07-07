@@ -1,6 +1,6 @@
 import papaParse from "papaparse";
 import { RefObject, useEffect } from "react";
-import { ChartType } from "./types";
+import { ChartType } from "../types";
 import "./Control.css";
 
 const CsvInput = ({ 

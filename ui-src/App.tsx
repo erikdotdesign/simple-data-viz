@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import "./App.css";
-import { ChartType, ColorSchemeType } from "./types";
+import { ChartType, ColorSchemeType } from "../types";
 import ChartSelector from "./ChartSelector";
 import PrimaryColorInput from "./PrimaryColorInput";
 import CsvInput from "./CsvInput";
@@ -44,20 +44,24 @@ const App = () => {
           setChartType={setChartType} />
         {
           chartType === "line" || chartType === "area"
-          ? <>
-              <LineSmoothingInput
-                inputRef={lineSmoothingRef}
-                lineSmoothing={lineSmoothing}
-                setLineSmoothing={setLineSmoothing} />
+          ? <div className="c-control-group">
+              <div className="c-control-group__item">
+                <LineSmoothingInput
+                  inputRef={lineSmoothingRef}
+                  lineSmoothing={lineSmoothing}
+                  setLineSmoothing={setLineSmoothing} />
+              </div>
               {
                 chartType === "line"
-                ? <BottomFillInput
-                    inputRef={bottomFillRef}
-                    bottomFill={bottomFill}
-                    setBottomFill={setBottomFill} />
+                ? <div className="c-control-group__item">
+                    <BottomFillInput
+                      inputRef={bottomFillRef}
+                      bottomFill={bottomFill}
+                      setBottomFill={setBottomFill} />
+                  </div>
                 : null
               }
-            </>
+            </div>
           : null
         }
         {
@@ -78,14 +82,18 @@ const App = () => {
           : null
         }
         <div className="c-control-group">
-          <PrimaryColorInput
-            inputRef={primaryColorRef}
-            primaryColor={primaryColor}
-            setPrimaryColor={setPrimaryColor} />
-          <ColorSchemeSelector
-            inputRef={colorSchemeRef}
-            colorScheme={colorScheme}
-            setColorScheme={setColorScheme} />
+          <div className="c-control-group__item">
+            <PrimaryColorInput
+              inputRef={primaryColorRef}
+              primaryColor={primaryColor}
+              setPrimaryColor={setPrimaryColor} />
+          </div>
+          <div className="c-control-group__item">
+            <ColorSchemeSelector
+              inputRef={colorSchemeRef}
+              colorScheme={colorScheme}
+              setColorScheme={setColorScheme} />
+          </div>
         </div>
         <CsvInput
           inputRef={csvDataRef}

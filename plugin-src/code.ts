@@ -1,4 +1,4 @@
-import { generateColorPalette, hexToRgb } from "./helpers";
+import { getChartColors } from "./helpers";
 import { createBarColumnChart } from "./charts/barColumnChart";
 import { createPieDonutChart } from "./charts/pieDonutChart";
 import { createLineChart } from "./charts/lineChart";
@@ -13,29 +13,28 @@ figma.ui.onmessage = async (msg) => {
     await figma.loadFontAsync({ family: "Inter", style: "Regular" });
     const { chart } = msg;
     const { colorOpts, chartOpts, data, type } = chart;
-    const primaryColorHex = hexToRgb(colorOpts.primaryColor);
-    const colorPalette = generateColorPalette(colorOpts.colorScheme, colorOpts.primaryColor, data.length);
+    const chartColors = getChartColors(type, data, colorOpts);
     switch (type) {
       case "bar":
       case "column":
-        createBarColumnChart(data, type === "column", colorPalette, chartOpts.cornerRadius);
+        createBarColumnChart(data, type === "column", chartColors, chartOpts.cornerRadius);
         break;
       case "grouped-bar":
       case "grouped-column":
-        createGroupedBarColumnChart(data, type === "grouped-column", colorPalette, chartOpts.cornerRadius);
+        createGroupedBarColumnChart(data, type === "grouped-column", chartColors, chartOpts.cornerRadius);
         break;
       case "pie":
       case "donut":
-        createPieDonutChart(data, colorPalette, type === "donut", chartOpts.innerRadius);
+        createPieDonutChart(data, chartColors, type === "donut", chartOpts.innerRadius);
         break;
       case "line":
-        createLineChart(data, primaryColorHex, chartOpts.lineSmoothing, chartOpts.bottomFill);
+        createLineChart(data, chartColors, chartOpts.lineSmoothing, chartOpts.bottomFill);
         break;
       case "area":
-        createAreaChart(data, colorPalette, chartOpts.lineSmoothing);
+        createAreaChart(data, chartColors, chartOpts.lineSmoothing);
         break;
       case "scatter":
-        createScatterChart(data, primaryColorHex);
+        createScatterChart(data, chartColors);
         break;
     }
   }

@@ -1,4 +1,4 @@
-import { ChartDatum } from "../types";
+import { ChartDatum } from "../../types";
 
 export const createScatterChart = (data: ChartDatum[], color: RGB) => {
   const chartWidth = 800;

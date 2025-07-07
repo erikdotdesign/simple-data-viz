@@ -1,10 +1,13 @@
-import { ChartDatum } from "../types";
+import { ChartDatum } from "../../types";
 import { createBar } from "./utilities";
 
 export const createBarColumnChart = (
   data: ChartDatum[],
   isColumn: boolean,
-  colors: RGB[],
+  colors: {
+    positive: RGB[],
+    negative: RGB[]
+  },
   cornerRadius: number = 0
 ) => {
   const chartWidth = 800;
@@ -44,6 +47,8 @@ export const createBarColumnChart = (
     const isNegativeValue = rawValue < 0;
     const normalized = absValue / (isNegativeValue ? negativeMax : positiveMax);
     const maxBarLength = isNegativeValue ? maxNegativeBarLength : maxPositiveBarLength;
+    const mid = Math.floor((isNegativeValue ? colors.negative.length : colors.positive.length) / 2);
+    const color = isNegativeValue ? colors.negative[mid] : colors.positive[mid];
 
     const barLength = normalized * maxBarLength;
 
@@ -54,7 +59,7 @@ export const createBarColumnChart = (
       barLength,
       maxBarLength,
       cornerRadius,
-      color: colors[i]
+      color
     });
   }
 };

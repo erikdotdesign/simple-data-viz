@@ -1,4 +1,4 @@
-import { Point } from "../types";
+import { Point } from "../../types";
 
 export const getLinearPath = (pts: { x: number; y: number }[]) =>
   `M ${pts.map(p => `${p.x} ${p.y}`).join(" L ")}`;

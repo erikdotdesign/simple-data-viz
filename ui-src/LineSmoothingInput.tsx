@@ -20,7 +20,7 @@ const LineSmoothingInput = ({
       <label 
         className="c-control__label"
         htmlFor="smooth-line-input">
-        Line smoothing
+        Smoothed
       </label>
       <input
         ref={inputRef}

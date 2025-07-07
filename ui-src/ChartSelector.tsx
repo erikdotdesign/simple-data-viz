@@ -6,7 +6,7 @@ import lineChartCsv from '../sample_data/line_chart_data.csv?raw';
 import scatterChartCsv from '../sample_data/scatter_chart_data.csv?raw';
 import areaChartCsv from '../sample_data/area_chart_data.csv?raw';
 import stackedBarChartCsv from '../sample_data/stacked_bar_chart_data.csv?raw';
-import { ChartType } from "./types";
+import { ChartType } from "../types";
 import { kebabToTitleCase } from "./helpers";
 import SelectorIcon from "./SelectorIcon";
 import "./Control.css";

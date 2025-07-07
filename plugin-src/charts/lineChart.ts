@@ -1,4 +1,4 @@
-import { ChartDatum } from "../types";
+import { ChartDatum } from "../../types";
 import { createLineWithFill } from './utilities';
 
 export const createLineChart = (

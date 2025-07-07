@@ -3,7 +3,10 @@ import { createBar } from "./utilities";
 export const createGroupedBarColumnChart = (
   data: (string | number)[][],
   isColumn: boolean,
-  colors: RGB[],
+  colors: {
+    positive: RGB[],
+    negative: RGB[]
+  },
   cornerRadius: number = 0
 ) => {
   const chartWidth = 800;
@@ -55,6 +58,7 @@ export const createGroupedBarColumnChart = (
       const isNegativeValue = rawValue < 0;
       const normalized = absValue / (isNegativeValue ? negativeMax : positiveMax);
       const maxBarLength = isNegativeValue ? maxNegativeBarLength : maxPositiveBarLength;
+      const color = isNegativeValue ? colors.negative[j] : colors.positive[j];
 
       const barLength = normalized * maxBarLength;
 
@@ -65,7 +69,7 @@ export const createGroupedBarColumnChart = (
         barLength,
         maxBarLength,
         cornerRadius,
-        color: colors[j]
+        color
       });
     }
   }

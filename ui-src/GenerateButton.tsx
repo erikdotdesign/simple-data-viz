@@ -1,5 +1,5 @@
 import papaParse from "papaparse";
-import { ChartType, ColorSchemeType } from "./types";
+import { ChartType, ColorSchemeType } from "../types";
 import "./GenerateButton.css";
 
 const GenerateButton = ({

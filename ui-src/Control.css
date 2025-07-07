@@ -1,21 +1,21 @@
 .c-control-group {
   display: flex;
+}
 
-  .c-control {
-    min-width: 50%;
-    flex-grow: 2;
+.c-control-group__item {
+  min-width: 50%;
+  flex-grow: 2;
 
-    &:only-child {
-      padding-right: 0 !important;
-    }
+  &:only-child {
+    padding-right: 0 !important;
+  }
 
-    &:first-child {
-      padding-right: 8px;
-    }
+  &:first-child {
+    padding-right: 8px;
+  }
 
-    &:nth-child(2) {
-      padding-left: 8px;
-    }
+  &:nth-child(2) {
+    padding-left: 8px;
   }
 }
 
@@ -142,7 +142,7 @@
 
   &:is(input[type="color"]) {
     cursor: pointer;
-    height: 100%;
+    height: 40px;
     background: none;
     border: none;
     outline: none;
