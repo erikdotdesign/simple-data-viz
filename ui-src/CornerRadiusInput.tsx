@@ -20,7 +20,7 @@ const CornerRadiusInput = ({
       <label 
         className="c-control__label"
         htmlFor="border-radius-input">
-        Bar corner radius
+        Corner radius
       </label>
       <input
         ref={inputRef}

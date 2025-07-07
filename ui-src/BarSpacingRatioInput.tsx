@@ -1,39 +1,39 @@
 import { RefObject } from "react";
 
-const InnerRadiusInput = ({ 
+const BarSpacingRatioInput = ({ 
   inputRef,
-  innerRadius, 
-  setInnerRadius 
+  barSpacingRatio, 
+  setBarSpacingRatio 
 }: {
   inputRef: RefObject<HTMLInputElement>
-  innerRadius: number;
-  setInnerRadius: (innerRadius: number) => void; 
+  barSpacingRatio: number;
+  setBarSpacingRatio: (barSpacingRatio: number) => void; 
 }) => {
 
   const handleChange = () => {
     if (!inputRef.current) return;
-    setInnerRadius(Number(inputRef.current.value));
+    setBarSpacingRatio(Number(inputRef.current.value));
   }
 
   return (
     <div className="c-control">
       <label 
         className="c-control__label"
-        htmlFor="inner-radius-input">
-        Inner radius
+        htmlFor="bar-spacing-ratio-input">
+        Spacing ratio
       </label>
       <input
         ref={inputRef}
         className="c-control__input"
-        id="inner-radius-input"
+        id="bar-spacing-ratio-input"
         min={0}
         max={1}
         step={0.1}
-        value={innerRadius}
+        value={barSpacingRatio}
         type="number"
         onChange={handleChange} />
     </div>
   );
 };
 
-export default InnerRadiusInput;
+export default BarSpacingRatioInput;

@@ -111,59 +111,55 @@ export const createLineWithFill = (options: {
 
 export const createBar = (options: {
   parent: FrameNode;
+  chartWidth: number;
+  chartHeight: number;
+  value: number;
+  min: number;
+  max: number;
+  posAlongAxis: number;
+  barSize: number;
   name?: string;
   isColumn: boolean;
-  isNegativeValue: boolean;
-  barLength: number;
-  maxBarLength: number;
   cornerRadius: number;
   color: RGB;
-}) => {
+}): RectangleNode => {
   const {
     parent,
     isColumn,
-    isNegativeValue,
-    barLength,
-    maxBarLength,
+    chartWidth,
+    chartHeight,
+    value,
+    min,
+    max,
+    posAlongAxis,
+    barSize,
     cornerRadius,
     color,
   } = options;
 
-  const axisFrame = figma.createFrame();
-  parent.appendChild(axisFrame);
-  axisFrame.name = "axis-frame";
-  axisFrame.layoutMode = isColumn ? "VERTICAL" : "HORIZONTAL";
-  axisFrame.layoutSizingHorizontal = "FILL";
-  axisFrame.layoutSizingVertical = "FILL";
-  axisFrame.primaryAxisAlignItems = isColumn ? (isNegativeValue ? "MAX" : "MIN") : (isNegativeValue ? "MIN" : "MAX");
-  axisFrame.counterAxisAlignItems = "CENTER";
+  let left, right, top, bottom;
 
-  const barFrame = figma.createFrame();
-  axisFrame.appendChild(barFrame);
-  barFrame.name = "bar-frame";
-  barFrame.layoutMode = isColumn ? "VERTICAL" : "HORIZONTAL";
-  barFrame.layoutSizingHorizontal = "FILL";
-  barFrame.layoutSizingVertical = "FILL";
-  barFrame.primaryAxisAlignItems = isColumn ? (isNegativeValue ? "MIN" : "MAX") : (isNegativeValue ? "MAX" : "MIN");
-  barFrame.counterAxisAlignItems = "CENTER";
-  barFrame.resize(
-    isColumn ? barFrame.width : maxBarLength,
-    isColumn ? maxBarLength : barFrame.height
-  );
-  
+  if (isColumn) {
+    left = posAlongAxis;
+    right = left + barSize;
+    top = chartHeight - chartHeight * (Math.max(0, value) - min) / (max - min);
+    bottom = chartHeight - chartHeight * (Math.min(0, value) - min) / (max - min);
+  } else {
+    top = posAlongAxis;
+    bottom = top + barSize;
+    left = chartWidth * (Math.min(0, value) - min) / (max - min);
+    right = chartWidth * (Math.max(0, value) - min) / (max - min);
+  }
+
   const bar = figma.createRectangle();
-  barFrame.appendChild(bar);
+  parent.appendChild(bar);
   bar.name = "bar";
-  bar.layoutSizingVertical = isColumn ? "FIXED" : "FILL";
-  bar.layoutSizingHorizontal = isColumn ? "FILL" : "FIXED";
+  bar.x = left;
+  bar.y = top;
+  bar.resize(right - left, bottom - top);
+  bar.fills = [{ type: 'SOLID', color }];
   bar.cornerRadius = cornerRadius;
-  bar.resize(
-    isColumn ? barFrame.width : barLength,
-    isColumn ? barLength : barFrame.height
-  );
-  bar.fills = [{
-    type: 'SOLID',
-    color
-  }];
-  bar.constraints = { horizontal: 'SCALE', vertical: 'SCALE' };
+  bar.constraints = {horizontal: 'SCALE', vertical: 'SCALE'};
+  
+  return bar;
 };

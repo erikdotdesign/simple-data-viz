@@ -11,6 +11,7 @@ const GenerateButton = ({
   cornerRadius,
   innerRadius,
   bottomFill,
+  barSpacingRatio,
   csvError
 }: {
   csvData: string;
@@ -21,6 +22,7 @@ const GenerateButton = ({
   cornerRadius: number;
   innerRadius: number;
   bottomFill: boolean;
+  barSpacingRatio: number;
   csvError: string | null;
 }) => {
 
@@ -49,7 +51,8 @@ const GenerateButton = ({
                   cornerRadius,
                   lineSmoothing,
                   innerRadius,
-                  bottomFill
+                  bottomFill,
+                  barSpacingRatio
                 }
               } 
             } 
