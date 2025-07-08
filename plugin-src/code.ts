@@ -1,4 +1,4 @@
-import { getChartColors } from "./helpers";
+import { getChartColors } from "./colorUtils";
 import { createBarColumnChart } from "./charts/barColumnChart";
 import { createPieDonutChart } from "./charts/pieDonutChart";
 import { createLineChart } from "./charts/lineChart";
@@ -24,11 +24,11 @@ figma.ui.onmessage = async (msg) => {
     switch (type) {
       case "bar":
       case "column":
-        createBarColumnChart(data, type === "column", chartColors, chartOpts.barSizeRatio, chartOpts.cornerRadius);
+        createBarColumnChart(data, type === "column", chartColors, chartOpts.barSizeRatio, chartOpts.cornerRadiusRatio);
         break;
       case "grouped-bar":
       case "grouped-column":
-        createGroupedBarColumnChart(data, type === "grouped-column", chartColors, chartOpts.barSizeRatio, chartOpts.cornerRadius, chartOpts.barSpaceRatio);
+        createGroupedBarColumnChart(data, type === "grouped-column", chartColors, chartOpts.barSizeRatio, chartOpts.barSpaceRatio, chartOpts.cornerRadiusRatio);
         break;
       case "pie":
       case "donut":
@@ -41,7 +41,7 @@ figma.ui.onmessage = async (msg) => {
         createAreaChart(data, chartColors, chartOpts.lineSmoothing);
         break;
       case "scatter":
-        createScatterChart(data, chartColors);
+        createScatterChart(data, chartColors, chartOpts.pointRadiusRatio);
         break;
     }
   }

@@ -1,9 +1,14 @@
 import { ChartDatum } from "../../types";
 
-export const createScatterChart = (data: ChartDatum[], color: RGB) => {
+export const createScatterChart = (
+  data: ChartDatum[], 
+  color: RGB,
+  pointRadiusRatio: number
+) => {
   const chartWidth = 800;
   const chartHeight = 600;
-  const pointRadius = 4;
+  const baseDimension = Math.min(chartWidth, chartHeight);
+  const pointRadius = baseDimension * pointRadiusRatio;
   const padding = pointRadius;
 
   const chartFrame = figma.createFrame();
@@ -33,11 +38,12 @@ export const createScatterChart = (data: ChartDatum[], color: RGB) => {
     const cy = padding + (1 - normY) * plotHeight; // Invert Y so higher values are higher up
 
     const dot = figma.createEllipse();
+    chartFrame.appendChild(dot);
     dot.resize(pointRadius * 2, pointRadius * 2);
     dot.x = cx - pointRadius;
     dot.y = cy - pointRadius;
     dot.fills = [{ type: 'SOLID', color }];
-    dot.name = `point-${i}`;
-    chartFrame.appendChild(dot);
+    dot.name = "point";
+    dot.constraints = { horizontal: 'SCALE', vertical: 'SCALE' };
   }
 };

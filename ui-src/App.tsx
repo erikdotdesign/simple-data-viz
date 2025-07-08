@@ -7,11 +7,12 @@ import CsvInput from "./CsvInput";
 import GenerateButton from "./GenerateButton";
 import ColorSchemeSelector from "./ColorSchemeSelector";
 import LineSmoothingInput from "./LineSmoothingInput";
-import CornerRadiusInput from "./CornerRadiusInput";
+import CornerRadiusRatioInput from "./CornerRadiusRatioInput";
 import InnerRadiusInput from "./InnerRadiusInput";
 import BottomFillInput from "./BottomFillInput";
 import BarSizeRatioInput from "./BarSizeRatioInput";
 import BarSpaceRatioInput from "./BarSpaceRatioInput";
+import PointRadiusRatioInput from "./PointRadiusRatioInput";
 import Logo from "./Logo";
 
 const App = () => {
@@ -20,22 +21,24 @@ const App = () => {
   const primaryColorRef = useRef<HTMLInputElement>(null);
   const csvDataRef = useRef<HTMLTextAreaElement>(null);
   const lineSmoothingRef = useRef<HTMLInputElement>(null);
-  const cornerRadiusRef = useRef<HTMLInputElement>(null);
+  const cornerRadiusRatioRef = useRef<HTMLInputElement>(null);
   const innerRadiusRef = useRef<HTMLInputElement>(null);
   const bottomFillRef = useRef<HTMLInputElement>(null);
   const barSpaceRatioRef = useRef<HTMLInputElement>(null);
   const barSizeRatioRef = useRef<HTMLInputElement>(null);
+  const pointRadiusRatioRef = useRef<HTMLInputElement>(null);
   const [chartType, setChartType] = useState<ChartType>("bar");
   const [colorScheme, setColorScheme] = useState<ColorSchemeType>("monochrome");
   const [primaryColor, setPrimaryColor] = useState<string>("#ff0000");
   const [csvData, setCsvData] = useState<string>("");
   const [csvError, setCsvError] = useState<string | null>(null);
   const [lineSmoothing, setLineSmoothing] = useState<boolean>(false);
-  const [cornerRadius, setCornerRadius] = useState<number>(0);
+  const [cornerRadiusRatio, setCornerRadiusRatio] = useState<number>(0);
   const [innerRadius, setInnerRadius] = useState<number>(0.5);
   const [bottomFill, setBottomFill] = useState<boolean>(false);
   const [barSpaceRatio, setBarSpaceRatio] = useState<number>(0.2);
   const [barSizeRatio, setBarSizeRatio] = useState<number>(0.5);
+  const [pointRadiusRatio, setPointRadiusRatio] = useState<number>(0.01);
 
   // load cached values
   useEffect(() => {
@@ -48,12 +51,14 @@ const App = () => {
           setChartType(msg.value.chartType);
           setColorScheme(msg.value.colorScheme);
           setPrimaryColor(msg.value.primaryColor);
+          setCornerRadiusRatio(msg.value.cornerRadiusRatio);
           setLineSmoothing(msg.value.lineSmoothing);
           setInnerRadius(msg.value.innerRadius);
           setBottomFill(msg.value.bottomFill);
           setBarSpaceRatio(msg.value.barSpaceRatio);
           setBarSizeRatio(msg.value.barSizeRatio);
           setCsvData(msg.value.csvData);
+          setPointRadiusRatio(msg.value.pointRadiusRatio);
         };
       }
     };
@@ -65,15 +70,17 @@ const App = () => {
         chartType, 
         colorScheme, 
         primaryColor, 
+        cornerRadiusRatio,
         lineSmoothing, 
         innerRadius, 
         bottomFill, 
         barSpaceRatio, 
         barSizeRatio, 
-        csvData
+        csvData,
+        pointRadiusRatio
       }},
     }, "*");
-  }, [chartType, colorScheme, primaryColor, lineSmoothing, innerRadius, bottomFill, barSpaceRatio, barSizeRatio, csvData]);
+  }, [chartType, colorScheme, primaryColor, cornerRadiusRatio, lineSmoothing, innerRadius, bottomFill, barSpaceRatio, barSizeRatio, csvData, pointRadiusRatio]);
 
   return (
     <main className="c-app">
@@ -86,6 +93,20 @@ const App = () => {
           setCsvError={setCsvError}
           setCsvData={setCsvData}
           setChartType={setChartType} />
+        <div className="c-control-group">
+          <div className="c-control-group__item">
+            <PrimaryColorInput
+              inputRef={primaryColorRef}
+              primaryColor={primaryColor}
+              setPrimaryColor={setPrimaryColor} />
+          </div>
+          <div className="c-control-group__item">
+            <ColorSchemeSelector
+              inputRef={colorSchemeRef}
+              colorScheme={colorScheme}
+              setColorScheme={setColorScheme} />
+          </div>
+        </div>
         {
           chartType === "line" || chartType === "area"
           ? <div className="c-control-group">
@@ -118,12 +139,6 @@ const App = () => {
                     barSizeRatio={barSizeRatio}
                     setBarSizeRatio={setBarSizeRatio} />
                 </div>
-                <div className="c-control-group__item">
-                  <CornerRadiusInput
-                    inputRef={cornerRadiusRef}
-                    cornerRadius={cornerRadius}
-                    setCornerRadius={setCornerRadius} />
-                </div>
                 {
                   chartType === "grouped-bar" || chartType === "grouped-column"
                   ? <div className="c-control-group__item">
@@ -134,6 +149,12 @@ const App = () => {
                     </div>
                   : null
                 }
+                <div className="c-control-group__item">
+                  <CornerRadiusRatioInput
+                    inputRef={cornerRadiusRatioRef}
+                    cornerRadiusRatio={cornerRadiusRatio}
+                    setCornerRadiusRatio={setCornerRadiusRatio} />
+                </div>
               </div>
             : null
         }
@@ -145,20 +166,14 @@ const App = () => {
               setInnerRadius={setInnerRadius} />
           : null
         }
-        <div className="c-control-group">
-          <div className="c-control-group__item">
-            <PrimaryColorInput
-              inputRef={primaryColorRef}
-              primaryColor={primaryColor}
-              setPrimaryColor={setPrimaryColor} />
-          </div>
-          <div className="c-control-group__item">
-            <ColorSchemeSelector
-              inputRef={colorSchemeRef}
-              colorScheme={colorScheme}
-              setColorScheme={setColorScheme} />
-          </div>
-        </div>
+        {
+          chartType === "scatter"
+            ? <PointRadiusRatioInput
+                inputRef={pointRadiusRatioRef}
+                pointRadiusRatio={pointRadiusRatio}
+                setPointRadiusRatio={setPointRadiusRatio} />
+            : null
+        }
         <CsvInput
           inputRef={csvDataRef}
           csvData={csvData}
@@ -174,11 +189,12 @@ const App = () => {
           chartType={chartType}
           colorScheme={colorScheme}
           lineSmoothing={lineSmoothing}
-          cornerRadius={cornerRadius}
+          cornerRadiusRatio={cornerRadiusRatio}
           innerRadius={innerRadius}
           bottomFill={bottomFill}
           barSpaceRatio={barSpaceRatio}
           barSizeRatio={barSizeRatio}
+          pointRadiusRatio={pointRadiusRatio}
           csvError={csvError} />
       </div>
     </main>

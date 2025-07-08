@@ -120,7 +120,7 @@ export const createBar = (options: {
   barSize: number;
   name?: string;
   isColumn: boolean;
-  cornerRadius: number;
+  cornerRadiusRatio: number;
   color: RGB;
 }): RectangleNode => {
   const {
@@ -133,7 +133,7 @@ export const createBar = (options: {
     max,
     posAlongAxis,
     barSize,
-    cornerRadius,
+    cornerRadiusRatio,
     color,
   } = options;
 
@@ -158,7 +158,7 @@ export const createBar = (options: {
   bar.y = top;
   bar.resize(right - left, bottom - top);
   bar.fills = [{ type: 'SOLID', color }];
-  bar.cornerRadius = cornerRadius;
+  bar.cornerRadius = barSize * cornerRadiusRatio;
   bar.constraints = {horizontal: 'SCALE', vertical: 'SCALE'};
   
   return bar;
