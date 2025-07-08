@@ -147,7 +147,8 @@ const App = () => {
         }
         {
           chartType === "bar" || chartType === "column" || 
-          chartType === "grouped-bar" || chartType === "grouped-column"
+          chartType === "grouped-bar" || chartType === "grouped-column" ||
+          chartType === "stacked-bar" || chartType === "stacked-column"
             ? <div className="c-control-group">
                 <div className="c-control-group__item">
                   <BarSizeRatioInput

@@ -32,6 +32,8 @@ const ChartSelector = ({
     "column",
     "grouped-bar",
     "grouped-column",
+    "stacked-bar",
+    "stacked-column",
     "pie",
     "donut",
     "line",
@@ -54,6 +56,10 @@ const ChartSelector = ({
       case "grouped-bar":
       case "grouped-column":
         setCsvData(groupedBarChartCsv);
+        break;
+      case "stacked-bar":
+      case "stacked-column":
+        setCsvData(stackedBarChartCsv);
         break;
       case "pie":
       case "donut":

@@ -5,6 +5,7 @@ import { createLineChart } from "./charts/lineChart";
 import { createScatterChart } from "./charts/scatterChart";
 import { createGroupedBarColumnChart } from "./charts/groupedBarColumnChart";
 import { createAreaChart } from "./charts/areaChart";
+import { createStackedBarColumnChart } from "./charts/stackedBarColumnChart";
 
 figma.showUI(__html__, { width: 350, height: 500 });
 
@@ -29,6 +30,10 @@ figma.ui.onmessage = async (msg) => {
       case "grouped-bar":
       case "grouped-column":
         createGroupedBarColumnChart(data, type === "grouped-column", chartColors, chartOpts.barSizeRatio, chartOpts.barSpaceRatio, chartOpts.cornerRadius);
+        break;
+      case "stacked-bar":
+      case "stacked-column":
+        createStackedBarColumnChart(data, type === "stacked-column", chartColors, chartOpts.barSizeRatio, chartOpts.cornerRadius);
         break;
       case "pie":
       case "donut":

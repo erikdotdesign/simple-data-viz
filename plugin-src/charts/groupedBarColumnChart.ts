@@ -46,7 +46,7 @@ export const createGroupedBarColumnChart = (
     const values = data[i].slice(1) as number[];
     const groupStart = i * groupSlotSize + groupMargin;
 
-    const nodes: RectangleNode[] = [];
+    const groupNodes: RectangleNode[] = [];
 
     for (let j = 0; j < values.length; j++) {
       const value = values[j];
@@ -70,10 +70,10 @@ export const createGroupedBarColumnChart = (
         cornerRadius
       });
       
-      nodes.push(bar);
+      groupNodes.push(bar);
     }
 
-    const barGroup = figma.group(nodes, chartFrame);
+    const barGroup = figma.group(groupNodes, chartFrame);
     barGroup.name = "bar-group";
   }
 };

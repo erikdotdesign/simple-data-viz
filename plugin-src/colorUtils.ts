@@ -91,7 +91,9 @@ export const getChartColors = (
     }
 
     case "grouped-bar":
-    case "grouped-column": {
+    case "grouped-column":
+    case "stacked-bar":
+    case "stacked-column": {
       const seriesCount = data[0].length ? data[0].length - 1 : 1; // assumes structure like [["label", val1, val2, val3]]
       switch(colorOpts.colorScheme) {
         case "monochrome":
