@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect } from "react";
 import "./App.css";
-import { ChartType, ColorSchemeType } from "../types";
+import { ChartType, ColorSchemeType, DataPresetType } from "../types";
 import ChartSelector from "./ChartSelector";
 import PrimaryColorInput from "./PrimaryColorInput";
 import CsvInput from "./CsvInput";
@@ -14,6 +14,7 @@ import BarSizeRatioInput from "./BarSizeRatioInput";
 import BarSpaceRatioInput from "./BarSpaceRatioInput";
 import PointRadiusRatioInput from "./PointRadiusRatioInput";
 import StrokeWeightInput from "./StrokeWeightInput";
+import DataPresetSelector from "./DataPresetSelector";
 import Logo from "./Logo";
 
 const App = () => {
@@ -29,6 +30,7 @@ const App = () => {
   const barSizeRatioRef = useRef<HTMLInputElement>(null);
   const pointRadiusRatioRef = useRef<HTMLInputElement>(null);
   const strokeWeightRef = useRef<HTMLInputElement>(null);
+  const dataPresetRef = useRef<HTMLSelectElement>(null);
   const [chartType, setChartType] = useState<ChartType>("bar");
   const [colorScheme, setColorScheme] = useState<ColorSchemeType>("monochrome");
   const [primaryColor, setPrimaryColor] = useState<string>("#ff0000");
@@ -42,6 +44,7 @@ const App = () => {
   const [barSizeRatio, setBarSizeRatio] = useState<number>(0.5);
   const [pointRadiusRatio, setPointRadiusRatio] = useState<number>(0.01);
   const [strokeWeight, setStrokeWeight] = useState<number>(2);
+  const [dataPreset, setDataPreset] = useState<DataPresetType>("uptrend");
 
   // load cached values
   useEffect(() => {
@@ -63,6 +66,7 @@ const App = () => {
           setCsvData(msg.value.csvData);
           setPointRadiusRatio(msg.value.pointRadiusRatio);
           setStrokeWeight(msg.value.strokeWeight);
+          setDataPreset(msg.value.dataPreset);
         };
       }
     };
@@ -82,10 +86,11 @@ const App = () => {
         barSizeRatio, 
         csvData,
         pointRadiusRatio,
-        strokeWeight
+        strokeWeight,
+        dataPreset
       }},
     }, "*");
-  }, [chartType, colorScheme, primaryColor, cornerRadius, lineSmoothing, innerRadius, bottomFill, barSpaceRatio, barSizeRatio, csvData, pointRadiusRatio, strokeWeight]);
+  }, [chartType, colorScheme, primaryColor, cornerRadius, lineSmoothing, innerRadius, bottomFill, barSpaceRatio, barSizeRatio, csvData, pointRadiusRatio, strokeWeight, dataPreset]);
 
   return (
     <main className="c-app">
@@ -185,6 +190,14 @@ const App = () => {
                 setPointRadiusRatio={setPointRadiusRatio} />
             : null
         }
+        <DataPresetSelector
+          inputRef={dataPresetRef}
+          dataPreset={dataPreset}
+          chartType={chartType}
+          csvError={csvError}
+          setCsvError={setCsvError}
+          setCsvData={setCsvData}
+          setDataPreset={setDataPreset} />
         <CsvInput
           inputRef={csvDataRef}
           csvData={csvData}

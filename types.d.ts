@@ -5,3 +5,5 @@ export type ColorSchemeType = "monochrome" | "polychrome";
 export type ChartDatum = [label: string, value: number];
 
 export type Point = { x: number; y: number };
+
+export type DataPresetType = "uptrend" | "downtrend" | "flat";
