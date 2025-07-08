@@ -46,14 +46,30 @@ def generate_line_data(points=12, preset="random"):
     return df
 
 # 3. Pie Chart Data
-def generate_pie_data(parts=4):
+def generate_pie_data(parts=4, preset="random"):
     labels = [f'Segment {i+1}' for i in range(parts)]
-    sizes = np.random.dirichlet(np.ones(parts), size=1)[0] * 100
+
+    if preset == "balanced":
+        sizes = np.random.normal(loc=100 / parts, scale=1, size=parts)
+        sizes = (sizes / sizes.sum()) * 100
+        sizes = np.round(sizes, 2)
+    elif preset == "dominant":
+        sizes = np.array([60] + [40 / (parts - 1)] * (parts - 1))
+    elif preset == "long-tail":
+        # Use sorted Dirichlet distribution, skewed to favor the head
+        alpha = np.linspace(5, 1, parts)
+        raw = np.random.dirichlet(alpha)
+        sizes = np.round(np.sort(raw)[::-1] * 100, 2)
+    elif preset == "binary":
+        sizes = np.array([70, 30] + [0] * (parts - 2))[:parts]
+    else:
+        sizes = np.random.dirichlet(np.ones(parts), size=1)[0] * 100
+
     df = pd.DataFrame({
         'Segment': labels,
-        'Percentage': sizes.round(2)
+        'Percentage': sizes[:parts]
     })
-    df.to_csv(os.path.join(output_dir, "pie_chart_data.csv"), index=False)
+    df.to_csv(os.path.join(output_dir, f"{preset}_pie_chart_data.csv"), index=False)
     return df
 
 # 4. Scatter Plot Data
@@ -101,15 +117,30 @@ def generate_grouped_bar_data(categories=5, groups=3, preset="random"):
     return df
 
 # 6. Stacked Bar Chart Data
-def generate_stacked_bar_data(categories=5, series=3):
-    data = {
-        'Category': [f'Category {i+1}' for i in range(categories)]
-    }
+def generate_stacked_bar_data(categories=5, series=3, preset="random"):
+    data = { 'Category': [f'Category {i+1}' for i in range(categories)] }
+
     for s in range(series):
-        data[f'Series {s+1}'] = [random.randint(5, 50) for _ in range(categories)]
+        if preset == "uptrend":
+            base = np.linspace(10, 50 + 10 * s, categories)
+        elif preset == "downtrend":
+            base = np.linspace(50 + 10 * s, 10, categories)
+        elif preset == "flat":
+            base = np.full(categories, 30)
+        elif preset == "dominant":
+            # One series grows, others stay small
+            base = np.linspace(10, 100, categories) if s == 0 else np.full(categories, 10)
+        elif preset == "shifting":
+            # Shuffle weights per category
+            base = np.random.randint(10, 50, categories)
+        else:
+            base = np.random.randint(5, 50, categories)
+
+        noise = np.random.normal(0, 3, categories)
+        data[f'Series {s+1}'] = np.clip(base + noise, 1, None).round(2)
 
     df = pd.DataFrame(data)
-    df.to_csv(os.path.join(output_dir, "stacked_bar_chart_data.csv"), index=False)
+    df.to_csv(os.path.join(output_dir, f"{preset}_stacked_bar_chart_data.csv"), index=False)
     return df
 
 # 7. Area Chart Data
@@ -140,23 +171,37 @@ if __name__ == "__main__":
     print("Uptrend Bar Chart:\n", generate_bar_data(preset="uptrend"), "\n")
     print("Downtrend Bar Chart:\n", generate_bar_data(preset="downtrend"), "\n")
     print("Flat Bar Chart:\n", generate_bar_data(preset="flat"), "\n")
+    print("Random Bar Chart:\n", generate_bar_data(preset="random"), "\n")
     # Line charts
     print("Uptrend Line Chart:\n", generate_line_data(preset="uptrend"), "\n")
     print("Downtrend Line Chart:\n", generate_line_data(preset="downtrend"), "\n")
     print("Flat Line Chart:\n", generate_line_data(preset="flat"), "\n")
+    print("Random Line Chart:\n", generate_line_data(preset="random"), "\n")
     # Pie charts
-    print("Pie Chart:\n", generate_pie_data(), "\n")
+    print("Balanced Pie Chart:\n", generate_pie_data(preset="balanced"), "\n")
+    print("Dominant Pie Chart:\n", generate_pie_data(preset="dominant"), "\n")
+    print("Long Tail Pie Chart:\n", generate_pie_data(preset="long-tail"), "\n")
+    print("Binary Pie Chart:\n", generate_pie_data(parts=2, preset="binary"), "\n")
+    print("Random Pie Chart:\n", generate_pie_data(preset="random"), "\n")
      # Scatter charts
     print("Uptrend Scatter Chart:\n", generate_scatter_data(preset="uptrend").head(), "\n")
     print("Downtrend Scatter Chart:\n", generate_scatter_data(preset="downtrend").head(), "\n")
     print("Flat Scatter Chart:\n", generate_scatter_data(preset="flat").head(), "\n")
+    print("Random Scatter Chart:\n", generate_scatter_data(preset="random").head(), "\n")
     # Grouped charts
     print("Uptrend Grouped Bar Chart:\n", generate_grouped_bar_data(preset="uptrend"), "\n")
     print("Downtrend Grouped Bar Chart:\n", generate_grouped_bar_data(preset="downtrend"), "\n")
     print("Flat Grouped Bar Chart:\n", generate_grouped_bar_data(preset="flat"), "\n")
+    print("Random Grouped Bar Chart:\n", generate_grouped_bar_data(preset="random"), "\n")
     # Stacked charts
-    print("Stacked Bar Chart:\n", generate_stacked_bar_data(), "\n")
+    print("Uptrend Stacked Bar Chart:\n", generate_stacked_bar_data(preset="uptrend"), "\n")
+    print("Downtrend Stacked Bar Chart:\n", generate_stacked_bar_data(preset="downtrend"), "\n")
+    print("Flat Stacked Bar Chart:\n", generate_stacked_bar_data(preset="flat"), "\n")
+    print("Dominant Series Stacked Bar Chart:\n", generate_stacked_bar_data(preset="dominant"), "\n")
+    print("Shifting Composition Stacked Bar Chart:\n", generate_stacked_bar_data(preset="shifting"), "\n")
+    print("Random Stacked Bar Chart:\n", generate_stacked_bar_data(preset="random"), "\n")
     # Area charts
     print("Uptrend Area Chart:\n", generate_area_chart_data(preset="uptrend"), "\n")
     print("Downtrend Area Chart:\n", generate_area_chart_data(preset="downtrend"), "\n")
     print("Flat Area Chart:\n", generate_area_chart_data(preset="flat"), "\n")
+    print("Random Area Chart:\n", generate_area_chart_data(preset="random"), "\n")

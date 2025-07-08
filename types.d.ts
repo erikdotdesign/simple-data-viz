@@ -6,4 +6,4 @@ export type ChartDatum = [label: string, value: number];
 
 export type Point = { x: number; y: number };
 
-export type DataPresetType = "uptrend" | "downtrend" | "flat";
+export type DataPresetType = "uptrend" | "downtrend" | "flat" | "shifting" | "balanced" | "dominant" | "long-tail" | "binary";

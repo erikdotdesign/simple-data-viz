@@ -1,23 +1,37 @@
 import { RefObject, useEffect } from "react";
+// bar/column
 import uptrendBarChartCsv from '../sample_data/uptrend_bar_chart_data.csv?raw';
 import downtrendBarChartCsv from '../sample_data/downtrend_bar_chart_data.csv?raw';
 import flatBarChartCsv from '../sample_data/flat_bar_chart_data.csv?raw';
+// grouped bar/column
 import uptrendGroupedBarChartCsv from '../sample_data/uptrend_grouped_bar_chart_data.csv?raw';
 import downtrendGroupedBarChartCsv from '../sample_data/downtrend_grouped_bar_chart_data.csv?raw';
 import flatGroupedBarChartCsv from '../sample_data/flat_grouped_bar_chart_data.csv?raw';
-// import pieChartCsv from '../sample_data/pie_chart_data.csv?raw';
+// pie
+import balancedPieChartCsv from '../sample_data/balanced_pie_chart_data.csv?raw';
+import dominantPieChartCsv from '../sample_data/dominant_pie_chart_data.csv?raw';
+import longTailPieChartCsv from '../sample_data/long-tail_pie_chart_data.csv?raw';
+import binaryPieChartCsv from '../sample_data/binary_pie_chart_data.csv?raw';
+// line
 import uptrendLineChartCsv from '../sample_data/uptrend_line_chart_data.csv?raw';
 import downtrendLineChartCsv from '../sample_data/downtrend_line_chart_data.csv?raw';
 import flatLineChartCsv from '../sample_data/flat_line_chart_data.csv?raw';
+// scatter
 import uptrendScatterChartCsv from '../sample_data/uptrend_scatter_chart_data.csv?raw';
 import downtrendScatterChartCsv from '../sample_data/downtrend_scatter_chart_data.csv?raw';
 import flatScatterChartCsv from '../sample_data/flat_scatter_chart_data.csv?raw';
+// area
 import uptrendAreaChartCsv from '../sample_data/uptrend_area_chart_data.csv?raw';
 import downtrendAreaChartCsv from '../sample_data/downtrend_area_chart_data.csv?raw';
 import flatAreaChartCsv from '../sample_data/flat_area_chart_data.csv?raw';
-// import stackedBarChartCsv from '../sample_data/stacked_bar_chart_data.csv?raw';
+// stacked bar
+import uptrendStackedBarChartCsv from '../sample_data/uptrend_stacked_bar_chart_data.csv?raw';
+import downtrendStackedBarChartCsv from '../sample_data/downtrend_stacked_bar_chart_data.csv?raw';
+import flatStackedBarChartCsv from '../sample_data/flat_stacked_bar_chart_data.csv?raw';
+import dominantStackedBarChartCsv from '../sample_data/dominant_stacked_bar_chart_data.csv?raw';
+import shiftingStackedBarChartCsv from '../sample_data/shifting_stacked_bar_chart_data.csv?raw';
 import { DataPresetType, ChartType } from "../types";
-import { kebabToTitleCase } from "./helpers";
+import { camelCaseToTitleCase } from "./helpers";
 import SelectorIcon from "./SelectorIcon";
 import "./Control.css";
 
@@ -39,12 +53,6 @@ const DataPresetSelector = ({
   setDataPreset: (dataPreset: DataPresetType) => void;
 }) => {
 
-  const dataPresets: DataPresetType[] = [
-    "uptrend",
-    "downtrend",
-    "flat"
-  ];
-
   const handleChange = () => {
     if (!inputRef.current) return;
     setDataPreset(inputRef.current.value as DataPresetType);
@@ -65,6 +73,23 @@ const DataPresetSelector = ({
           uptrend: uptrendGroupedBarChartCsv,
           downtrend: downtrendGroupedBarChartCsv,
           flat: flatGroupedBarChartCsv
+        }
+      case "stacked-bar":
+      case "stacked-column":
+        return {
+          uptrend: uptrendStackedBarChartCsv,
+          downtrend: downtrendStackedBarChartCsv,
+          flat: flatStackedBarChartCsv,
+          dominant: dominantStackedBarChartCsv,
+          shifting: shiftingStackedBarChartCsv,
+        }
+      case "pie":
+      case "donut":
+        return {
+          balanced: balancedPieChartCsv,
+          dominant: dominantPieChartCsv,
+          longTail: longTailPieChartCsv,
+          binary: binaryPieChartCsv,
         }
       case "area":
         return {
@@ -88,12 +113,12 @@ const DataPresetSelector = ({
   }
 
   const handleChartSwitch = () => {
-    if (csvError) setCsvError(null);
-    const presetData = hasPresets() && getChartData()[dataPreset];
-    if (presetData) setCsvData(presetData);
+    const presetData = getChartData()[dataPreset];
+    if (presetData) {
+      if (csvError) setCsvError(null);
+      setCsvData(presetData);
+    }
   }
-
-  const hasPresets = () => !!getChartData();
 
   useEffect(() => {
     handleChartSwitch();
@@ -111,17 +136,16 @@ const DataPresetSelector = ({
         id="data-preset-selector"
         className="c-control__input"
         onChange={handleChange}
-        value={hasPresets() ? dataPreset : ""}>
+        value={dataPreset in getChartData() ? dataPreset : ""}>
         <option 
           value="" 
-          disabled 
-          hidden>
-          { hasPresets() ? "Select a preset..." : "No presets available" }
+          disabled>
+          Select a preset...
         </option>
         {
-          hasPresets() && dataPresets.map((type) => (
+          Object.keys(getChartData()).map((type) => (
             <option key={type} value={type}>
-              { kebabToTitleCase(type) }
+              { camelCaseToTitleCase(type) }
             </option>
           ))
         }
