@@ -62,7 +62,7 @@ export const createLineWithFill = (options: {
   max: number;
   lineSmoothing: boolean;
   bottomFill: boolean;
-  strokeWeightRatio: number;
+  strokeWeight: number;
 }) => {
   const {
     parent,
@@ -75,7 +75,7 @@ export const createLineWithFill = (options: {
     max,
     lineSmoothing,
     bottomFill,
-    strokeWeightRatio
+    strokeWeight
   } = options;
 
   const points: Point[] = values.map((d, i) => {
@@ -98,11 +98,6 @@ export const createLineWithFill = (options: {
     fill.fills = [{ type: 'SOLID', color, opacity: 0.2 }];
     fill.constraints = { horizontal: "SCALE", vertical: "SCALE" };
   }
-
-  const axisSize = Math.min(chartWidth, chartHeight);
-  const rawWeight = axisSize * strokeWeightRatio;
-  const clamped = Math.max(1, rawWeight);
-  const strokeWeight = Math.round(clamped);
 
   const line = figma.createVector();
   parent.appendChild(line);
@@ -127,7 +122,7 @@ export const createBar = (options: {
   barSize: number;
   name?: string;
   isColumn: boolean;
-  cornerRadiusRatio: number;
+  cornerRadius: number;
   color: RGB;
 }): RectangleNode => {
   const {
@@ -140,7 +135,7 @@ export const createBar = (options: {
     max,
     posAlongAxis,
     barSize,
-    cornerRadiusRatio,
+    cornerRadius,
     color,
   } = options;
 
@@ -165,7 +160,7 @@ export const createBar = (options: {
   bar.y = top;
   bar.resize(right - left, bottom - top);
   bar.fills = [{ type: 'SOLID', color }];
-  bar.cornerRadius = Math.round(barSize * cornerRadiusRatio);
+  bar.cornerRadius = cornerRadius;
   bar.constraints = {horizontal: 'SCALE', vertical: 'SCALE'};
   
   return bar;

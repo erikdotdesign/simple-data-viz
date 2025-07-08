@@ -7,13 +7,13 @@ import CsvInput from "./CsvInput";
 import GenerateButton from "./GenerateButton";
 import ColorSchemeSelector from "./ColorSchemeSelector";
 import LineSmoothingInput from "./LineSmoothingInput";
-import CornerRadiusRatioInput from "./CornerRadiusRatioInput";
+import CornerRadiusInput from "./CornerRadiusInput";
 import InnerRadiusInput from "./InnerRadiusInput";
 import BottomFillInput from "./BottomFillInput";
 import BarSizeRatioInput from "./BarSizeRatioInput";
 import BarSpaceRatioInput from "./BarSpaceRatioInput";
 import PointRadiusRatioInput from "./PointRadiusRatioInput";
-import StrokeWeightRatioInput from "./StrokeWeightRatioInput";
+import StrokeWeightInput from "./StrokeWeightInput";
 import Logo from "./Logo";
 
 const App = () => {
@@ -22,26 +22,26 @@ const App = () => {
   const primaryColorRef = useRef<HTMLInputElement>(null);
   const csvDataRef = useRef<HTMLTextAreaElement>(null);
   const lineSmoothingRef = useRef<HTMLInputElement>(null);
-  const cornerRadiusRatioRef = useRef<HTMLInputElement>(null);
+  const cornerRadiusRef = useRef<HTMLInputElement>(null);
   const innerRadiusRef = useRef<HTMLInputElement>(null);
   const bottomFillRef = useRef<HTMLInputElement>(null);
   const barSpaceRatioRef = useRef<HTMLInputElement>(null);
   const barSizeRatioRef = useRef<HTMLInputElement>(null);
   const pointRadiusRatioRef = useRef<HTMLInputElement>(null);
-  const strokeWeightRatioRef = useRef<HTMLInputElement>(null);
+  const strokeWeightRef = useRef<HTMLInputElement>(null);
   const [chartType, setChartType] = useState<ChartType>("bar");
   const [colorScheme, setColorScheme] = useState<ColorSchemeType>("monochrome");
   const [primaryColor, setPrimaryColor] = useState<string>("#ff0000");
   const [csvData, setCsvData] = useState<string>("");
   const [csvError, setCsvError] = useState<string | null>(null);
   const [lineSmoothing, setLineSmoothing] = useState<boolean>(false);
-  const [cornerRadiusRatio, setCornerRadiusRatio] = useState<number>(0);
+  const [cornerRadius, setCornerRadius] = useState<number>(0);
   const [innerRadius, setInnerRadius] = useState<number>(0.5);
   const [bottomFill, setBottomFill] = useState<boolean>(false);
   const [barSpaceRatio, setBarSpaceRatio] = useState<number>(0.2);
   const [barSizeRatio, setBarSizeRatio] = useState<number>(0.5);
   const [pointRadiusRatio, setPointRadiusRatio] = useState<number>(0.01);
-  const [strokeWeightRatio, setStrokeWeightRatio] = useState<number>(0.005);
+  const [strokeWeight, setStrokeWeight] = useState<number>(2);
 
   // load cached values
   useEffect(() => {
@@ -54,7 +54,7 @@ const App = () => {
           setChartType(msg.value.chartType);
           setColorScheme(msg.value.colorScheme);
           setPrimaryColor(msg.value.primaryColor);
-          setCornerRadiusRatio(msg.value.cornerRadiusRatio);
+          setCornerRadius(msg.value.cornerRadius);
           setLineSmoothing(msg.value.lineSmoothing);
           setInnerRadius(msg.value.innerRadius);
           setBottomFill(msg.value.bottomFill);
@@ -62,7 +62,7 @@ const App = () => {
           setBarSizeRatio(msg.value.barSizeRatio);
           setCsvData(msg.value.csvData);
           setPointRadiusRatio(msg.value.pointRadiusRatio);
-          setStrokeWeightRatio(msg.value.strokeWeightRatio);
+          setStrokeWeight(msg.value.strokeWeight);
         };
       }
     };
@@ -74,7 +74,7 @@ const App = () => {
         chartType, 
         colorScheme, 
         primaryColor, 
-        cornerRadiusRatio,
+        cornerRadius,
         lineSmoothing, 
         innerRadius, 
         bottomFill, 
@@ -82,10 +82,10 @@ const App = () => {
         barSizeRatio, 
         csvData,
         pointRadiusRatio,
-        strokeWeightRatio
+        strokeWeight
       }},
     }, "*");
-  }, [chartType, colorScheme, primaryColor, cornerRadiusRatio, lineSmoothing, innerRadius, bottomFill, barSpaceRatio, barSizeRatio, csvData, pointRadiusRatio, strokeWeightRatio]);
+  }, [chartType, colorScheme, primaryColor, cornerRadius, lineSmoothing, innerRadius, bottomFill, barSpaceRatio, barSizeRatio, csvData, pointRadiusRatio, strokeWeight]);
 
   return (
     <main className="c-app">
@@ -115,10 +115,10 @@ const App = () => {
         {
           chartType === "line" || chartType === "area"
           ? <>
-              <StrokeWeightRatioInput
-                inputRef={strokeWeightRatioRef}
-                strokeWeightRatio={strokeWeightRatio}
-                setStrokeWeightRatio={setStrokeWeightRatio} />
+              <StrokeWeightInput
+                inputRef={strokeWeightRef}
+                strokeWeight={strokeWeight}
+                setStrokeWeight={setStrokeWeight} />
               <div className="c-control-group">
                 <div className="c-control-group__item">
                   <LineSmoothingInput
@@ -161,10 +161,10 @@ const App = () => {
                   : null
                 }
                 <div className="c-control-group__item">
-                  <CornerRadiusRatioInput
-                    inputRef={cornerRadiusRatioRef}
-                    cornerRadiusRatio={cornerRadiusRatio}
-                    setCornerRadiusRatio={setCornerRadiusRatio} />
+                  <CornerRadiusInput
+                    inputRef={cornerRadiusRef}
+                    cornerRadius={cornerRadius}
+                    setCornerRadius={setCornerRadius} />
                 </div>
               </div>
             : null
@@ -200,13 +200,13 @@ const App = () => {
           chartType={chartType}
           colorScheme={colorScheme}
           lineSmoothing={lineSmoothing}
-          cornerRadiusRatio={cornerRadiusRatio}
+          cornerRadius={cornerRadius}
           innerRadius={innerRadius}
           bottomFill={bottomFill}
           barSpaceRatio={barSpaceRatio}
           barSizeRatio={barSizeRatio}
           pointRadiusRatio={pointRadiusRatio}
-          strokeWeightRatio={strokeWeightRatio}
+          strokeWeight={strokeWeight}
           csvError={csvError} />
       </div>
     </main>

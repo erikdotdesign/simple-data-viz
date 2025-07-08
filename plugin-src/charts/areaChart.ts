@@ -4,7 +4,7 @@ export const createAreaChart = (
   data: (string | number)[][],
   colors: RGB[],
   lineSmoothing: boolean,
-  strokeWeightRatio: number
+  strokeWeight: number
 ) => {
   const chartWidth = 800;
   const chartHeight = 600;
@@ -57,7 +57,7 @@ export const createAreaChart = (
       max,
       lineSmoothing,
       bottomFill: true,
-      strokeWeightRatio
+      strokeWeight
     });
   }
 };

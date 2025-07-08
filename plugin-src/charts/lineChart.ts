@@ -6,7 +6,7 @@ export const createLineChart = (
   color: RGB,
   lineSmoothing: boolean,
   bottomFill: boolean,
-  strokeWeightRatio: number
+  strokeWeight: number
 ) => {
   const chartWidth = 800;
   const chartHeight = 600;
@@ -32,6 +32,6 @@ export const createLineChart = (
     max,
     lineSmoothing,
     bottomFill,
-    strokeWeightRatio
+    strokeWeight
   });
 };

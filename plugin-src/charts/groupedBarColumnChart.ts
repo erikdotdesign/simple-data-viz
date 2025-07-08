@@ -9,7 +9,7 @@ export const createGroupedBarColumnChart = (
   },
   sizeRatio: number,
   barSpacingRatio: number,
-  cornerRadiusRatio: number
+  cornerRadius: number
 ) => {
   const chartWidth = 800;
   const chartHeight = 600;
@@ -67,7 +67,7 @@ export const createGroupedBarColumnChart = (
         value,
         color,
         isColumn,
-        cornerRadiusRatio
+        cornerRadius
       });
       
       nodes.push(bar);

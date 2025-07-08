@@ -8,13 +8,13 @@ const GenerateButton = ({
   chartType,
   colorScheme,
   lineSmoothing,
-  cornerRadiusRatio,
+  cornerRadius,
   innerRadius,
   bottomFill,
   barSpaceRatio,
   barSizeRatio,
   pointRadiusRatio,
-  strokeWeightRatio,
+  strokeWeight,
   csvError,
 }: {
   csvData: string;
@@ -22,13 +22,13 @@ const GenerateButton = ({
   chartType: ChartType;
   colorScheme: ColorSchemeType;
   lineSmoothing: boolean;
-  cornerRadiusRatio: number;
+  cornerRadius: number;
   innerRadius: number;
   bottomFill: boolean;
   barSpaceRatio: number;
   barSizeRatio: number;
   pointRadiusRatio: number;
-  strokeWeightRatio: number;
+  strokeWeight: number;
   csvError: string | null;
 }) => {
 
@@ -54,14 +54,14 @@ const GenerateButton = ({
                   colorScheme
                 },
                 chartOpts: {
-                  cornerRadiusRatio,
+                  cornerRadius,
                   lineSmoothing,
                   innerRadius,
                   bottomFill,
                   barSpaceRatio,
                   barSizeRatio,
                   pointRadiusRatio,
-                  strokeWeightRatio
+                  strokeWeight
                 }
               } 
             } 

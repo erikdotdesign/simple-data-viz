@@ -2,34 +2,33 @@ import { RefObject } from "react";
 
 const CornerRadiusRatioInput = ({ 
   inputRef,
-  cornerRadiusRatio, 
-  setCornerRadiusRatio
+  cornerRadius, 
+  setCornerRadius
 }: {
   inputRef: RefObject<HTMLInputElement>
-  cornerRadiusRatio: number;
-  setCornerRadiusRatio: (cornerRadiusRatio: number) => void; 
+  cornerRadius: number;
+  setCornerRadius: (cornerRadius: number) => void; 
 }) => {
 
   const handleChange = () => {
     if (!inputRef.current) return;
-    setCornerRadiusRatio(Number(inputRef.current.value));
+    setCornerRadius(Number(inputRef.current.value));
   }
 
   return (
     <div className="c-control">
       <label 
         className="c-control__label"
-        htmlFor="corner-radius-ratio-input">
-        Corner radius ratio
+        htmlFor="corner-radius-input">
+        Corner radius
       </label>
       <input
         ref={inputRef}
         className="c-control__input"
-        id="corner-radius-ratio-input"
-        value={cornerRadiusRatio}
+        id="corner-radius-input"
+        value={cornerRadius}
         min={0}
-        max={1}
-        step={0.1}
+        step={1}
         type="number"
         onChange={handleChange} />
     </div>

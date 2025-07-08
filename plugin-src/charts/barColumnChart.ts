@@ -9,7 +9,7 @@ export const createBarColumnChart = (
     negative: RGB[]
   },
   sizeRatio: number,
-  cornerRadiusRatio: number
+  cornerRadius: number
 ) => {
   const chartWidth = 800;
   const chartHeight = 600;
@@ -51,7 +51,7 @@ export const createBarColumnChart = (
       value,
       color,
       isColumn,
-      cornerRadiusRatio
+      cornerRadius
     });
   }
 };

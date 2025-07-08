@@ -24,21 +24,21 @@ figma.ui.onmessage = async (msg) => {
     switch (type) {
       case "bar":
       case "column":
-        createBarColumnChart(data, type === "column", chartColors, chartOpts.barSizeRatio, chartOpts.cornerRadiusRatio);
+        createBarColumnChart(data, type === "column", chartColors, chartOpts.barSizeRatio, chartOpts.cornerRadius);
         break;
       case "grouped-bar":
       case "grouped-column":
-        createGroupedBarColumnChart(data, type === "grouped-column", chartColors, chartOpts.barSizeRatio, chartOpts.barSpaceRatio, chartOpts.cornerRadiusRatio);
+        createGroupedBarColumnChart(data, type === "grouped-column", chartColors, chartOpts.barSizeRatio, chartOpts.barSpaceRatio, chartOpts.cornerRadius);
         break;
       case "pie":
       case "donut":
         createPieDonutChart(data, chartColors, type === "donut", chartOpts.innerRadius);
         break;
       case "line":
-        createLineChart(data, chartColors, chartOpts.lineSmoothing, chartOpts.bottomFill, chartOpts.strokeWeightRatio);
+        createLineChart(data, chartColors, chartOpts.lineSmoothing, chartOpts.bottomFill, chartOpts.strokeWeight);
         break;
       case "area":
-        createAreaChart(data, chartColors, chartOpts.lineSmoothing, chartOpts.strokeWeightRatio);
+        createAreaChart(data, chartColors, chartOpts.lineSmoothing, chartOpts.strokeWeight);
         break;
       case "scatter":
         createScatterChart(data, chartColors, chartOpts.pointRadiusRatio);
