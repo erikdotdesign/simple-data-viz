@@ -57,6 +57,12 @@ export const shiftHue = (hex: string, degrees: number): string => {
   return chroma.hsl((h + degrees) % 360, s, l).hex();
 };
 
+export const adjustColorForNegative = (rgb: RGB): RGB => {
+  const hex = rgbToHex(rgb);
+  const adjusted = chroma(hex).darken(1).desaturate(1); // tweak as needed
+  return hexToRgb(adjusted.hex());
+};
+
 export const generateDivergingPalette = (
   type: "monochrome" | "polychrome",
   baseColorHex: string,
@@ -87,7 +93,17 @@ export const getChartColors = (
     case "grouped-bar":
     case "grouped-column": {
       const seriesCount = data[0].length ? data[0].length - 1 : 1; // assumes structure like [["label", val1, val2, val3]]
-      return generateDivergingPalette(colorOpts.colorScheme, colorOpts.primaryColor, seriesCount);
+      switch(colorOpts.colorScheme) {
+        case "monochrome":
+          return generateDivergingPalette(colorOpts.colorScheme, colorOpts.primaryColor, seriesCount);
+        case "polychrome":
+          const posColors = generateColorPalette(colorOpts.colorScheme, colorOpts.primaryColor, seriesCount);
+          const negColors = posColors.map(adjustColorForNegative);
+          return {
+            positive: posColors,
+            negative: negColors
+          };
+      }
     }
 
     case "area": {
