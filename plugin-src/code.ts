@@ -9,6 +9,13 @@ import { createAreaChart } from "./charts/areaChart";
 figma.showUI(__html__, { width: 350, height: 500 });
 
 figma.ui.onmessage = async (msg) => {
+  if (msg.type === 'save-storage') {
+    await figma.clientStorage.setAsync(msg.key, msg.value);
+  }
+  if (msg.type === 'load-storage') {
+    const value = await figma.clientStorage.getAsync(msg.key);
+    figma.ui.postMessage({ type: 'storage-loaded', key: msg.key, value });
+  }
   if (msg.type === "generate-chart") {
     await figma.loadFontAsync({ family: "Inter", style: "Regular" });
     const { chart } = msg;

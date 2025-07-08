@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import "./App.css";
 import { ChartType, ColorSchemeType } from "../types";
 import ChartSelector from "./ChartSelector";
@@ -36,6 +36,44 @@ const App = () => {
   const [bottomFill, setBottomFill] = useState<boolean>(false);
   const [barSpaceRatio, setBarSpaceRatio] = useState<number>(0.2);
   const [barSizeRatio, setBarSizeRatio] = useState<number>(0.5);
+
+  // load cached values
+  useEffect(() => {
+    parent.postMessage({ pluginMessage: { type: "load-storage", key: "cache" } }, "*");
+
+    window.onmessage = (event) => {
+      const msg = event.data.pluginMessage;
+      if (msg.type === "storage-loaded") {
+        if (msg.key === "cache" && msg.value) {
+          setChartType(msg.value.chartType);
+          setColorScheme(msg.value.colorScheme);
+          setPrimaryColor(msg.value.primaryColor);
+          setLineSmoothing(msg.value.lineSmoothing);
+          setInnerRadius(msg.value.innerRadius);
+          setBottomFill(msg.value.bottomFill);
+          setBarSpaceRatio(msg.value.barSpaceRatio);
+          setBarSizeRatio(msg.value.barSizeRatio);
+          setCsvData(msg.value.csvData);
+        };
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    parent.postMessage({
+      pluginMessage: { type: "save-storage", key: "cache", value: {
+        chartType, 
+        colorScheme, 
+        primaryColor, 
+        lineSmoothing, 
+        innerRadius, 
+        bottomFill, 
+        barSpaceRatio, 
+        barSizeRatio, 
+        csvData
+      }},
+    }, "*");
+  }, [chartType, colorScheme, primaryColor, lineSmoothing, innerRadius, bottomFill, barSpaceRatio, barSizeRatio, csvData]);
 
   return (
     <main className="c-app">
