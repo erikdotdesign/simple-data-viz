@@ -1,39 +1,39 @@
 import { RefObject } from "react";
 
-const PointRadiusRatioInput = ({ 
+const StrokeWeightRatioInput = ({ 
   inputRef,
-  pointRadiusRatio, 
-  setPointRadiusRatio 
+  strokeWeightRatio, 
+  setStrokeWeightRatio 
 }: {
   inputRef: RefObject<HTMLInputElement>
-  pointRadiusRatio: number;
-  setPointRadiusRatio: (pointRadiusRatio: number) => void; 
+  strokeWeightRatio: number;
+  setStrokeWeightRatio: (strokeWeightRatio: number) => void; 
 }) => {
 
   const handleChange = () => {
     if (!inputRef.current) return;
-    setPointRadiusRatio(Number(inputRef.current.value));
+    setStrokeWeightRatio(Number(inputRef.current.value));
   }
 
   return (
     <div className="c-control">
       <label 
         className="c-control__label"
-        htmlFor="point-radius-ratio-input">
-        Point radius ratio
+        htmlFor="stroke-weight-ratio-input">
+        Stroke weight ratio
       </label>
       <input
         ref={inputRef}
         className="c-control__input"
-        id="point-radius-ratio-input"
+        id="stroke-weight-ratio-input"
         min={0.001}
         max={1}
         step={0.001}
-        value={pointRadiusRatio}
+        value={strokeWeightRatio}
         type="number"
         onChange={handleChange} />
     </div>
   );
 };
 
-export default PointRadiusRatioInput;
+export default StrokeWeightRatioInput;

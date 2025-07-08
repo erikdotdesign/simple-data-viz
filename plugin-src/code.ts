@@ -35,10 +35,10 @@ figma.ui.onmessage = async (msg) => {
         createPieDonutChart(data, chartColors, type === "donut", chartOpts.innerRadius);
         break;
       case "line":
-        createLineChart(data, chartColors, chartOpts.lineSmoothing, chartOpts.bottomFill);
+        createLineChart(data, chartColors, chartOpts.lineSmoothing, chartOpts.bottomFill, chartOpts.strokeWeightRatio);
         break;
       case "area":
-        createAreaChart(data, chartColors, chartOpts.lineSmoothing);
+        createAreaChart(data, chartColors, chartOpts.lineSmoothing, chartOpts.strokeWeightRatio);
         break;
       case "scatter":
         createScatterChart(data, chartColors, chartOpts.pointRadiusRatio);

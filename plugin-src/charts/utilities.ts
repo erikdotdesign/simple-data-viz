@@ -62,6 +62,7 @@ export const createLineWithFill = (options: {
   max: number;
   lineSmoothing: boolean;
   bottomFill: boolean;
+  strokeWeightRatio: number;
 }) => {
   const {
     parent,
@@ -74,6 +75,7 @@ export const createLineWithFill = (options: {
     max,
     lineSmoothing,
     bottomFill,
+    strokeWeightRatio
   } = options;
 
   const points: Point[] = values.map((d, i) => {
@@ -97,6 +99,11 @@ export const createLineWithFill = (options: {
     fill.constraints = { horizontal: "SCALE", vertical: "SCALE" };
   }
 
+  const axisSize = Math.min(chartWidth, chartHeight);
+  const rawWeight = axisSize * strokeWeightRatio;
+  const clamped = Math.max(1, rawWeight);
+  const strokeWeight = Math.round(clamped);
+
   const line = figma.createVector();
   parent.appendChild(line);
   line.name = "line";
@@ -105,7 +112,7 @@ export const createLineWithFill = (options: {
     windingRule: "NONZERO"
   }];
   line.strokes = [{ type: 'SOLID', color }];
-  line.strokeWeight = 2;
+  line.strokeWeight = strokeWeight;
   line.constraints = { horizontal: "SCALE", vertical: "SCALE" };
 };
 
@@ -158,7 +165,7 @@ export const createBar = (options: {
   bar.y = top;
   bar.resize(right - left, bottom - top);
   bar.fills = [{ type: 'SOLID', color }];
-  bar.cornerRadius = barSize * cornerRadiusRatio;
+  bar.cornerRadius = Math.round(barSize * cornerRadiusRatio);
   bar.constraints = {horizontal: 'SCALE', vertical: 'SCALE'};
   
   return bar;

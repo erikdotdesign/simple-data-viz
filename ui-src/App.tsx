@@ -13,6 +13,7 @@ import BottomFillInput from "./BottomFillInput";
 import BarSizeRatioInput from "./BarSizeRatioInput";
 import BarSpaceRatioInput from "./BarSpaceRatioInput";
 import PointRadiusRatioInput from "./PointRadiusRatioInput";
+import StrokeWeightRatioInput from "./StrokeWeightRatioInput";
 import Logo from "./Logo";
 
 const App = () => {
@@ -27,6 +28,7 @@ const App = () => {
   const barSpaceRatioRef = useRef<HTMLInputElement>(null);
   const barSizeRatioRef = useRef<HTMLInputElement>(null);
   const pointRadiusRatioRef = useRef<HTMLInputElement>(null);
+  const strokeWeightRatioRef = useRef<HTMLInputElement>(null);
   const [chartType, setChartType] = useState<ChartType>("bar");
   const [colorScheme, setColorScheme] = useState<ColorSchemeType>("monochrome");
   const [primaryColor, setPrimaryColor] = useState<string>("#ff0000");
@@ -39,6 +41,7 @@ const App = () => {
   const [barSpaceRatio, setBarSpaceRatio] = useState<number>(0.2);
   const [barSizeRatio, setBarSizeRatio] = useState<number>(0.5);
   const [pointRadiusRatio, setPointRadiusRatio] = useState<number>(0.01);
+  const [strokeWeightRatio, setStrokeWeightRatio] = useState<number>(0.005);
 
   // load cached values
   useEffect(() => {
@@ -59,6 +62,7 @@ const App = () => {
           setBarSizeRatio(msg.value.barSizeRatio);
           setCsvData(msg.value.csvData);
           setPointRadiusRatio(msg.value.pointRadiusRatio);
+          setStrokeWeightRatio(msg.value.strokeWeightRatio);
         };
       }
     };
@@ -77,10 +81,11 @@ const App = () => {
         barSpaceRatio, 
         barSizeRatio, 
         csvData,
-        pointRadiusRatio
+        pointRadiusRatio,
+        strokeWeightRatio
       }},
     }, "*");
-  }, [chartType, colorScheme, primaryColor, cornerRadiusRatio, lineSmoothing, innerRadius, bottomFill, barSpaceRatio, barSizeRatio, csvData, pointRadiusRatio]);
+  }, [chartType, colorScheme, primaryColor, cornerRadiusRatio, lineSmoothing, innerRadius, bottomFill, barSpaceRatio, barSizeRatio, csvData, pointRadiusRatio, strokeWeightRatio]);
 
   return (
     <main className="c-app">
@@ -109,24 +114,30 @@ const App = () => {
         </div>
         {
           chartType === "line" || chartType === "area"
-          ? <div className="c-control-group">
-              <div className="c-control-group__item">
-                <LineSmoothingInput
-                  inputRef={lineSmoothingRef}
-                  lineSmoothing={lineSmoothing}
-                  setLineSmoothing={setLineSmoothing} />
+          ? <>
+              <StrokeWeightRatioInput
+                inputRef={strokeWeightRatioRef}
+                strokeWeightRatio={strokeWeightRatio}
+                setStrokeWeightRatio={setStrokeWeightRatio} />
+              <div className="c-control-group">
+                <div className="c-control-group__item">
+                  <LineSmoothingInput
+                    inputRef={lineSmoothingRef}
+                    lineSmoothing={lineSmoothing}
+                    setLineSmoothing={setLineSmoothing} />
+                </div>
+                {
+                  chartType === "line"
+                  ? <div className="c-control-group__item">
+                      <BottomFillInput
+                        inputRef={bottomFillRef}
+                        bottomFill={bottomFill}
+                        setBottomFill={setBottomFill} />
+                    </div>
+                  : null
+                }
               </div>
-              {
-                chartType === "line"
-                ? <div className="c-control-group__item">
-                    <BottomFillInput
-                      inputRef={bottomFillRef}
-                      bottomFill={bottomFill}
-                      setBottomFill={setBottomFill} />
-                  </div>
-                : null
-              }
-            </div>
+            </>
           : null
         }
         {
@@ -195,6 +206,7 @@ const App = () => {
           barSpaceRatio={barSpaceRatio}
           barSizeRatio={barSizeRatio}
           pointRadiusRatio={pointRadiusRatio}
+          strokeWeightRatio={strokeWeightRatio}
           csvError={csvError} />
       </div>
     </main>

@@ -4,8 +4,9 @@ import { createLineWithFill } from './utilities';
 export const createLineChart = (
   data: ChartDatum[],
   color: RGB,
-  lineSmoothing = false,
-  bottomFill = false
+  lineSmoothing: boolean,
+  bottomFill: boolean,
+  strokeWeightRatio: number
 ) => {
   const chartWidth = 800;
   const chartHeight = 600;
@@ -30,6 +31,7 @@ export const createLineChart = (
     min,
     max,
     lineSmoothing,
-    bottomFill
+    bottomFill,
+    strokeWeightRatio
   });
 };

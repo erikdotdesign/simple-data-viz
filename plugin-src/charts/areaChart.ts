@@ -3,7 +3,8 @@ import { createLineWithFill } from './utilities';
 export const createAreaChart = (
   data: (string | number)[][],
   colors: RGB[],
-  lineSmoothing = false
+  lineSmoothing: boolean,
+  strokeWeightRatio: number
 ) => {
   const chartWidth = 800;
   const chartHeight = 600;
@@ -55,7 +56,8 @@ export const createAreaChart = (
       min,
       max,
       lineSmoothing,
-      bottomFill: true
+      bottomFill: true,
+      strokeWeightRatio
     });
   }
 };

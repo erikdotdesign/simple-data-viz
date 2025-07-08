@@ -14,6 +14,7 @@ const GenerateButton = ({
   barSpaceRatio,
   barSizeRatio,
   pointRadiusRatio,
+  strokeWeightRatio,
   csvError,
 }: {
   csvData: string;
@@ -27,6 +28,7 @@ const GenerateButton = ({
   barSpaceRatio: number;
   barSizeRatio: number;
   pointRadiusRatio: number;
+  strokeWeightRatio: number;
   csvError: string | null;
 }) => {
 
@@ -58,7 +60,8 @@ const GenerateButton = ({
                   bottomFill,
                   barSpaceRatio,
                   barSizeRatio,
-                  pointRadiusRatio
+                  pointRadiusRatio,
+                  strokeWeightRatio
                 }
               } 
             } 
