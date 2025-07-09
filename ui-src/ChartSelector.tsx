@@ -1,12 +1,4 @@
-import { RefObject, useEffect } from "react";
-import barChartCsv from '../sample_data/bar/random.csv?raw';
-import groupedBarChartCsv from '../sample_data/grouped-bar/random.csv?raw';
-import pieChartCsv from '../sample_data/pie/random.csv?raw';
-import lineChartCsv from '../sample_data/line/random.csv?raw';
-import scatterChartCsv from '../sample_data/scatter/random.csv?raw';
-import areaChartCsv from '../sample_data/area/random.csv?raw';
-import stackedBarChartCsv from '../sample_data/stacked-bar/random.csv?raw';
-import candlestickChartCsv from "../sample_data/candlestick/random.csv?raw";
+import { RefObject } from "react";
 import { ChartType } from "../types";
 import { kebabToTitleCase } from "./helpers";
 import SelectorIcon from "./SelectorIcon";
@@ -14,17 +6,11 @@ import "./Control.css";
 
 const ChartSelector = ({ 
   inputRef, 
-  chartType, 
-  csvError,
-  setCsvError,
-  setCsvData,
+  chartType,
   setChartType 
 }: {
   inputRef: RefObject<HTMLSelectElement>;
   chartType: ChartType;
-  csvError: string | null;
-  setCsvError: (csvError: string | null) => void;
-  setCsvData: (csvData: string) => void;
   setChartType: (chartType: ChartType) => void;
 }) => {
 
@@ -47,44 +33,6 @@ const ChartSelector = ({
     if (!inputRef.current) return;
     setChartType(inputRef.current.value as ChartType);
   }
-
-  const handleChartSwitch = () => {
-    if (csvError) setCsvError(null);
-    switch(chartType) {
-      case "bar":
-      case "column":
-        setCsvData(barChartCsv);
-        break;
-      case "grouped-bar":
-      case "grouped-column":
-        setCsvData(groupedBarChartCsv);
-        break;
-      case "stacked-bar":
-      case "stacked-column":
-        setCsvData(stackedBarChartCsv);
-        break;
-      case "pie":
-      case "donut":
-        setCsvData(pieChartCsv);
-        break;
-      case "line":
-        setCsvData(lineChartCsv);
-        break;
-      case "area":
-        setCsvData(areaChartCsv);
-        break;
-      case "scatter":
-        setCsvData(scatterChartCsv);
-        break;
-      case "candlestick":
-        setCsvData(candlestickChartCsv);
-        break;
-    }
-  }
-
-  useEffect(() => {
-    handleChartSwitch();
-  }, [chartType]);
 
   return (
     <div className="c-control">

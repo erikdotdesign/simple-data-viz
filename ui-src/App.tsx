@@ -44,7 +44,7 @@ const App = () => {
   const [barSizeRatio, setBarSizeRatio] = useState<number>(0.5);
   const [pointRadiusRatio, setPointRadiusRatio] = useState<number>(0.01);
   const [strokeWeight, setStrokeWeight] = useState<number>(2);
-  const [dataPreset, setDataPreset] = useState<DataPresetType>("uptrend");
+  const [dataPreset, setDataPreset] = useState<DataPresetType>("random");
 
   // load cached values
   useEffect(() => {
@@ -99,9 +99,6 @@ const App = () => {
         <ChartSelector 
           inputRef={chartTypeRef}
           chartType={chartType}
-          csvError={csvError}
-          setCsvError={setCsvError}
-          setCsvData={setCsvData}
           setChartType={setChartType} />
         <div className="c-control-group">
           <div className="c-control-group__item">
