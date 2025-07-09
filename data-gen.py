@@ -24,7 +24,7 @@ def generate_bar_data(categories=5, preset="random"):
         'Category': labels,
         'Value': np.round(values, 2)
     })
-    df.to_csv(os.path.join(output_dir, f"{preset}_bar_chart_data.csv"), index=False)
+    df.to_csv(os.path.join(f"{output_dir}/bar", f"{preset}.csv"), index=False)
     return df
 
 # 2. Line Chart Data (e.g., time series)
@@ -42,7 +42,7 @@ def generate_line_data(points=12, preset="random"):
         'Month': [f'Month {i+1}' for i in range(points)],
         'Sales': y.round(2)
     })
-    df.to_csv(os.path.join(output_dir, f"{preset}_line_chart_data.csv"), index=False)
+    df.to_csv(os.path.join(f"{output_dir}/line", f"{preset}.csv"), index=False)
     return df
 
 # 3. Pie Chart Data
@@ -69,7 +69,7 @@ def generate_pie_data(parts=4, preset="random"):
         'Segment': labels,
         'Percentage': sizes[:parts]
     })
-    df.to_csv(os.path.join(output_dir, f"{preset}_pie_chart_data.csv"), index=False)
+    df.to_csv(os.path.join(f"{output_dir}/pie", f"{preset}.csv"), index=False)
     return df
 
 # 4. Scatter Plot Data
@@ -92,7 +92,7 @@ def generate_scatter_data(points=50, preset="random"):
         'Y': y.round(2),
         'Size': np.random.uniform(5, 20, size=points).round(1)
     })
-    df.to_csv(os.path.join(output_dir, f"{preset}_scatter_chart_data.csv"), index=False)
+    df.to_csv(os.path.join(f"{output_dir}/scatter", f"{preset}.csv"), index=False)
     return df
 
 # 5. Grouped Column Chart Data (e.g., multiple series per category)
@@ -113,7 +113,7 @@ def generate_grouped_bar_data(categories=5, groups=3, preset="random"):
         data[f'Group {g+1}'] = np.round(values)
 
     df = pd.DataFrame(data)
-    df.to_csv(os.path.join(output_dir, f"{preset}_grouped_bar_chart_data.csv"), index=False)
+    df.to_csv(os.path.join(f"{output_dir}/grouped-bar", f"{preset}.csv"), index=False)
     return df
 
 # 6. Stacked Bar Chart Data
@@ -140,7 +140,7 @@ def generate_stacked_bar_data(categories=5, series=3, preset="random"):
         data[f'Series {s+1}'] = np.clip(base + noise, 1, None).round(2)
 
     df = pd.DataFrame(data)
-    df.to_csv(os.path.join(output_dir, f"{preset}_stacked_bar_chart_data.csv"), index=False)
+    df.to_csv(os.path.join(f"{output_dir}/stacked-bar", f"{preset}.csv"), index=False)
     return df
 
 # 7. Area Chart Data
@@ -161,7 +161,44 @@ def generate_area_chart_data(points=12, series=3, preset="random"):
         data[f'Series {s+1}'] = y.round(2)
 
     df = pd.DataFrame(data)
-    df.to_csv(os.path.join(output_dir, f"{preset}_area_chart_data.csv"), index=False)
+    df.to_csv(os.path.join(f"{output_dir}/area", f"{preset}.csv"), index=False)
+    return df
+
+# 8. Candlestick Chart Data
+def generate_candlestick_data(days=30, preset="random"):
+    dates = pd.date_range(end=pd.Timestamp.today(), periods=days).strftime('%Y-%m-%d')
+    data = []
+
+    current_price = 100
+    for i in range(days):
+        if preset == "uptrend":
+            # Mostly positive, but ~20% chance of negative change
+            change = np.random.normal(1.5, 1) if np.random.rand() > 0.2 else np.random.normal(-1, 0.5)
+        elif preset == "downtrend":
+            # Mostly negative, but ~20% chance of positive change
+            change = np.random.normal(-1.5, 1) if np.random.rand() > 0.2 else np.random.normal(1, 0.5)
+        elif preset == "flat":
+            change = np.random.normal(0, 0.5)
+        else:  # random
+            change = np.random.normal(0, 1.5)
+
+        open_price = current_price
+        close_price = open_price + change
+        high = max(open_price, close_price) + np.random.uniform(0.5, 2)
+        low = min(open_price, close_price) - np.random.uniform(0.5, 2)
+
+        data.append({
+            'Date': dates[i],
+            'Open': round(open_price, 2),
+            'High': round(high, 2),
+            'Low': round(low, 2),
+            'Close': round(close_price, 2)
+        })
+
+        current_price = close_price
+
+    df = pd.DataFrame(data)
+    df.to_csv(os.path.join(f"{output_dir}/candlestick", f"{preset}.csv"), index=False)
     return df
 
 # Generate all datasets and save to CSV
@@ -205,3 +242,8 @@ if __name__ == "__main__":
     print("Downtrend Area Chart:\n", generate_area_chart_data(preset="downtrend"), "\n")
     print("Flat Area Chart:\n", generate_area_chart_data(preset="flat"), "\n")
     print("Random Area Chart:\n", generate_area_chart_data(preset="random"), "\n")
+    # Candlestick chart
+    print("Uptrend Candlestick Chart:\n", generate_candlestick_data(preset="uptrend").head(), "\n")
+    print("Downtrend Candlestick Chart:\n", generate_candlestick_data(preset="downtrend").head(), "\n")
+    print("Flat Candlestick Chart:\n", generate_candlestick_data(preset="flat").head(), "\n")
+    print("Random Candlestick Chart:\n", generate_candlestick_data(preset="random").head(), "\n")

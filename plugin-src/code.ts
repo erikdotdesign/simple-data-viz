@@ -6,6 +6,7 @@ import { createScatterChart } from "./charts/scatterChart";
 import { createGroupedBarColumnChart } from "./charts/groupedBarColumnChart";
 import { createAreaChart } from "./charts/areaChart";
 import { createStackedBarColumnChart } from "./charts/stackedBarColumnChart";
+import { createCandlestickChart } from "./charts/candlestickChart";
 
 figma.showUI(__html__, { width: 350, height: 500 });
 
@@ -47,6 +48,9 @@ figma.ui.onmessage = async (msg) => {
         break;
       case "scatter":
         createScatterChart(data, chartColors, chartOpts.pointRadiusRatio);
+        break;
+      case "candlestick":
+        createCandlestickChart(data, chartColors, chartOpts.barSizeRatio, chartOpts.cornerRadius, chartOpts.strokeWeight);
         break;
     }
   }

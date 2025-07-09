@@ -85,7 +85,8 @@ export const getChartColors = (
 ): RGB | RGB[] | { positive: RGB[], negative: RGB[] } => {
   switch (type) {
     case "bar":
-    case "column": {
+    case "column":
+    case "candlestick": {
       // Only need 1 color each for positive and negative
       return generateDivergingPalette(colorOpts.colorScheme, colorOpts.primaryColor, 1);
     }

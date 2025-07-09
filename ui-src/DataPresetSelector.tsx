@@ -1,35 +1,39 @@
 import { RefObject, useEffect } from "react";
 // bar/column
-import uptrendBarChartCsv from '../sample_data/uptrend_bar_chart_data.csv?raw';
-import downtrendBarChartCsv from '../sample_data/downtrend_bar_chart_data.csv?raw';
-import flatBarChartCsv from '../sample_data/flat_bar_chart_data.csv?raw';
+import uptrendBarChartCsv from '../sample_data/bar/uptrend.csv?raw';
+import downtrendBarChartCsv from '../sample_data/bar/downtrend.csv?raw';
+import flatBarChartCsv from '../sample_data/bar/flat.csv?raw';
 // grouped bar/column
-import uptrendGroupedBarChartCsv from '../sample_data/uptrend_grouped_bar_chart_data.csv?raw';
-import downtrendGroupedBarChartCsv from '../sample_data/downtrend_grouped_bar_chart_data.csv?raw';
-import flatGroupedBarChartCsv from '../sample_data/flat_grouped_bar_chart_data.csv?raw';
+import uptrendGroupedBarChartCsv from '../sample_data/grouped-bar/uptrend.csv?raw';
+import downtrendGroupedBarChartCsv from '../sample_data/grouped-bar/downtrend.csv?raw';
+import flatGroupedBarChartCsv from '../sample_data/grouped-bar/flat.csv?raw';
 // pie
-import balancedPieChartCsv from '../sample_data/balanced_pie_chart_data.csv?raw';
-import dominantPieChartCsv from '../sample_data/dominant_pie_chart_data.csv?raw';
-import longTailPieChartCsv from '../sample_data/long-tail_pie_chart_data.csv?raw';
-import binaryPieChartCsv from '../sample_data/binary_pie_chart_data.csv?raw';
+import balancedPieChartCsv from '../sample_data/pie/balanced.csv?raw';
+import dominantPieChartCsv from '../sample_data/pie/dominant.csv?raw';
+import longTailPieChartCsv from '../sample_data/pie/long-tail.csv?raw';
+import binaryPieChartCsv from '../sample_data/pie/binary.csv?raw';
 // line
-import uptrendLineChartCsv from '../sample_data/uptrend_line_chart_data.csv?raw';
-import downtrendLineChartCsv from '../sample_data/downtrend_line_chart_data.csv?raw';
-import flatLineChartCsv from '../sample_data/flat_line_chart_data.csv?raw';
+import uptrendLineChartCsv from '../sample_data/line/uptrend.csv?raw';
+import downtrendLineChartCsv from '../sample_data/line/downtrend.csv?raw';
+import flatLineChartCsv from '../sample_data/line/flat.csv?raw';
 // scatter
-import uptrendScatterChartCsv from '../sample_data/uptrend_scatter_chart_data.csv?raw';
-import downtrendScatterChartCsv from '../sample_data/downtrend_scatter_chart_data.csv?raw';
-import flatScatterChartCsv from '../sample_data/flat_scatter_chart_data.csv?raw';
+import uptrendScatterChartCsv from '../sample_data/scatter/uptrend.csv?raw';
+import downtrendScatterChartCsv from '../sample_data/scatter/downtrend.csv?raw';
+import flatScatterChartCsv from '../sample_data/scatter/flat.csv?raw';
 // area
-import uptrendAreaChartCsv from '../sample_data/uptrend_area_chart_data.csv?raw';
-import downtrendAreaChartCsv from '../sample_data/downtrend_area_chart_data.csv?raw';
-import flatAreaChartCsv from '../sample_data/flat_area_chart_data.csv?raw';
+import uptrendAreaChartCsv from '../sample_data/area/uptrend.csv?raw';
+import downtrendAreaChartCsv from '../sample_data/area/downtrend.csv?raw';
+import flatAreaChartCsv from '../sample_data/area/flat.csv?raw';
 // stacked bar
-import uptrendStackedBarChartCsv from '../sample_data/uptrend_stacked_bar_chart_data.csv?raw';
-import downtrendStackedBarChartCsv from '../sample_data/downtrend_stacked_bar_chart_data.csv?raw';
-import flatStackedBarChartCsv from '../sample_data/flat_stacked_bar_chart_data.csv?raw';
-import dominantStackedBarChartCsv from '../sample_data/dominant_stacked_bar_chart_data.csv?raw';
-import shiftingStackedBarChartCsv from '../sample_data/shifting_stacked_bar_chart_data.csv?raw';
+import uptrendStackedBarChartCsv from '../sample_data/stacked-bar/uptrend.csv?raw';
+import downtrendStackedBarChartCsv from '../sample_data/stacked-bar/downtrend.csv?raw';
+import flatStackedBarChartCsv from '../sample_data/stacked-bar/flat.csv?raw';
+import dominantStackedBarChartCsv from '../sample_data/stacked-bar/dominant.csv?raw';
+import shiftingStackedBarChartCsv from '../sample_data/stacked-bar/shifting.csv?raw';
+// candlestick
+import uptrendCandlestickChartCsv from '../sample_data/candlestick/uptrend.csv?raw';
+import downtrendCandlestickChartCsv from '../sample_data/candlestick/downtrend.csv?raw';
+import flatCandlestickChartCsv from '../sample_data/candlestick/flat.csv?raw';
 import { DataPresetType, ChartType } from "../types";
 import { camelCaseToTitleCase } from "./helpers";
 import SelectorIcon from "./SelectorIcon";
@@ -108,6 +112,12 @@ const DataPresetSelector = ({
           uptrend: uptrendScatterChartCsv,
           downtrend: downtrendScatterChartCsv,
           flat: flatScatterChartCsv
+        }
+      case "candlestick":
+        return {
+          uptrend: uptrendCandlestickChartCsv,
+          downtrend: downtrendCandlestickChartCsv,
+          flat: flatCandlestickChartCsv
         }
     }
   }

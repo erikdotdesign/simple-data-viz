@@ -1,11 +1,12 @@
 import { RefObject, useEffect } from "react";
-import barChartCsv from '../sample_data/random_bar_chart_data.csv?raw';
-import groupedBarChartCsv from '../sample_data/random_grouped_bar_chart_data.csv?raw';
-import pieChartCsv from '../sample_data/random_pie_chart_data.csv?raw';
-import lineChartCsv from '../sample_data/random_line_chart_data.csv?raw';
-import scatterChartCsv from '../sample_data/random_scatter_chart_data.csv?raw';
-import areaChartCsv from '../sample_data/random_area_chart_data.csv?raw';
-import stackedBarChartCsv from '../sample_data/random_stacked_bar_chart_data.csv?raw';
+import barChartCsv from '../sample_data/bar/random.csv?raw';
+import groupedBarChartCsv from '../sample_data/grouped-bar/random.csv?raw';
+import pieChartCsv from '../sample_data/pie/random.csv?raw';
+import lineChartCsv from '../sample_data/line/random.csv?raw';
+import scatterChartCsv from '../sample_data/scatter/random.csv?raw';
+import areaChartCsv from '../sample_data/area/random.csv?raw';
+import stackedBarChartCsv from '../sample_data/stacked-bar/random.csv?raw';
+import candlestickChartCsv from "../sample_data/candlestick/random.csv?raw";
 import { ChartType } from "../types";
 import { kebabToTitleCase } from "./helpers";
 import SelectorIcon from "./SelectorIcon";
@@ -38,7 +39,8 @@ const ChartSelector = ({
     "donut",
     "line",
     "area",
-    "scatter"
+    "scatter",
+    "candlestick"
   ];
 
   const handleChange = () => {
@@ -73,6 +75,9 @@ const ChartSelector = ({
         break;
       case "scatter":
         setCsvData(scatterChartCsv);
+        break;
+      case "candlestick":
+        setCsvData(candlestickChartCsv);
         break;
     }
   }

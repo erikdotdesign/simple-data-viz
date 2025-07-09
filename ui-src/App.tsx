@@ -118,37 +118,10 @@ const App = () => {
           </div>
         </div>
         {
-          chartType === "line" || chartType === "area"
-          ? <>
-              <StrokeWeightInput
-                inputRef={strokeWeightRef}
-                strokeWeight={strokeWeight}
-                setStrokeWeight={setStrokeWeight} />
-              <div className="c-control-group">
-                <div className="c-control-group__item">
-                  <LineSmoothingInput
-                    inputRef={lineSmoothingRef}
-                    lineSmoothing={lineSmoothing}
-                    setLineSmoothing={setLineSmoothing} />
-                </div>
-                {
-                  chartType === "line"
-                  ? <div className="c-control-group__item">
-                      <BottomFillInput
-                        inputRef={bottomFillRef}
-                        bottomFill={bottomFill}
-                        setBottomFill={setBottomFill} />
-                    </div>
-                  : null
-                }
-              </div>
-            </>
-          : null
-        }
-        {
           chartType === "bar" || chartType === "column" || 
           chartType === "grouped-bar" || chartType === "grouped-column" ||
-          chartType === "stacked-bar" || chartType === "stacked-column"
+          chartType === "stacked-bar" || chartType === "stacked-column" ||
+          chartType === "candlestick"
             ? <div className="c-control-group">
                 <div className="c-control-group__item">
                   <BarSizeRatioInput
@@ -174,6 +147,36 @@ const App = () => {
                 </div>
               </div>
             : null
+        }
+        {
+          chartType === "line" || chartType === "area"
+          ? <div className="c-control-group">
+              <div className="c-control-group__item">
+                <LineSmoothingInput
+                  inputRef={lineSmoothingRef}
+                  lineSmoothing={lineSmoothing}
+                  setLineSmoothing={setLineSmoothing} />
+              </div>
+              {
+                chartType === "line"
+                ? <div className="c-control-group__item">
+                    <BottomFillInput
+                      inputRef={bottomFillRef}
+                      bottomFill={bottomFill}
+                      setBottomFill={setBottomFill} />
+                  </div>
+                : null
+              }
+            </div>
+          : null
+        }
+        {
+          chartType === "line" || chartType === "area" || chartType === "candlestick"
+          ? <StrokeWeightInput
+              inputRef={strokeWeightRef}
+              strokeWeight={strokeWeight}
+              setStrokeWeight={setStrokeWeight} />
+          : null
         }
         {
           chartType === "donut"
