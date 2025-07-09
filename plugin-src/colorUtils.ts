@@ -111,7 +111,8 @@ export const getChartColors = (
 
     case "area":
     case "stacked-area":
-    case "multi-line": {
+    case "multi-line":
+    case "radar": {
       const seriesCount = data[0].length ? data[0].length - 1 : 1; // assumes structure like [["label", val1, val2, val3]]
       return generateColorPalette(colorOpts.colorScheme, colorOpts.primaryColor, seriesCount);
     }

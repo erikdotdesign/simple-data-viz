@@ -201,6 +201,32 @@ def generate_candlestick_data(days=30, preset="random"):
     df.to_csv(os.path.join(f"{output_dir}/candlestick", f"{preset}.csv"), index=False)
     return df
 
+def generate_radar_chart_data(categories=6, series=3, preset="random"):
+    category_labels = [f'Dimension {i+1}' for i in range(categories)]
+    data = {'Metric': category_labels}
+
+    for s in range(series):
+        if preset == "generalist":
+            values = np.full(categories, 70) + np.random.normal(0, 5, categories)
+        elif preset == "specialist":
+            values = np.random.randint(30, 60, categories)
+            spike_index = np.random.randint(0, categories)
+            values[spike_index] = np.random.randint(90, 100)
+        elif preset == "balanced":
+            values = np.random.normal(loc=70, scale=3, size=categories)
+        elif preset == "polarized":
+            values = np.random.choice([20, 100], size=categories)
+        else:  # "random" or unknown
+            values = np.random.randint(0, 100, categories)
+
+        data[f'Series {s+1}'] = np.round(np.clip(values, 0, 100), 2)
+
+    df = pd.DataFrame(data)
+    output_path = os.path.join(f"{output_dir}/radar", f"{preset}.csv")
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+    df.to_csv(output_path, index=False)
+    return df
+
 # Generate all datasets and save to CSV
 if __name__ == "__main__":
     print("Generating sample data and writing CSVs to 'sample_data' folder...\n")
@@ -247,3 +273,9 @@ if __name__ == "__main__":
     print("Downtrend Candlestick Chart:\n", generate_candlestick_data(preset="downtrend").head(), "\n")
     print("Flat Candlestick Chart:\n", generate_candlestick_data(preset="flat").head(), "\n")
     print("Random Candlestick Chart:\n", generate_candlestick_data(preset="random").head(), "\n")
+    # Radar chart
+    print("Generalist Radar Chart:\n", generate_radar_chart_data(preset="generalist"), "\n")
+    print("Specialist Radar Chart:\n", generate_radar_chart_data(preset="specialist"), "\n")
+    print("Balanced Radar Chart:\n", generate_radar_chart_data(preset="balanced"), "\n")
+    print("Polarized Radar Chart:\n", generate_radar_chart_data(preset="polarized"), "\n")
+    print("Random Radar Chart:\n", generate_radar_chart_data(preset="random"), "\n")

@@ -9,6 +9,7 @@ import { createStackedBarColumnChart } from "./charts/stackedBarColumnChart";
 import { createCandlestickChart } from "./charts/candlestickChart";
 import { createStackedAreaChart } from "./charts/stackedAreaChart";
 import { createBubbleChart } from "./charts/bubbleChart";
+import { createRadarChart } from "./charts/radarChart";
 
 figma.showUI(__html__, { width: 350, height: 500 });
 
@@ -73,6 +74,9 @@ figma.ui.onmessage = async (msg) => {
         break;
       case "bubble":
         createBubbleChart(chartBounds, data, chartColors, chartOpts.pointRadiusRatio);
+        break;
+      case "radar":
+        createRadarChart(chartBounds, data, chartColors, chartOpts.strokeWeight);
         break;
       case "candlestick":
         createCandlestickChart(chartBounds, data, chartColors, chartOpts.barSizeRatio, chartOpts.cornerRadius, chartOpts.strokeWeight);

@@ -174,7 +174,7 @@ const App = () => {
               {
                 chartType === "line" || chartType === "multi-line" || 
                 chartType === "area" || chartType === "stacked-area" || 
-                chartType === "candlestick"
+                chartType === "candlestick" || chartType === "radar"
                 ? <StrokeWeightInput
                     inputRef={strokeWeightRef}
                     strokeWeight={strokeWeight}

@@ -37,6 +37,12 @@ import downtrendStackedBarChartCsv from '../sample_data/stacked-bar/downtrend.cs
 import flatStackedBarChartCsv from '../sample_data/stacked-bar/flat.csv?raw';
 import dominantStackedBarChartCsv from '../sample_data/stacked-bar/dominant.csv?raw';
 import shiftingStackedBarChartCsv from '../sample_data/stacked-bar/shifting.csv?raw';
+// radar
+import randomRadarChartCsv from '../sample_data/radar/random.csv?raw';
+import balancedRadarChartCsv from '../sample_data/radar/balanced.csv?raw';
+import generalistRadarChartCsv from '../sample_data/radar/generalist.csv?raw';
+import polarizedSkillRadarChartCsv from '../sample_data/radar/polarized.csv?raw';
+import specialistSkillRadarChartCsv from '../sample_data/radar/specialist.csv?raw';
 // candlestick
 import randomCandlestickChartCsv from '../sample_data/candlestick/random.csv?raw';
 import uptrendCandlestickChartCsv from '../sample_data/candlestick/uptrend.csv?raw';
@@ -136,6 +142,14 @@ const DataPresetSelector = ({
           uptrend: uptrendScatterChartCsv,
           downtrend: downtrendScatterChartCsv,
           flat: flatScatterChartCsv
+        }
+      case "radar":
+        return {
+          random: randomRadarChartCsv,
+          generalist: generalistRadarChartCsv,
+          specialist: specialistSkillRadarChartCsv,
+          balanced: balancedRadarChartCsv,
+          polarized: polarizedSkillRadarChartCsv,
         }
       case "candlestick":
         return {
