@@ -47,4 +47,6 @@ export const createScatterChart = (
     dot.name = "point";
     dot.constraints = { horizontal: 'SCALE', vertical: 'SCALE' };
   }
+
+  figma.currentPage.selection = [chartFrame];
 };

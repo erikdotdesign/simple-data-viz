@@ -77,4 +77,6 @@ export const createGroupedBarColumnChart = (
     const barGroup = figma.group(groupNodes, chartFrame);
     barGroup.name = "bar-group";
   }
+
+  figma.currentPage.selection = [chartFrame];
 };

@@ -35,4 +35,6 @@ export const createLineChart = (
     bottomFill,
     strokeWeight
   });
+
+  figma.currentPage.selection = [chartFrame];
 };

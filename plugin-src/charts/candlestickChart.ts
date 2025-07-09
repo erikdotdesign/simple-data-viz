@@ -85,4 +85,6 @@ export const createCandlestickChart = (
     const candlestickGroup = figma.group(candlestickNodes, chartFrame);
     candlestickGroup.name = "candlestick";
   }
+
+  figma.currentPage.selection = [chartFrame];
 };

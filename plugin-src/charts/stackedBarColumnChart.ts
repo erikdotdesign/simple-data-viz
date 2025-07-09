@@ -116,4 +116,6 @@ export const createStackedBarColumnChart = (
     const stackGroup = figma.group(stackNodes, chartFrame);
     stackGroup.name = "bar-stack";
   }
+
+  figma.currentPage.selection = [chartFrame];
 };

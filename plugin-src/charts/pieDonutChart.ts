@@ -68,4 +68,6 @@ export const createPieDonutChart = (
     }
     start += num;
   }
+
+  figma.currentPage.selection = [chartFrame];
 };

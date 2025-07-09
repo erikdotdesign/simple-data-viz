@@ -62,4 +62,6 @@ export const createAreaChart = (
       strokeWeight
     });
   }
+
+  figma.currentPage.selection = [chartFrame];
 };

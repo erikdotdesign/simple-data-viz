@@ -54,4 +54,6 @@ export const createBarColumnChart = (
       cornerRadius
     });
   }
+
+  figma.currentPage.selection = [chartFrame];
 };
