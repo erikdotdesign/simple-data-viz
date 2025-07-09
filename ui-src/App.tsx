@@ -45,6 +45,7 @@ const App = () => {
   const [pointRadiusRatio, setPointRadiusRatio] = useState<number>(0.01);
   const [strokeWeight, setStrokeWeight] = useState<number>(2);
   const [dataPreset, setDataPreset] = useState<DataPresetType>("random");
+  const [showControls, setShowControls] = useState<boolean>(true);
 
   // load cached values
   useEffect(() => {
@@ -67,6 +68,7 @@ const App = () => {
           setPointRadiusRatio(msg.value.pointRadiusRatio);
           setStrokeWeight(msg.value.strokeWeight);
           setDataPreset(msg.value.dataPreset);
+          setShowControls(msg.value.showControls);
         };
       }
     };
@@ -87,109 +89,129 @@ const App = () => {
         csvData,
         pointRadiusRatio,
         strokeWeight,
-        dataPreset
+        dataPreset,
+        showControls
       }},
     }, "*");
-  }, [chartType, colorScheme, primaryColor, cornerRadius, lineSmoothing, innerRadius, bottomFill, barSpaceRatio, barSizeRatio, csvData, pointRadiusRatio, strokeWeight, dataPreset]);
+  }, [chartType, colorScheme, primaryColor, cornerRadius, lineSmoothing, innerRadius, bottomFill, barSpaceRatio, barSizeRatio, csvData, pointRadiusRatio, strokeWeight, dataPreset, showControls]);
 
   return (
     <main className="c-app">
       <div className="c-app__body">
         <Logo />
-        <ChartSelector 
-          inputRef={chartTypeRef}
-          chartType={chartType}
-          setChartType={setChartType} />
         <div className="c-control-group">
           <div className="c-control-group__item">
-            <PrimaryColorInput
-              inputRef={primaryColorRef}
-              primaryColor={primaryColor}
-              setPrimaryColor={setPrimaryColor} />
+            <ChartSelector 
+              inputRef={chartTypeRef}
+              chartType={chartType}
+              setChartType={setChartType} />
           </div>
-          <div className="c-control-group__item">
-            <ColorSchemeSelector
-              inputRef={colorSchemeRef}
-              colorScheme={colorScheme}
-              setColorScheme={setColorScheme} />
+          <div className="c-control-group__item c-control-group__item--button c-control-group__item--shrink">
+            <button 
+              className={`c-control c-control--button ${showControls ? "c-control--button-active" : ""}`}
+              onClick={() => setShowControls(!showControls)}>
+              <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000">
+                <path d="M440-120v-240h80v80h320v80H520v80h-80Zm-320-80v-80h240v80H120Zm160-160v-80H120v-80h160v-80h80v240h-80Zm160-80v-80h400v80H440Zm160-160v-240h80v80h160v80H680v80h-80Zm-480-80v-80h400v80H120Z"/>
+              </svg>
+            </button>
           </div>
         </div>
         {
-          chartType === "bar" || chartType === "column" || 
-          chartType === "grouped-bar" || chartType === "grouped-column" ||
-          chartType === "stacked-bar" || chartType === "stacked-column" ||
-          chartType === "candlestick"
-            ? <div className="c-control-group">
+          showControls
+          ? <div className="c-control-panel">
+              <div className="c-control-group">
                 <div className="c-control-group__item">
-                  <BarSizeRatioInput
-                    inputRef={barSizeRatioRef}
-                    barSizeRatio={barSizeRatio}
-                    setBarSizeRatio={setBarSizeRatio} />
+                  <PrimaryColorInput
+                    inputRef={primaryColorRef}
+                    primaryColor={primaryColor}
+                    setPrimaryColor={setPrimaryColor} />
                 </div>
-                {
-                  chartType === "grouped-bar" || chartType === "grouped-column"
-                  ? <div className="c-control-group__item">
-                      <BarSpaceRatioInput
-                        inputRef={barSpaceRatioRef}
-                        barSpaceRatio={barSpaceRatio}
-                        setBarSpaceRatio={setBarSpaceRatio} />
-                    </div>
-                  : null
-                }
                 <div className="c-control-group__item">
-                  <CornerRadiusInput
-                    inputRef={cornerRadiusRef}
-                    cornerRadius={cornerRadius}
-                    setCornerRadius={setCornerRadius} />
+                  <ColorSchemeSelector
+                    inputRef={colorSchemeRef}
+                    colorScheme={colorScheme}
+                    setColorScheme={setColorScheme} />
                 </div>
-              </div>
-            : null
-        }
-        {
-          chartType === "line" || chartType === "area"
-          ? <div className="c-control-group">
-              <div className="c-control-group__item">
-                <LineSmoothingInput
-                  inputRef={lineSmoothingRef}
-                  lineSmoothing={lineSmoothing}
-                  setLineSmoothing={setLineSmoothing} />
               </div>
               {
-                chartType === "line"
-                ? <div className="c-control-group__item">
-                    <BottomFillInput
-                      inputRef={bottomFillRef}
-                      bottomFill={bottomFill}
-                      setBottomFill={setBottomFill} />
+                chartType === "bar" || chartType === "column" || 
+                chartType === "grouped-bar" || chartType === "grouped-column" ||
+                chartType === "stacked-bar" || chartType === "stacked-column" ||
+                chartType === "candlestick"
+                  ? <div className="c-control-group">
+                      <div className="c-control-group__item">
+                        <BarSizeRatioInput
+                          inputRef={barSizeRatioRef}
+                          barSizeRatio={barSizeRatio}
+                          setBarSizeRatio={setBarSizeRatio} />
+                      </div>
+                      {
+                        chartType === "grouped-bar" || chartType === "grouped-column"
+                        ? <div className="c-control-group__item">
+                            <BarSpaceRatioInput
+                              inputRef={barSpaceRatioRef}
+                              barSpaceRatio={barSpaceRatio}
+                              setBarSpaceRatio={setBarSpaceRatio} />
+                          </div>
+                        : null
+                      }
+                      <div className="c-control-group__item">
+                        <CornerRadiusInput
+                          inputRef={cornerRadiusRef}
+                          cornerRadius={cornerRadius}
+                          setCornerRadius={setCornerRadius} />
+                      </div>
+                    </div>
+                  : null
+              }
+              {
+                chartType === "line" || chartType === "area" || chartType === "candlestick"
+                ? <StrokeWeightInput
+                    inputRef={strokeWeightRef}
+                    strokeWeight={strokeWeight}
+                    setStrokeWeight={setStrokeWeight} />
+                : null
+              }
+              {
+                chartType === "line" || chartType === "area"
+                ? <div className="c-control-group">
+                    <div className="c-control-group__item">
+                      <LineSmoothingInput
+                        inputRef={lineSmoothingRef}
+                        lineSmoothing={lineSmoothing}
+                        setLineSmoothing={setLineSmoothing} />
+                    </div>
+                    {
+                      chartType === "line"
+                      ? <div className="c-control-group__item">
+                          <BottomFillInput
+                            inputRef={bottomFillRef}
+                            bottomFill={bottomFill}
+                            setBottomFill={setBottomFill} />
+                        </div>
+                      : null
+                    }
                   </div>
                 : null
               }
+              {
+                chartType === "donut"
+                ? <InnerRadiusInput
+                    inputRef={innerRadiusRef}
+                    innerRadius={innerRadius}
+                    setInnerRadius={setInnerRadius} />
+                : null
+              }
+              {
+                chartType === "scatter"
+                  ? <PointRadiusRatioInput
+                      inputRef={pointRadiusRatioRef}
+                      pointRadiusRatio={pointRadiusRatio}
+                      setPointRadiusRatio={setPointRadiusRatio} />
+                  : null
+              }
             </div>
           : null
-        }
-        {
-          chartType === "line" || chartType === "area" || chartType === "candlestick"
-          ? <StrokeWeightInput
-              inputRef={strokeWeightRef}
-              strokeWeight={strokeWeight}
-              setStrokeWeight={setStrokeWeight} />
-          : null
-        }
-        {
-          chartType === "donut"
-          ? <InnerRadiusInput
-              inputRef={innerRadiusRef}
-              innerRadius={innerRadius}
-              setInnerRadius={setInnerRadius} />
-          : null
-        }
-        {
-          chartType === "scatter"
-            ? <PointRadiusRatioInput
-                inputRef={pointRadiusRatioRef}
-                pointRadiusRatio={pointRadiusRatio}
-                setPointRadiusRatio={setPointRadiusRatio} />
-            : null
         }
         <DataPresetSelector
           inputRef={dataPresetRef}
