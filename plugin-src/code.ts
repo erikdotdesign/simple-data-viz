@@ -19,38 +19,54 @@ figma.ui.onmessage = async (msg) => {
     figma.ui.postMessage({ type: 'storage-loaded', key: msg.key, value });
   }
   if (msg.type === "generate-chart") {
-    await figma.loadFontAsync({ family: "Inter", style: "Regular" });
     const { chart } = msg;
     const { colorOpts, chartOpts, data, type } = chart;
     const chartColors = getChartColors(type, data, colorOpts);
+    const selection = figma.currentPage.selection[0];
+    const defaultChartWidth = 800;
+    const defaultChartHeight = 600;
+    let chartBounds: { x: number, y: number, width: number, height: number } = {
+      x: figma.viewport.center.x - defaultChartWidth / 2,
+      y: figma.viewport.center.y - defaultChartHeight / 2,
+      width: defaultChartWidth,
+      height: defaultChartHeight
+    };
+    if (selection && 'width' in selection && 'height' in selection) {
+      chartBounds = {
+        x: selection.x,
+        y: selection.y,
+        width: selection.width,
+        height: selection.height
+      };
+    }
     switch (type) {
       case "bar":
       case "column":
-        createBarColumnChart(data, type === "column", chartColors, chartOpts.barSizeRatio, chartOpts.cornerRadius);
+        createBarColumnChart(chartBounds, data, type === "column", chartColors, chartOpts.barSizeRatio, chartOpts.cornerRadius);
         break;
       case "grouped-bar":
       case "grouped-column":
-        createGroupedBarColumnChart(data, type === "grouped-column", chartColors, chartOpts.barSizeRatio, chartOpts.barSpaceRatio, chartOpts.cornerRadius);
+        createGroupedBarColumnChart(chartBounds, data, type === "grouped-column", chartColors, chartOpts.barSizeRatio, chartOpts.barSpaceRatio, chartOpts.cornerRadius);
         break;
       case "stacked-bar":
       case "stacked-column":
-        createStackedBarColumnChart(data, type === "stacked-column", chartColors, chartOpts.barSizeRatio, chartOpts.cornerRadius);
+        createStackedBarColumnChart(chartBounds, data, type === "stacked-column", chartColors, chartOpts.barSizeRatio, chartOpts.cornerRadius);
         break;
       case "pie":
       case "donut":
-        createPieDonutChart(data, chartColors, type === "donut", chartOpts.innerRadius);
+        createPieDonutChart(chartBounds, data, chartColors, type === "donut", chartOpts.innerRadius);
         break;
       case "line":
-        createLineChart(data, chartColors, chartOpts.lineSmoothing, chartOpts.bottomFill, chartOpts.strokeWeight);
+        createLineChart(chartBounds, data, chartColors, chartOpts.lineSmoothing, chartOpts.bottomFill, chartOpts.strokeWeight);
         break;
       case "area":
-        createAreaChart(data, chartColors, chartOpts.lineSmoothing, chartOpts.strokeWeight);
+        createAreaChart(chartBounds, data, chartColors, chartOpts.lineSmoothing, chartOpts.strokeWeight);
         break;
       case "scatter":
-        createScatterChart(data, chartColors, chartOpts.pointRadiusRatio);
+        createScatterChart(chartBounds, data, chartColors, chartOpts.pointRadiusRatio);
         break;
       case "candlestick":
-        createCandlestickChart(data, chartColors, chartOpts.barSizeRatio, chartOpts.cornerRadius, chartOpts.strokeWeight);
+        createCandlestickChart(chartBounds, data, chartColors, chartOpts.barSizeRatio, chartOpts.cornerRadius, chartOpts.strokeWeight);
         break;
     }
   }

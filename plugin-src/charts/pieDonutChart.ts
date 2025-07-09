@@ -1,13 +1,14 @@
-import { ChartDatum } from "../../types";
+import { ChartDatum, ChartBounds } from "../../types";
 
 export const createPieDonutChart = (
+  chartBounds: ChartBounds,
   data: ChartDatum[], 
   colors: RGB[],
   isDonut: boolean,
   donutRadiusRatio: number = 0.5
 ) => {
-  const chartWidth = 800;
-  const chartHeight = 600;
+  const chartWidth = chartBounds.width;
+  const chartHeight = chartBounds.height;
 
   // Outer frame
   const chartFrame = figma.createFrame();
@@ -17,8 +18,8 @@ export const createPieDonutChart = (
   chartFrame.counterAxisAlignItems = "CENTER";
   chartFrame.resize(chartWidth, chartHeight);
   chartFrame.fills = [{ type: 'SOLID', color: { r: 1, g: 1, b: 1 } }];
-  chartFrame.x = figma.viewport.center.x - chartWidth / 2;
-  chartFrame.y = figma.viewport.center.y - chartHeight / 2;
+  chartFrame.x = chartBounds.x;
+  chartFrame.y = chartBounds.y;
 
   // Pie frame
   const pieFrame = figma.createFrame();

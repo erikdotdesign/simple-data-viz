@@ -1,21 +1,23 @@
+import { ChartBounds } from "../../types";
 import { createLineWithFill } from './utilities';
 
 export const createAreaChart = (
+  chartBounds: ChartBounds,
   data: (string | number)[][],
   colors: RGB[],
   lineSmoothing: boolean,
   strokeWeight: number
 ) => {
-  const chartWidth = 800;
-  const chartHeight = 600;
+  const chartWidth = chartBounds.width;
+  const chartHeight = chartBounds.height;
 
   const chartFrame = figma.createFrame();
   chartFrame.name = "sdv-area-chart";
   chartFrame.resize(chartWidth, chartHeight);
   chartFrame.layoutMode = "NONE";
   chartFrame.fills = [{ type: 'SOLID', color: { r: 1, g: 1, b: 1 } }];
-  chartFrame.x = figma.viewport.center.x - chartWidth / 2;
-  chartFrame.y = figma.viewport.center.y - chartHeight / 2;
+  chartFrame.x = chartBounds.x;
+  chartFrame.y = chartBounds.y;
 
   const parseAreaChartData = (data: (string | number | null)[][]) => {
     const clean = data.filter(row => row.length > 1 && row[0] != null);

@@ -1,12 +1,13 @@
-import { ChartDatum } from "../../types";
+import { ChartDatum, ChartBounds } from "../../types";
 
 export const createScatterChart = (
+  chartBounds: ChartBounds,
   data: ChartDatum[], 
   color: RGB,
   pointRadiusRatio: number
 ) => {
-  const chartWidth = 800;
-  const chartHeight = 600;
+  const chartWidth = chartBounds.width;
+  const chartHeight = chartBounds.height;
   const baseDimension = Math.min(chartWidth, chartHeight);
   const pointRadius = baseDimension * pointRadiusRatio;
   const padding = pointRadius;
@@ -16,8 +17,8 @@ export const createScatterChart = (
   chartFrame.resize(chartWidth, chartHeight);
   chartFrame.layoutMode = "NONE";
   chartFrame.fills = [{ type: 'SOLID', color: { r: 1, g: 1, b: 1 } }];
-  chartFrame.x = figma.viewport.center.x - chartWidth / 2;
-  chartFrame.y = figma.viewport.center.y - chartHeight / 2;
+  chartFrame.x = chartBounds.x;
+  chartFrame.y = chartBounds.y;
 
   const maxX = Math.max(...data.map(d => parseFloat(d[0])));
   const minX = Math.min(...data.map(d => parseFloat(d[0])));

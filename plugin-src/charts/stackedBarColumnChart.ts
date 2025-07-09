@@ -1,4 +1,7 @@
+import { ChartBounds } from "../../types";
+
 export const createStackedBarColumnChart = (
+  chartBounds: ChartBounds,
   data: (string | number)[][],
   isColumn: boolean,
   colors: {
@@ -8,16 +11,16 @@ export const createStackedBarColumnChart = (
   sizeRatio: number,
   cornerRadius: number
 ) => {
-  const chartWidth = 800;
-  const chartHeight = 600;
+  const chartWidth = chartBounds.width;
+  const chartHeight = chartBounds.height;
 
   const chartFrame = figma.createFrame();
   chartFrame.name = `sdv-stacked-${isColumn ? 'column' : 'bar'}-chart`;
   chartFrame.layoutMode = "NONE";
   chartFrame.resize(chartWidth, chartHeight);
   chartFrame.fills = [{ type: 'SOLID', color: { r: 1, g: 1, b: 1 } }];
-  chartFrame.x = figma.viewport.center.x - chartWidth / 2;
-  chartFrame.y = figma.viewport.center.y - chartHeight / 2;
+  chartFrame.x = chartBounds.x;
+  chartFrame.y = chartBounds.y;
 
   // Determine total positive and negative stack extents
   const stackExtents = data.map(d => {

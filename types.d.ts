@@ -7,3 +7,5 @@ export type ChartDatum = [label: string, value: number];
 export type Point = { x: number; y: number };
 
 export type DataPresetType = "" | "random" | "uptrend" | "downtrend" | "flat" | "shifting" | "balanced" | "dominant" | "long-tail" | "binary";
+
+export type ChartBounds = { x: number; y: number; width: number; height: number };
