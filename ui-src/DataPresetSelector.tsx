@@ -147,10 +147,14 @@ const DataPresetSelector = ({
   }
 
   const handleChartSwitch = () => {
-    const presetData = getChartData()[dataPreset];
-    if (presetData) {
+    if (dataPreset !== "") {
       if (csvError) setCsvError(null);
-      setCsvData(presetData);
+      const presetData = getChartData()[dataPreset];
+      if (presetData) {
+        setCsvData(presetData);
+      } else {
+        setDataPreset("random");
+      }
     }
   }
 
