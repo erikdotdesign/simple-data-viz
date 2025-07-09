@@ -114,6 +114,8 @@ const DataPresetSelector = ({
           binary: binaryPieChartCsv,
         }
       case "area":
+      case "stacked-area":
+      case "multi-line":
         return {
           random: randomAreaChartCsv,
           uptrend: uptrendAreaChartCsv,

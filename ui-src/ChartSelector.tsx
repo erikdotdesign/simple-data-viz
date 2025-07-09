@@ -24,7 +24,9 @@ const ChartSelector = ({
     "pie",
     "donut",
     "line",
+    "multi-line",
     "area",
+    "stacked-area",
     "scatter",
     "candlestick"
   ];

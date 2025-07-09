@@ -20,41 +20,61 @@ export const getSmoothedPath = (pts: { x: number; y: number }[]) => {
 };
 
 export const getFilledPath = (
-  pts: { x: number; y: number }[],
-  chartHeight: number,
-  smooth = false
-) => {
-  const baselineY = chartHeight;
-  if (pts.length < 2) return "";
+  valuePoints: { x: number; y: number }[],
+  basePoints?: { x: number; y: number }[],
+  smooth = false,
+  smoothBase = smooth
+): string => {
+  if (valuePoints.length < 2) return "";
 
+  const fallbackY = Math.max(...valuePoints.map(v => v.y)) + 20;
+  const bottom = (basePoints !== undefined && basePoints !== null)
+    ? basePoints
+    : valuePoints.map(p => ({ x: p.x, y: fallbackY }));
+  const reversed = [...bottom].reverse();
+
+  let d = `M ${valuePoints[0].x} ${valuePoints[0].y}`;
+
+  // TOP LINE
   if (smooth) {
-    let d = `M ${pts[0].x} ${baselineY} L ${pts[0].x} ${pts[0].y}`;
-    for (let i = 1; i < pts.length - 1; i++) {
-      const curr = pts[i];
-      const next = pts[i + 1];
-      const xc = ((curr.x + next.x) / 2).toFixed(2);
-      const yc = ((curr.y + next.y) / 2).toFixed(2);
-      const cpx = curr.x.toFixed(2);
-      const cpy = curr.y.toFixed(2);
-      d += ` Q ${cpx} ${cpy} ${xc} ${yc}`;
+    for (let i = 1; i < valuePoints.length - 1; i++) {
+      const curr = valuePoints[i];
+      const next = valuePoints[i + 1];
+      const xc = (curr.x + next.x) / 2;
+      const yc = (curr.y + next.y) / 2;
+      d += ` Q ${curr.x} ${curr.y} ${xc} ${yc}`;
     }
-    const last = pts[pts.length - 1];
-    return `${d} L ${last.x.toFixed(2)} ${last.y.toFixed(2)} L ${last.x} ${baselineY} Z`;
+    const last = valuePoints[valuePoints.length - 1];
+    d += ` L ${last.x} ${last.y}`; // sharp end
+  } else {
+    d += valuePoints.slice(1).map(p => ` L ${p.x} ${p.y}`).join("");
   }
 
-  return [
-    `M ${pts[0].x} ${baselineY}`,
-    `L ${pts[0].x} ${pts[0].y}`,
-    ...pts.slice(1).map(p => `L ${p.x} ${p.y}`),
-    `L ${pts[pts.length - 1].x} ${baselineY}`,
-    `Z`,
-  ].join(" ");
+  // BOTTOM LINE
+  if (smoothBase && reversed.length >= 2) {
+    d += ` L ${reversed[0].x} ${reversed[0].y}`; // sharp corner at end of area
+    for (let i = 1; i < reversed.length - 1; i++) {
+      const curr = reversed[i];
+      const next = reversed[i + 1];
+      const xc = (curr.x + next.x) / 2;
+      const yc = (curr.y + next.y) / 2;
+      d += ` Q ${curr.x} ${curr.y} ${xc} ${yc}`;
+    }
+    const last = reversed[reversed.length - 1];
+    d += ` L ${last.x} ${last.y}`; // sharp start
+  } else {
+    d += reversed.map(p => ` L ${p.x} ${p.y}`).join("");
+  }
+
+  d += " Z";
+  return d;
 };
 
 export const createLineWithFill = (options: {
   parent: FrameNode;
   name?: string;
   values: number[];
+  baseline?: number[];
   color: RGB;
   chartWidth: number;
   chartHeight: number;
@@ -68,6 +88,7 @@ export const createLineWithFill = (options: {
     parent,
     name,
     values,
+    baseline,
     color,
     chartWidth,
     chartHeight,
@@ -78,7 +99,7 @@ export const createLineWithFill = (options: {
     strokeWeight
   } = options;
 
-  const points: Point[] = values.map((d, i) => {
+  const valuePoints: Point[] = values.map((d, i) => {
     const x = (i / (values.length - 1)) * chartWidth;
     const y = chartHeight - ((d - min) / (max - min)) * chartHeight;
     return {
@@ -87,23 +108,35 @@ export const createLineWithFill = (options: {
     };
   });
 
+  const basePoints: Point[] = baseline
+    ? baseline.map((d, i) => {
+        const x = (i / (baseline.length - 1)) * chartWidth;
+        const y = chartHeight - ((d - min) / (max - min)) * chartHeight;
+        return {
+          x: Number.isFinite(x) ? +x.toFixed(2) : 0,
+          y: Number.isFinite(y) ? +y.toFixed(2) : 0,
+        };
+      })
+    : valuePoints.map((p) => ({ x: p.x, y: chartHeight }));
+
   if (bottomFill) {
     const fill = figma.createVector();
     parent.appendChild(fill);
     fill.name = "fill";
     fill.vectorPaths = [{
-      data: getFilledPath(points, chartHeight, lineSmoothing),
+      data: getFilledPath(valuePoints, basePoints, lineSmoothing),
       windingRule: "NONZERO"
     }];
     fill.fills = [{ type: 'SOLID', color, opacity: 0.2 }];
     fill.constraints = { horizontal: "SCALE", vertical: "SCALE" };
+    fill.strokes = [];
   }
 
   const line = figma.createVector();
   parent.appendChild(line);
   line.name = "line";
   line.vectorPaths = [{
-    data: lineSmoothing ? getSmoothedPath(points) : getLinearPath(points),
+    data: lineSmoothing ? getSmoothedPath(valuePoints) : getLinearPath(valuePoints),
     windingRule: "NONZERO"
   }];
   line.strokes = [{ type: 'SOLID', color }];

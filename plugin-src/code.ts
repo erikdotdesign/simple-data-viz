@@ -7,6 +7,7 @@ import { createGroupedBarColumnChart } from "./charts/groupedBarColumnChart";
 import { createAreaChart } from "./charts/areaChart";
 import { createStackedBarColumnChart } from "./charts/stackedBarColumnChart";
 import { createCandlestickChart } from "./charts/candlestickChart";
+import { createStackedAreaChart } from "./charts/stackedAreaChart";
 
 figma.showUI(__html__, { width: 350, height: 500 });
 
@@ -60,7 +61,11 @@ figma.ui.onmessage = async (msg) => {
         createLineChart(chartBounds, data, chartColors, chartOpts.lineSmoothing, chartOpts.bottomFill, chartOpts.strokeWeight);
         break;
       case "area":
-        createAreaChart(chartBounds, data, chartColors, chartOpts.lineSmoothing, chartOpts.strokeWeight);
+      case "multi-line":
+        createAreaChart(chartBounds, data, type === "multi-line", chartColors, chartOpts.lineSmoothing, chartOpts.strokeWeight);
+        break;
+      case "stacked-area":
+        createStackedAreaChart(chartBounds, data, chartColors, chartOpts.lineSmoothing, chartOpts.strokeWeight);
         break;
       case "scatter":
         createScatterChart(chartBounds, data, chartColors, chartOpts.pointRadiusRatio);

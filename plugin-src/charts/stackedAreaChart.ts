@@ -1,10 +1,9 @@
 import { ChartBounds } from "../../types";
 import { createLineWithFill } from './utilities';
 
-export const createAreaChart = (
+export const createStackedAreaChart = (
   chartBounds: ChartBounds,
   data: (string | number)[][],
-  isMultiLine: boolean,
   colors: RGB[],
   lineSmoothing: boolean,
   strokeWeight: number
@@ -13,7 +12,7 @@ export const createAreaChart = (
   const chartHeight = chartBounds.height;
 
   const chartFrame = figma.createFrame();
-  chartFrame.name = `sdv-${isMultiLine ? "multi-line" : "area"}-chart`;
+  chartFrame.name = "sdv-stacked-area-chart";
   chartFrame.resize(chartWidth, chartHeight);
   chartFrame.layoutMode = "NONE";
   chartFrame.fills = [{ type: 'SOLID', color: { r: 1, g: 1, b: 1 } }];
@@ -36,12 +35,26 @@ export const createAreaChart = (
 
   const { labels, series } = parseAreaChartData(data);
 
-  const values = series.flatMap(s => s.values);
-  const min = Math.min(...values);
-  const max = Math.max(...values);
+  const stackedSeries = series.map((s, i) => {
+    const stackedValues = s.values.map((v, idx) => {
+      const belowTotal = series.slice(0, i).reduce((sum, prev) => sum + prev.values[idx], 0);
+      return belowTotal + v;
+    });
+    return {
+      name: s.name,
+      values: stackedValues,
+      base: i === 0
+        ? new Array(s.values.length).fill(0)
+        : series.slice(0, i).reduce((acc, prev) => acc.map((val, idx) => val + prev.values[idx]), new Array(s.values.length).fill(0))
+    };
+  });
 
-  for (let i = 0; i < series.length; i++) {
-    const { name, values } = series[i];
+  const allStackedValues = stackedSeries.flatMap(s => s.values);
+  const min = 0; // For stacked charts, we always start from zero
+  const max = Math.max(...allStackedValues);
+
+  for (let i = 0; i < stackedSeries.length; i++) {
+    const { name, values, base } = stackedSeries[i];
 
     const categoryFrame = figma.createFrame();
     chartFrame.appendChild(categoryFrame);
@@ -53,13 +66,14 @@ export const createAreaChart = (
     createLineWithFill({
       parent: categoryFrame,
       values: values,
+      baseline: base,
       color: colors[i],
       chartWidth,
       chartHeight,
       min,
       max,
       lineSmoothing,
-      bottomFill: !isMultiLine,
+      bottomFill: true, // Always fill for stacked
       strokeWeight
     });
   }

@@ -167,7 +167,8 @@ const App = () => {
                   : null
               }
               {
-                chartType === "line" || chartType === "area" || chartType === "candlestick"
+                chartType === "line" || chartType === "multi-line" || 
+                chartType === "area" || chartType === "stacked-area" || chartType === "candlestick"
                 ? <StrokeWeightInput
                     inputRef={strokeWeightRef}
                     strokeWeight={strokeWeight}
@@ -175,7 +176,8 @@ const App = () => {
                 : null
               }
               {
-                chartType === "line" || chartType === "area"
+                chartType === "line" || chartType === "multi-line" || 
+                chartType === "area" || chartType === "stacked-area"
                 ? <div className="c-control-group">
                     <div className="c-control-group__item">
                       <LineSmoothingInput
