@@ -6,7 +6,8 @@ export const createStackedAreaChart = (
   data: (string | number)[][],
   colors: RGB[],
   lineSmoothing: boolean,
-  strokeWeight: number
+  strokeWeight: number,
+  isPercentStacked: boolean = true
 ) => {
   const chartWidth = chartBounds.width;
   const chartHeight = chartBounds.height;
@@ -35,9 +36,22 @@ export const createStackedAreaChart = (
 
   const { labels, series } = parseAreaChartData(data);
 
-  const stackedSeries = series.map((s, i) => {
+  const columnTotals = series[0].values.map((_, idx) =>
+    series.reduce((sum, s) => sum + s.values[idx], 0)
+  );
+
+  const normalizedSeries = isPercentStacked
+    ? series.map(s => ({
+        name: s.name,
+        values: s.values.map((v, idx) => (columnTotals[idx] ? (v / columnTotals[idx]) * 100 : 0))
+      }))
+    : series;
+
+  const stackedSeries = normalizedSeries.map((s, i) => {
     const stackedValues = s.values.map((v, idx) => {
-      const belowTotal = series.slice(0, i).reduce((sum, prev) => sum + prev.values[idx], 0);
+      const belowTotal = normalizedSeries
+        .slice(0, i)
+        .reduce((sum, prev) => sum + prev.values[idx], 0);
       return belowTotal + v;
     });
     return {
@@ -45,13 +59,18 @@ export const createStackedAreaChart = (
       values: stackedValues,
       base: i === 0
         ? new Array(s.values.length).fill(0)
-        : series.slice(0, i).reduce((acc, prev) => acc.map((val, idx) => val + prev.values[idx]), new Array(s.values.length).fill(0))
+        : normalizedSeries
+            .slice(0, i)
+            .reduce((acc, prev) =>
+              acc.map((val, idx) => val + prev.values[idx]),
+              new Array(s.values.length).fill(0)
+            )
     };
   });
 
   const allStackedValues = stackedSeries.flatMap(s => s.values);
   const min = 0; // For stacked charts, we always start from zero
-  const max = Math.max(...allStackedValues);
+  const max = isPercentStacked ? 100 : Math.max(...allStackedValues);
 
   for (let i = 0; i < stackedSeries.length; i++) {
     const { name, values, base } = stackedSeries[i];

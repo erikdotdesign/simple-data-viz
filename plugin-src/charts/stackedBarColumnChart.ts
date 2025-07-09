@@ -9,7 +9,8 @@ export const createStackedBarColumnChart = (
     negative: RGB[]
   },
   sizeRatio: number,
-  cornerRadius: number
+  cornerRadius: number,
+  isPercentStacked: boolean = false
 ) => {
   const chartWidth = chartBounds.width;
   const chartHeight = chartBounds.height;
@@ -22,6 +23,14 @@ export const createStackedBarColumnChart = (
   chartFrame.x = chartBounds.x;
   chartFrame.y = chartBounds.y;
 
+  const normalizedData = isPercentStacked
+    ? data.map(([label, ...values]) => {
+        const total = (values as number[]).reduce((sum, v) => sum + Math.abs(Number(v)), 0) || 1;
+        const normalized = values.map(v => (Number(v) / total) * 100);
+        return [label, ...normalized];
+      })
+    : data;
+
   // Determine total positive and negative stack extents
   const stackExtents = data.map(d => {
     const values = d.slice(1) as number[];
@@ -31,18 +40,18 @@ export const createStackedBarColumnChart = (
     };
   });
 
-  const maxPos = Math.max(...stackExtents.map(e => e.pos), 0);
-  const minNeg = Math.min(...stackExtents.map(e => e.neg), 0);
+  const maxPos = isPercentStacked ? 100 : Math.max(...stackExtents.map(e => e.pos), 0);
+  const minNeg = isPercentStacked ? 0 : Math.min(...stackExtents.map(e => e.neg), 0);
   const totalRange = maxPos - minNeg || 1;
 
   const fullAxisSize = isColumn ? chartWidth : chartHeight;
-  const totalSlots = data.length;
+  const totalSlots = normalizedData.length;
   const slotSize = fullAxisSize / totalSlots;
   const barSize = slotSize * sizeRatio;
   const barSpacing = slotSize * (1 - sizeRatio);
 
-  for (let i = 0; i < data.length; i++) {
-    const [label, ...stack] = data[i];
+  for (let i = 0; i < normalizedData.length; i++) {
+    const [label, ...stack] = normalizedData[i];
     const posAlongAxis = i * slotSize + barSpacing / 2;
 
     let posStack = 0;

@@ -15,6 +15,7 @@ import BarSpaceRatioInput from "./BarSpaceRatioInput";
 import PointRadiusRatioInput from "./PointRadiusRatioInput";
 import StrokeWeightInput from "./StrokeWeightInput";
 import DataPresetSelector from "./DataPresetSelector";
+import PercentStackedInput from "./PercentStackedInput";
 import FileImporter from "./FileImporter";
 import Logo from "./Logo";
 
@@ -33,6 +34,7 @@ const App = () => {
   const strokeWeightRef = useRef<HTMLInputElement>(null);
   const dataPresetRef = useRef<HTMLSelectElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const percentStackedInputRef = useRef<HTMLInputElement>(null);
   const [chartType, setChartType] = useState<ChartType>("bar");
   const [colorScheme, setColorScheme] = useState<ColorSchemeType>("monochrome");
   const [primaryColor, setPrimaryColor] = useState<string>("#ff0000");
@@ -48,6 +50,7 @@ const App = () => {
   const [strokeWeight, setStrokeWeight] = useState<number>(2);
   const [dataPreset, setDataPreset] = useState<DataPresetType>("random");
   const [showControls, setShowControls] = useState<boolean>(true);
+  const [percentStacked, setPercentStacked] = useState<boolean>(false);
 
   // load cached values
   useEffect(() => {
@@ -71,6 +74,7 @@ const App = () => {
           setStrokeWeight(msg.value.strokeWeight);
           setDataPreset(msg.value.dataPreset);
           setShowControls(msg.value.showControls);
+          setPercentStacked(msg.value.percentStacked);
         };
       }
     };
@@ -92,10 +96,11 @@ const App = () => {
         pointRadiusRatio,
         strokeWeight,
         dataPreset,
-        showControls
+        showControls,
+        percentStacked
       }},
     }, "*");
-  }, [chartType, colorScheme, primaryColor, cornerRadius, lineSmoothing, innerRadius, bottomFill, barSpaceRatio, barSizeRatio, csvData, pointRadiusRatio, strokeWeight, dataPreset, showControls]);
+  }, [chartType, colorScheme, primaryColor, cornerRadius, lineSmoothing, innerRadius, bottomFill, barSpaceRatio, barSizeRatio, csvData, pointRadiusRatio, strokeWeight, dataPreset, showControls, percentStacked]);
 
   return (
     <main className="c-app">
@@ -168,7 +173,8 @@ const App = () => {
               }
               {
                 chartType === "line" || chartType === "multi-line" || 
-                chartType === "area" || chartType === "stacked-area" || chartType === "candlestick"
+                chartType === "area" || chartType === "stacked-area" || 
+                chartType === "candlestick"
                 ? <StrokeWeightInput
                     inputRef={strokeWeightRef}
                     strokeWeight={strokeWeight}
@@ -178,24 +184,20 @@ const App = () => {
               {
                 chartType === "line" || chartType === "multi-line" || 
                 chartType === "area" || chartType === "stacked-area"
-                ? <div className="c-control-group">
-                    <div className="c-control-group__item">
-                      <LineSmoothingInput
-                        inputRef={lineSmoothingRef}
-                        lineSmoothing={lineSmoothing}
-                        setLineSmoothing={setLineSmoothing} />
-                    </div>
+                ? <>
+                    <LineSmoothingInput
+                      inputRef={lineSmoothingRef}
+                      lineSmoothing={lineSmoothing}
+                      setLineSmoothing={setLineSmoothing} />
                     {
                       chartType === "line"
-                      ? <div className="c-control-group__item">
-                          <BottomFillInput
-                            inputRef={bottomFillRef}
-                            bottomFill={bottomFill}
-                            setBottomFill={setBottomFill} />
-                        </div>
+                      ? <BottomFillInput
+                          inputRef={bottomFillRef}
+                          bottomFill={bottomFill}
+                          setBottomFill={setBottomFill} />
                       : null
                     }
-                  </div>
+                  </>
                 : null
               }
               {
@@ -212,6 +214,15 @@ const App = () => {
                       inputRef={pointRadiusRatioRef}
                       pointRadiusRatio={pointRadiusRatio}
                       setPointRadiusRatio={setPointRadiusRatio} />
+                  : null
+              }
+              {
+                chartType === "stacked-bar" || chartType === "stacked-column" ||
+                chartType === "stacked-area"
+                  ? <PercentStackedInput
+                      inputRef={percentStackedInputRef}
+                      percentStacked={percentStacked}
+                      setPercentStacked={setPercentStacked} />
                   : null
               }
             </div>
@@ -252,6 +263,7 @@ const App = () => {
           barSizeRatio={barSizeRatio}
           pointRadiusRatio={pointRadiusRatio}
           strokeWeight={strokeWeight}
+          percentStacked={percentStacked}
           csvError={csvError} />
       </div>
     </main>

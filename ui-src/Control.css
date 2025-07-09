@@ -100,7 +100,8 @@
   background-color: var(--color-tertiary);
   border-radius: var(--border-radius);
   padding: 10px 0px;
-  margin-bottom: 12px;
+  margin-bottom: 16px;
+  margin-top: 4px;
   position: relative;
 
   .c-control__label {

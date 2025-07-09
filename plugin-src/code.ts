@@ -51,7 +51,7 @@ figma.ui.onmessage = async (msg) => {
         break;
       case "stacked-bar":
       case "stacked-column":
-        createStackedBarColumnChart(chartBounds, data, type === "stacked-column", chartColors, chartOpts.barSizeRatio, chartOpts.cornerRadius);
+        createStackedBarColumnChart(chartBounds, data, type === "stacked-column", chartColors, chartOpts.barSizeRatio, chartOpts.cornerRadius, chartOpts.percentStacked);
         break;
       case "pie":
       case "donut":
@@ -65,7 +65,7 @@ figma.ui.onmessage = async (msg) => {
         createAreaChart(chartBounds, data, type === "multi-line", chartColors, chartOpts.lineSmoothing, chartOpts.strokeWeight);
         break;
       case "stacked-area":
-        createStackedAreaChart(chartBounds, data, chartColors, chartOpts.lineSmoothing, chartOpts.strokeWeight);
+        createStackedAreaChart(chartBounds, data, chartColors, chartOpts.lineSmoothing, chartOpts.strokeWeight, chartOpts.percentStacked);
         break;
       case "scatter":
         createScatterChart(chartBounds, data, chartColors, chartOpts.pointRadiusRatio);
