@@ -5,7 +5,7 @@ const BarSpaceRatioInput = ({
   barSpaceRatio, 
   setBarSpaceRatio 
 }: {
-  inputRef: RefObject<HTMLInputElement>
+  inputRef: RefObject<HTMLInputElement>;
   barSpaceRatio: number;
   setBarSpaceRatio: (barSpaceRatio: number) => void; 
 }) => {

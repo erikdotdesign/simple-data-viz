@@ -15,6 +15,7 @@ import BarSpaceRatioInput from "./BarSpaceRatioInput";
 import PointRadiusRatioInput from "./PointRadiusRatioInput";
 import StrokeWeightInput from "./StrokeWeightInput";
 import DataPresetSelector from "./DataPresetSelector";
+import FileImporter from "./FileImporter";
 import Logo from "./Logo";
 
 const App = () => {
@@ -31,6 +32,7 @@ const App = () => {
   const pointRadiusRatioRef = useRef<HTMLInputElement>(null);
   const strokeWeightRef = useRef<HTMLInputElement>(null);
   const dataPresetRef = useRef<HTMLSelectElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [chartType, setChartType] = useState<ChartType>("bar");
   const [colorScheme, setColorScheme] = useState<ColorSchemeType>("monochrome");
   const [primaryColor, setPrimaryColor] = useState<string>("#ff0000");
@@ -215,12 +217,17 @@ const App = () => {
         }
         <DataPresetSelector
           inputRef={dataPresetRef}
+          fileInputRef={fileInputRef}
           dataPreset={dataPreset}
           chartType={chartType}
           csvError={csvError}
           setCsvError={setCsvError}
           setCsvData={setCsvData}
           setDataPreset={setDataPreset} />
+        <FileImporter
+          inputRef={fileInputRef}
+          setDataPreset={setDataPreset}
+          setCsvData={setCsvData} />
         <CsvInput
           inputRef={csvDataRef}
           csvData={csvData}

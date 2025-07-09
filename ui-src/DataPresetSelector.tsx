@@ -49,6 +49,7 @@ import "./Control.css";
 
 const DataPresetSelector = ({ 
   inputRef, 
+  fileInputRef,
   dataPreset, 
   chartType,
   csvError,
@@ -57,6 +58,7 @@ const DataPresetSelector = ({
   setDataPreset 
 }: {
   inputRef: RefObject<HTMLSelectElement>;
+  fileInputRef: RefObject<HTMLInputElement>;
   dataPreset: DataPresetType;
   chartType: ChartType;
   csvError: string | null;
@@ -67,6 +69,10 @@ const DataPresetSelector = ({
 
   const handleChange = () => {
     if (!inputRef.current) return;
+    if (inputRef.current.value === "__file__") {
+      fileInputRef.current?.click();
+      return;
+    }
     setDataPreset(inputRef.current.value as DataPresetType);
   }
 
@@ -139,12 +145,10 @@ const DataPresetSelector = ({
   }
 
   const handleChartSwitch = () => {
-    if (csvError) setCsvError(null);
     const presetData = getChartData()[dataPreset];
     if (presetData) {
+      if (csvError) setCsvError(null);
       setCsvData(presetData);
-    } else {
-      setDataPreset("random");
     }
   }
 
@@ -168,7 +172,7 @@ const DataPresetSelector = ({
         <option 
           value="" 
           disabled>
-          Select a preset...
+          -- Select a preset --
         </option>
         {
           Object.keys(getChartData()).map((type) => (
@@ -177,6 +181,10 @@ const DataPresetSelector = ({
             </option>
           ))
         }
+        <option 
+          value="__file__">
+          Import CSV file
+        </option>
       </select>
       <SelectorIcon />
     </div>
