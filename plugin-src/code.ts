@@ -8,6 +8,7 @@ import { createAreaChart } from "./charts/areaChart";
 import { createStackedBarColumnChart } from "./charts/stackedBarColumnChart";
 import { createCandlestickChart } from "./charts/candlestickChart";
 import { createStackedAreaChart } from "./charts/stackedAreaChart";
+import { createBubbleChart } from "./charts/bubbleChart";
 
 figma.showUI(__html__, { width: 350, height: 500 });
 
@@ -69,6 +70,9 @@ figma.ui.onmessage = async (msg) => {
         break;
       case "scatter":
         createScatterChart(chartBounds, data, chartColors, chartOpts.pointRadiusRatio);
+        break;
+      case "bubble":
+        createBubbleChart(chartBounds, data, chartColors, chartOpts.pointRadiusRatio);
         break;
       case "candlestick":
         createCandlestickChart(chartBounds, data, chartColors, chartOpts.barSizeRatio, chartOpts.cornerRadius, chartOpts.strokeWeight);

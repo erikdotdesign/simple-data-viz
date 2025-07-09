@@ -1,4 +1,4 @@
-export type ChartType = "bar" | "column" | "stacked-bar" | "stacked-column" | "grouped-bar" | "grouped-column" | "pie" | "donut" | "line" | "multi-line" | "area" | "stacked-area" | "scatter" | "candlestick";
+export type ChartType = "bar" | "column" | "stacked-bar" | "stacked-column" | "grouped-bar" | "grouped-column" | "pie" | "donut" | "line" | "multi-line" | "area" | "stacked-area" | "scatter" | "bubble" | "candlestick";
 
 export type ColorSchemeType = "monochrome" | "polychrome";
 

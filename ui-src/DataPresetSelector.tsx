@@ -130,6 +130,7 @@ const DataPresetSelector = ({
           flat: flatLineChartCsv
         }
       case "scatter":
+      case "bubble":
         return {
           random: randomScatterChartCsv,
           uptrend: uptrendScatterChartCsv,

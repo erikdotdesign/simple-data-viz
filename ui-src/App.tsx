@@ -209,7 +209,7 @@ const App = () => {
                 : null
               }
               {
-                chartType === "scatter"
+                chartType === "scatter" || chartType === "bubble"
                   ? <PointRadiusRatioInput
                       inputRef={pointRadiusRatioRef}
                       pointRadiusRatio={pointRadiusRatio}

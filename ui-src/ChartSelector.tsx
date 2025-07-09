@@ -28,6 +28,7 @@ const ChartSelector = ({
     "area",
     "stacked-area",
     "scatter",
+    "bubble",
     "candlestick"
   ];
 

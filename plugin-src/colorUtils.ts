@@ -123,7 +123,8 @@ export const getChartColors = (
     }
 
     case "line":
-    case "scatter": {
+    case "scatter":
+    case "bubble": {
       // Only need base color
       return hexToRgb(colorOpts.primaryColor);
     }
