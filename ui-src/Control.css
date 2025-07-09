@@ -2,7 +2,7 @@
   padding: 12px 12px 0 12px;
   background: var(--color-tertiary);
   border-radius: var(--border-radius);
-  margin-bottom: 12px;
+  margin-bottom: 16px;
   box-shadow: 0 0 0 1px var(--color-quaternary) !important;
 
   .c-control__label,
