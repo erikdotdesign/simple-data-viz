@@ -18,7 +18,7 @@ export const createCandlestickChart = (
   chartFrame.name = `sdv-candlestick-chart`;
   chartFrame.layoutMode = "NONE";
   chartFrame.resize(chartWidth, chartHeight);
-  chartFrame.fills = [{ type: 'SOLID', color: { r: 1, g: 1, b: 1 } }];
+  chartFrame.fills = [];
   chartFrame.x = chartBounds.x;
   chartFrame.y = chartBounds.y;
   

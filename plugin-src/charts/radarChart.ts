@@ -26,7 +26,7 @@ export const createRadarChart = (
   chartFrame.name = "sdv-radar-chart";
   chartFrame.resize(chartWidth, chartHeight);
   chartFrame.layoutMode = "NONE";
-  chartFrame.fills = [{ type: 'SOLID', color: { r: 1, g: 1, b: 1 } }];
+  chartFrame.fills = [];
   chartFrame.x = chartBounds.x;
   chartFrame.y = chartBounds.y;
 

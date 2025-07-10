@@ -17,7 +17,7 @@ export const createPieDonutChart = (
   chartFrame.primaryAxisAlignItems = "CENTER";
   chartFrame.counterAxisAlignItems = "CENTER";
   chartFrame.resize(chartWidth, chartHeight);
-  chartFrame.fills = [{ type: 'SOLID', color: { r: 1, g: 1, b: 1 } }];
+  chartFrame.fills = [];
   chartFrame.x = chartBounds.x;
   chartFrame.y = chartBounds.y;
 
@@ -27,6 +27,7 @@ export const createPieDonutChart = (
   const equalSize = chartFrame.width === chartFrame.height;
   chartFrame.appendChild(pieFrame);
   pieFrame.name = `${isDonut ? "donut" : "pie"}-frame`;
+  pieFrame.fills = [];
   pieFrame.layoutMode = "NONE";
   pieFrame.layoutSizingHorizontal = equalSize ? "FILL" : chartFrame.width > chartFrame.height ? "FIXED" : "FILL";
   pieFrame.layoutSizingVertical = equalSize ? "FILL" : chartFrame.height > chartFrame.width ? "FIXED" : "FILL";
