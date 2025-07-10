@@ -63,15 +63,31 @@ export const adjustColorForNegative = (rgb: RGB): RGB => {
   return hexToRgb(adjusted.hex());
 };
 
+const getDivergingNegativeBase = (baseHex: string): string => {
+  const base = chroma(baseHex);
+  const hue = base.get("hsl.h");
+  const lum = base.luminance();       // 0 (black) → 1 (white)
+  const sat = base.get("hsl.s");      // 0 → grayscale, > 0 → colored
+
+  const isGray = sat < 0.2;
+
+  if (hue >= 80 && hue <= 160) return "#e53935"; // green → red
+  if (hue <= 20 || hue >= 340) return "#43a047"; // red → green
+  if (isGray && lum < 0.4) return "#f5f5f5";      // dark gray → light gray
+  if (isGray && lum > 0.6) return "#212121";      // light gray → dark gray
+
+  return shiftHue(baseHex, 180); // fallback: rotate hue
+};
+
 export const generateDivergingPalette = (
   type: "monochrome" | "polychrome",
   baseColorHex: string,
-  count: number,
-  negativeHueShift = 180
+  count: number
 ): { positive: RGB[]; negative: RGB[] } => {
+  const negativeBase = getDivergingNegativeBase(baseColorHex);
   return {
     positive: generateColorPalette(type, baseColorHex, count),
-    negative: generateColorPalette(type, shiftHue(baseColorHex, negativeHueShift), count),
+    negative: generateColorPalette(type, negativeBase, count),
   };
 };
 
