@@ -90,7 +90,12 @@
 }
 
 .c-control--button-active {
-  background: var(--color-tertiary);
+  background: var(--color-primary);
+  box-shadow: 0 0 0 1px var(--color-primary);
+
+  svg {
+    fill: #fff;
+  }
 }
 
 .c-control--checkbox {

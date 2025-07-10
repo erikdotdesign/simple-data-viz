@@ -14,23 +14,14 @@ const ChartSelector = ({
   setChartType: (chartType: ChartType) => void;
 }) => {
 
-  const chartTypes: ChartType[] = [
-    "bar",
-    "column",
-    "grouped-bar",
-    "grouped-column",
-    "stacked-bar",
-    "stacked-column",
-    "pie",
-    "donut",
-    "line",
-    "multi-line",
-    "area",
-    "stacked-area",
-    "scatter",
-    "bubble",
-    "radar",
-    "candlestick"
+  const chartTypes: [string, ChartType[]][] = [
+    ["bar", ["bar", "grouped-bar", "stacked-bar"]],
+    ["column", ["column", "grouped-column", "stacked-column"]],
+    ["pie", ["pie", "donut"]],
+    ["line", ["line", "multi-line"]],
+    ["area", ["area", "stacked-area"]],
+    ["scatter", ["scatter", "bubble"]],
+    ["other", ["radar", "candlestick"]]
   ];
 
   const handleChange = () => {
@@ -53,11 +44,17 @@ const ChartSelector = ({
         value={chartType}>
         {
           chartTypes.map((type) => (
-            <option 
-              key={type}
-              value={type}>
-              { kebabToTitleCase(type) }
-            </option>
+            <optgroup label={`${kebabToTitleCase(type[0])}`}>
+              {
+                type[1].map((t) => (
+                  <option 
+                    key={t}
+                    value={t}>
+                    { kebabToTitleCase(t) }
+                  </option>
+                ))
+              }
+            </optgroup>
           ))
         }
       </select>
