@@ -24,14 +24,14 @@ Simple Data Viz is a powerful yet lightweight Figma plugin that makes it easy to
 - Radar
 - Candlestick
 
-**Dynamic Color Schemes**
+### Dynamic Color Schemes
 Choose from monochromatic or polychromatic palettes, with automatic support for diverging colors and theme-aware contrast.
 
-**Flexible Data Input**
+### Flexible Data Input
 Import data from CSV files or paste it directly from your clipboard — no formatting headaches.
 
-**Data Presets for Every Chart Type**
+### Data Presets for Every Chart Type
 Get started quickly with pre-built sample datasets tailored for each visualization style.
 
-**Responsive Chart Sizing**
+### Responsive Chart Sizing**
 Charts automatically scale to fit your selected frame or layout in Figma.
