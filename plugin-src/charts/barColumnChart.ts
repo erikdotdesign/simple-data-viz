@@ -42,6 +42,7 @@ export const createBarColumnChart = (
 
     createBar({
       parent: chartFrame,
+      name: `bar-${i + 1}`,
       chartWidth,
       chartHeight,
       posAlongAxis,

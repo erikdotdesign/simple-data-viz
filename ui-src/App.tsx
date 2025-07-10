@@ -37,7 +37,7 @@ const App = () => {
   const percentStackedInputRef = useRef<HTMLInputElement>(null);
   const [chartType, setChartType] = useState<ChartType>("bar");
   const [colorScheme, setColorScheme] = useState<ColorSchemeType>("monochrome");
-  const [primaryColor, setPrimaryColor] = useState<string>("#ff0000");
+  const [primaryColor, setPrimaryColor] = useState<string>("#4E79A7");
   const [csvData, setCsvData] = useState<string>("");
   const [csvError, setCsvError] = useState<string | null>(null);
   const [lineSmoothing, setLineSmoothing] = useState<boolean>(false);

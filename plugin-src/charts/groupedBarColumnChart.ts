@@ -59,6 +59,7 @@ export const createGroupedBarColumnChart = (
       
       const bar = createBar({
         parent: chartFrame,
+        name: `series-${j + 1}`,
         chartWidth,
         chartHeight,
         posAlongAxis,
@@ -75,7 +76,7 @@ export const createGroupedBarColumnChart = (
     }
 
     const barGroup = figma.group(groupNodes, chartFrame);
-    barGroup.name = "bar-group";
+    barGroup.name = `category-${i + 1}`;
   }
 
   figma.currentPage.selection = [chartFrame];

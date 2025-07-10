@@ -134,7 +134,7 @@ export const createLineWithFill = (options: {
 
   const line = figma.createVector();
   parent.appendChild(line);
-  line.name = "line";
+  line.name = name ? name : "line";
   line.vectorPaths = [{
     data: lineSmoothing ? getSmoothedPath(valuePoints) : getLinearPath(valuePoints),
     windingRule: "NONZERO"
@@ -166,6 +166,7 @@ export const createBar = (options: {
     value,
     min,
     max,
+    name,
     posAlongAxis,
     barSize,
     cornerRadius,
@@ -188,7 +189,7 @@ export const createBar = (options: {
 
   const bar = figma.createRectangle();
   parent.appendChild(bar);
-  bar.name = "bar";
+  bar.name = name ? name : "bar";
   bar.x = left;
   bar.y = top;
   bar.resize(right - left, bottom - top);

@@ -79,7 +79,7 @@ export const createStackedBarColumnChart = (
 
       const bar = figma.createRectangle();
       chartFrame.appendChild(bar);
-      bar.name = `stack-${j}`;
+      bar.name = `series-${j + 1}`;
       if (isColumn) {
         const barHeight = chartHeight * (bottomRatio - topRatio);
         bar.x = posAlongAxis;
@@ -123,7 +123,7 @@ export const createStackedBarColumnChart = (
     }
 
     const stackGroup = figma.group(stackNodes, chartFrame);
-    stackGroup.name = "bar-stack";
+    stackGroup.name = `category-${i + 1}`;
   }
 
   figma.currentPage.selection = [chartFrame];

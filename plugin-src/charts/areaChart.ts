@@ -45,7 +45,7 @@ export const createAreaChart = (
 
     const categoryFrame = figma.createFrame();
     chartFrame.appendChild(categoryFrame);
-    categoryFrame.name = name;
+    categoryFrame.name = `series-${i + 1}`;
     categoryFrame.resize(chartWidth, chartHeight);
     categoryFrame.fills = [];
     categoryFrame.constraints = { horizontal: "SCALE", vertical: "SCALE" };

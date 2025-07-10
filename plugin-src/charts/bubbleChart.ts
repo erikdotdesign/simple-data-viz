@@ -54,7 +54,7 @@ export const createBubbleChart = (
     bubble.x = cx - radius;
     bubble.y = cy - radius;
     bubble.fills = [{ type: 'SOLID', color }];
-    bubble.name = "bubble";
+    bubble.name = `bubble-${i + 1}`;
     bubble.constraints = { horizontal: 'SCALE', vertical: 'SCALE' };
   }
 

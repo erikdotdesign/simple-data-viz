@@ -44,7 +44,7 @@ export const createScatterChart = (
     dot.x = cx - pointRadius;
     dot.y = cy - pointRadius;
     dot.fills = [{ type: 'SOLID', color }];
-    dot.name = "point";
+    dot.name = `point-${i + 1}`;
     dot.constraints = { horizontal: 'SCALE', vertical: 'SCALE' };
   }
 

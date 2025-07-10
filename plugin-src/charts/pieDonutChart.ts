@@ -26,7 +26,7 @@ export const createPieDonutChart = (
   const pieSize = chartFrame.width > chartFrame.height ? chartFrame.height : chartFrame.width;
   const equalSize = chartFrame.width === chartFrame.height;
   chartFrame.appendChild(pieFrame);
-  pieFrame.name = "pie-frame";
+  pieFrame.name = `${isDonut ? "donut" : "pie"}-frame`;
   pieFrame.layoutMode = "NONE";
   pieFrame.layoutSizingHorizontal = equalSize ? "FILL" : chartFrame.width > chartFrame.height ? "FIXED" : "FILL";
   pieFrame.layoutSizingVertical = equalSize ? "FILL" : chartFrame.height > chartFrame.width ? "FIXED" : "FILL";
@@ -44,7 +44,7 @@ export const createPieDonutChart = (
     const color = { r: colors[i].r, g: colors[i].g, b: colors[i].b };
     const ellipse = figma.createEllipse();
     pieFrame.appendChild(ellipse);
-    ellipse.name = "slice";
+    ellipse.name = `category-${i + 1}`;
     ellipse.resizeWithoutConstraints(pieFrame.width, pieFrame.height);
     ellipse.fills = [{ type: 'SOLID', color: color }];
     ellipse.constraints = { horizontal: 'SCALE', vertical: 'SCALE' };
@@ -63,7 +63,7 @@ export const createPieDonutChart = (
       const boolNode = figma.subtract([ellipse, inner], pieFrame);
       const flattenedNode = figma.flatten([boolNode]);
       flattenedNode.fills = [{ type: 'SOLID', color: color }];
-      flattenedNode.name = "slice";
+      flattenedNode.name = `category-${i + 1}`;
       flattenedNode.constraints = { horizontal: 'SCALE', vertical: 'SCALE' };
     }
     start += num;

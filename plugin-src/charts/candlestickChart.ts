@@ -58,7 +58,7 @@ export const createCandlestickChart = (
     // Candle body
     const candle = figma.createRectangle();
     chartFrame.appendChild(candle);
-    candle.name = "candle";
+    candle.name = "body";
     candle.resize(width, height);
     candle.cornerRadius = cornerRadius;
     candle.fills = [{ type: 'SOLID', color }];
@@ -73,7 +73,7 @@ export const createCandlestickChart = (
     const wickHeight = scale(low) - scale(high);
     const wick = figma.createRectangle();
     chartFrame.appendChild(wick);
-    wick.name = "wick";
+    wick.name = "shadow";
     wick.resize(wickWidth, wickHeight);
     wick.fills = [{ type: 'SOLID', color }];
     wick.x = x + (width - wickWidth) / 2;
@@ -83,7 +83,7 @@ export const createCandlestickChart = (
     candlestickNodes.push(wick);
 
     const candlestickGroup = figma.group(candlestickNodes, chartFrame);
-    candlestickGroup.name = "candlestick";
+    candlestickGroup.name = `candle-${i + 1}`;
   }
 
   figma.currentPage.selection = [chartFrame];
