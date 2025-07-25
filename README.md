@@ -33,5 +33,5 @@ Import data from CSV files or paste it directly from your clipboard — no forma
 ### Data Presets for Every Chart Type
 Get started quickly with pre-built sample datasets tailored for each visualization style.
 
-### Responsive Chart Sizing**
+### Responsive Chart Sizing
 Charts automatically scale to fit your selected frame or layout in Figma.
